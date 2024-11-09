@@ -1,0 +1,11 @@
+{
+  "pages": [
+    "pages/index/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "校园导览"
+  },
+  "requiredPrivateInfos": [
+    "getLocation"
+  ]
+}
