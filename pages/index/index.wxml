@@ -1,7 +1,20 @@
 <view class="map_container">
+  <!-- 地图 -->
   <map class="map" id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="14" show-location="true" markers="{{markers}}" bindmarkertap="makertap"></map>
 </view>
-<view class="map_text">
-  <text class="h1">{{textData.name}}</text>
-  <text>{{textData.desc}}</text>
-</view>
+
+<!-- 抽屉 -->
+<movable-area class="movable-area">
+  <movable-view class="movable-view" direction="vertical" y="{{drawerY}}" out-of-bounds="true" bindchange="onDrawerChange" bindtouchend="onDrawerTouchEnd">
+    <view class="drawer">
+      <!-- 抽屉手柄 -->
+      <view class="drawer-handle"></view>
+      <!-- 抽屉内容 -->
+      <view class="drawer-content">
+        <text class="info-title">{{textData.name}}</text>
+        <text class="info-desc">{{textData.desc}}</text>
+        <text class="additional-info">方向信息：{{directionName}} {{direction}}</text>
+      </view>
+    </view>
+  </movable-view>
+</movable-area>
