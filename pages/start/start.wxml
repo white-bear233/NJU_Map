@@ -1,0 +1,12 @@
+<view class="container">
+  <!-- 背景图片 -->
+  <image class="background-image" src="/images/nju-campus.jpg" mode="aspectFill"></image>
+
+  <!-- 欢迎文字 -->
+  <view class="welcome-text">
+    <text>欢迎来到南京大学导览</text>
+  </view>
+
+  <!-- 开始导览按钮 -->
+  <button class="start-button" bindtap="startGuide">开始导览</button>
+</view>

@@ -1,0 +1,60 @@
+/* 页面容器 */
+.container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* 背景图片样式 */
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* 背景图片放在底层 */
+}
+
+/* 欢迎文字样式 */
+.welcome-text {
+  position: absolute;
+  top: 30%;
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  font-size: 24px;
+  font-weight: bold;
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+/* 开始导览按钮样式 */
+.start-button {
+  position: absolute;
+  bottom: 15%;
+  background-color: #8a00ac; /* 南大紫色 */
+  color: #fff;
+  font-size: 36rpx;
+  padding: 24rpx 48px;
+  border-radius: 60rpx;
+  border: none;
+  box-shadow: 0rpx 8rpx 16rpx rgba(0, 0, 0, 0.3);
+  animation: button-fade-in 1.5s ease;
+}
+
+/* 按钮点击效果 */
+.start-button:active {
+  background-color: #46007f;
+}
+
+/* 按钮渐入动画 */
+@keyframes button-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,7 +1,8 @@
+/* 地图容器样式 */
 .map_container {
-  position: relative;
   width: 100%;
-  height: 500px;
+  height: 100vh;
+  position: relative;
 }
 
 .map {
@@ -9,16 +10,59 @@
   height: 100%;
 }
 
-.map_text {
-  padding: 10px;
-  background-color: rgba(255, 255, 255, 0.8);
-  position: absolute;
+/* movable-area 样式 */
+.movable-area {
+  width: 100%;
+  height: 40%;
+  position: fixed;
   bottom: 0;
   left: 0;
-  right: 0;
+  z-index: 10;
 }
 
-.h1 {
-  font-size: 18px;
+/* movable-view 样式 */
+.movable-view {
+  width: 100%;
+  height: 70vh; /* 抽屉可以滑动到的最大高度 */
+  position: absolute;
+  bottom: 0;
+}
+
+/* 抽屉样式 */
+.drawer {
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  border-top-left-radius: 30rpx;
+  border-top-right-radius: 30rpx;
+  box-shadow: 0rpx -20rpx 40rpx rgba(0, 0, 0, 0.1);
+}
+
+.drawer-handle {
+  width: 120rpx;
+  height: 12rpx;
+  background-color: #ccc;
+  border-radius: 6rpx;
+  margin: 20rpx auto;
+}
+
+.drawer-content {
+  padding: 30rpx;
+}
+
+.info-title {
+  font-size: 36rpx;
   font-weight: bold;
+  margin-bottom: 15rpx;
+}
+
+.info-desc {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.additional-info {
+  font-size: 28rpx;
+  color: #333;
+  margin-top: 20rpx;
 }
