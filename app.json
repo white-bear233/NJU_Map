@@ -1,13 +1,17 @@
 {
   "pages": [
+    "pages/camera/camera",
     "pages/start/start",
     "pages/index/index"
+
   ],
   "window": {
     "navigationBarTitleText": "校园导览"
   },
   "requiredPrivateInfos": [
-    "getLocation"
+    "getLocation",
+    "startLocationUpdate",
+    "onLocationChange"
   ],
   "permission": {
     "scope.userLocation": {

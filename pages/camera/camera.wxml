@@ -1,0 +1,10 @@
+<view class="container">
+  <!-- 相机实时画面 -->
+  <camera class="camera" device-sposition="back" flash="on" binderror="onCameraError" bindinitdone="onCameraInitDone"></camera>
+
+  <!-- 定位状态 -->
+  <text>当前位置：{{latitude}}, {{longitude}}</text>
+  <text>距离北大楼：{{distance}} 米</text>
+  <text>是否在附近：{{isNearby ? '是' : '否'}}</text>
+  <text>是否朝向北大楼：{{isFacingBuilding ? '是' : '否'}}</text>
+</view>
