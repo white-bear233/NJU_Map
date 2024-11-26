@@ -8,7 +8,9 @@ Page({
     isFacingBuilding: false, // 是否朝向目标
     isNearby: false, // 是否在目标附近
     distance: '', // 距离
-    locationNum: 11 // 景点数量
+    locationNum: 11, // 景点数量
+    locationData: [], // 用于存储每个景点的距离和角度
+    
   },
 
   Rad: function(d) { //根据经纬度判断距离
@@ -35,6 +37,20 @@ getDistance: function(lat1, lng1, lat2, lng2) {
   onLoad() {
     // 检查用户是否授予权限
     var that = this;
+    const locationArray = getApp().globalData.locationArray;
+    // console.log(locationArray);
+  const locationDataTmp = [];
+  for (let index = 0; index <   this.data.locationNum; index++) {
+      const name = locationArray[index].name;
+      var distance = 0.0;
+      var angle = 0.0;
+      var isNearBy = false;
+      var isFacing = false;
+      locationDataTmp.push({name, distance, isNearBy, angle, isFacing});
+      this.setData({
+        locationData: locationDataTmp
+      });
+    }
 
     // 获取用户当前位置
     wx.getLocation({
@@ -139,7 +155,7 @@ getDistance: function(lat1, lng1, lat2, lng2) {
       });
       return;
     }
-
+    const locationDataTmp = this.data.locationData;
     // 1. 计算距离
     // const R = 6371; // 地球半径，单位为千米
     // const dLat = (targetLatitude - latitude) * Math.PI / 180;
@@ -151,14 +167,16 @@ getDistance: function(lat1, lng1, lat2, lng2) {
     // const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     // const distance = R * c * 1000; // 距离单位转换为米
     const distance = this.getDistance(latitude, longitude, targetLatitude, targetLongitude);
-
+    
     this.setData({
       distance: distance // 保留两位小数，单位为千米
     });
-    console.log("name: ", name, " distance: ", this.data.distance);
+    locationDataTmp[targetIndex].distance = distance;
+    console.log("name: ", name, " distance: ", locationDataTmp[targetIndex]);
 
     // 2. 判断是否在附近（距离小于 50 米）
     const isNearby = distance <= 50;
+    locationDataTmp[targetIndex].isNearBy = isNearby;
     const dLat = (targetLatitude - latitude) * Math.PI / 180;
     const dLon = (targetLongitude - longitude) * Math.PI / 180;
     // 3. 计算用户位置到北大楼的方位角（目标方向）
@@ -167,13 +185,17 @@ getDistance: function(lat1, lng1, lat2, lng2) {
               Math.sin(latitude * Math.PI / 180) * Math.cos(targetLatitude * Math.PI / 180) * Math.cos(dLon);
     let targetDirection = Math.atan2(y, x) * 180 / Math.PI; // 方位角，单位为度
     targetDirection = (targetDirection + 360) % 360; // 将角度标准化到 [0, 360)
-
+    locationDataTmp[targetIndex].angle = targetDirection;
     // 4. 判断是否面向北大楼（方向差距在 ±15° 内）
     const isFacing = Math.abs(direction - targetDirection) <= 50;
+    locationDataTmp[targetIndex].isFacing = isFacing;
     console.log("angle: ",  Math.abs(direction - targetDirection));
     // 5. 设置结果
     this.setData({
       isFacingBuilding:  isFacing
+    });
+    this.setData({
+      locationData: locationDataTmp
     });
   },
 
