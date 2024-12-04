@@ -1,17 +1,25 @@
 {
   "pages": [
+
     "pages/start/start",
-    "pages/index/index"
+    "pages/index/index",
+    "pages/camera/camera"
+
   ],
   "window": {
     "navigationBarTitleText": "校园导览"
   },
   "requiredPrivateInfos": [
-    "getLocation"
+    "getLocation",
+    "startLocationUpdate",
+    "onLocationChange"
   ],
   "permission": {
     "scope.userLocation": {
       "desc": "你的位置信息将用于小程序位置接口的效果展示" 
     }
+  },
+  "usingComponents": {
+    "t-icon": "tdesign-miniprogram/icon/icon"
   }
 }

@@ -1,20 +1,72 @@
-<view class="map_container">
-  <!-- 地图 -->
-  <map class="map" id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="14" show-location="true" markers="{{markers}}" bindmarkertap="makertap"></map>
-</view>
 
-<!-- 抽屉 -->
+<view class="map_container">
+  <map class="map" 
+  id="map" 
+  longitude="{{longitude}}" 
+  latitude="{{latitude}}" 
+  scale="18" 
+  show-location="true" 
+  markers="{{markers}}" 
+  polyline="{{polyline}}" 
+  bindtap="mapTap" 
+  >
+  </map>
+</view>
+<!-- <button class="recommend-route-button" bindtap="onShowDrawer" style="position: absolute; left: 645rpx; top: 700rpx">
+  <t-icon name="subway-line" size="25px" color = "white" />
+</button> -->
 <movable-area class="movable-area">
-  <movable-view class="movable-view" direction="vertical" y="{{drawerY}}" out-of-bounds="true" bindchange="onDrawerChange" bindtouchend="onDrawerTouchEnd">
-    <view class="drawer">
-      <!-- 抽屉手柄 -->
+  <movable-view  class="movable-view"
+  direction="vertical" 
+  y="{{drawerY}}"
+  out-of-bounds="true" 
+  bindchange="onDrawerChange" 
+  bindtouchend="onDrawerTouchEnd"
+  >
+    <view class="drawer"  >
       <view class="drawer-handle"></view>
-      <!-- 抽屉内容 -->
-      <view class="drawer-content">
-        <text class="info-title">{{textData.name}}</text>
-        <text class="info-desc">{{textData.desc}}</text>
-        <text class="additional-info">方向信息：{{directionName}} {{direction}}</text>
+      <view >
+        <mp-tabs
+          tabs="{{tabs}}"
+          tab-class="tab-class"
+          swiper-class="swiper-class"
+          active-class="active-class"
+          bindchange="onTabChange"
+        >
+
+          <view slot="tab-content-0" class="route-content">
+            <block wx:for="{{routeOnePoints}}" wx:key="index">
+              <view class="subway-point">
+                <view class="circle  {{index === currentPointIndex ? 'current' : ''}}"  bindtap="onPointClick" data-longitude="{{item.longitude}}" data-latitude="{{item.latitude}}" data-name="{{item.name}}"></view>
+                <text class="station-name">{{item.name || ('站点' + (index + 1))}}</text>
+              </view>
+              <view wx:if="{{index < routeOnePoints.length - 1}}" class="line"></view>
+            </block>
+          </view>
+
+          <view slot="tab-content-1" class="route-content">
+            <block wx:for="{{routeTwoPoints}}" wx:key="index">
+              <view class="subway-point">
+                <view class="circle {{index === currentPointIndex ? 'current' : ''}}"></view>
+                <text class="station-name">{{item.name || ('站点' + (index + 1))}}</text>
+              </view>
+              <view wx:if="{{index < routeTwoPoints.length - 1}}" class="line"></view>
+            </block>
+          </view>
+          <view slot="tab-content-2" class="route-content">
+            <block wx:for="{{routeThreePoints}}" wx:key="index">
+              <view class="subway-point">
+                <view class="circle {{index === currentPointIndex ? 'current' : ''}}"></view>
+                <text class="station-name">{{item.name || ('站点' + (index + 1))}}</text>
+              </view>
+              <view wx:if="{{index < routeThreePoints.length - 1}}" class="line"></view>
+            </block>
+          </view>
+        </mp-tabs>
       </view>
     </view>
+    
   </movable-view>
-</movable-area>
+</movable-area> 
+
+
