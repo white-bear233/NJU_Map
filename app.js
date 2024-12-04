@@ -3,6 +3,7 @@
 
 App({
   "pages": [
+    "pages/getInfo/getInfo",
     "pages/index/index"
   ],
   "window": {

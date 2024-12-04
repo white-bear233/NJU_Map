@@ -1,0 +1,21 @@
+<!-- pages/getInfo/getInfo.wxml -->
+<view class="container">
+  <!-- 输入框 -->
+  <input 
+    type="text" 
+    placeholder="请输入楼宇名称" 
+    bindinput="onInputChange" 
+    value="{{buildingName}}" 
+  />
+
+  <!-- 查询按钮 -->
+  <button bindtap="onQueryBuilding">查询楼宇</button>
+
+  <!-- 显示查询结果 -->
+  <view class="building-info" wx:if="{{buildingInfo}}">
+    <text>建筑名称: {{buildingInfo.name}}</text>
+    <view></view>
+    <text>建筑描述: {{buildingInfo.description}}</text>
+    <image src="{{buildingInfo.image}}" alt="Building Image" />
+  </view>
+</view>
