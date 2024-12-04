@@ -1,8 +1,9 @@
 {
   "pages": [
-    "pages/camera/camera",
+
     "pages/start/start",
-    "pages/index/index"
+    "pages/index/index",
+    "pages/camera/camera"
 
   ],
   "window": {
