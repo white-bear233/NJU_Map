@@ -3,8 +3,9 @@
 
 App({
   "pages": [
+    "pages/start/start",
+    "pages/index/index",
     "pages/getInfo/getInfo",
-    "pages/index/index"
   ],
   "window": {
     "navigationBarTitleText": "校园导览"
