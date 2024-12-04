@@ -9,11 +9,25 @@
   width: 100%;
   height: 100%;
 }
+.recommend-route-button {
+  width: 40px;
+  height: 40px;
+  background-color: #007aff; /* 按钮背景色 */
+  border-radius: 50%; /* 圆形按钮 */
+  box-shadow: 0px 4px 8px rgba(12, 12, 12, 0.2); /* 阴影效果 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none; /* 无边框 */
+}
 
+.recommend-route-button t-icon {
+  color: #ffffff; /* 图标颜色 */
+}
 /* movable-area 样式 */
 .movable-area {
   width: 100%;
-  height: 40%;
+  height: 5%;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -23,9 +37,9 @@
 /* movable-view 样式 */
 .movable-view {
   width: 100%;
-  height: 70vh; /* 抽屉可以滑动到的最大高度 */
+  height: 60vh; /* 抽屉可以滑动到的最大高度 */
   position: absolute;
-  bottom: 0;
+
 }
 
 /* 抽屉样式 */
@@ -36,6 +50,9 @@
   border-top-left-radius: 30rpx;
   border-top-right-radius: 30rpx;
   box-shadow: 0rpx -20rpx 40rpx rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center; /* 垂直居中 */
+  flex-direction: column; /* 垂直排列 */
 }
 
 .drawer-handle {
@@ -65,4 +82,61 @@
   font-size: 28rpx;
   color: #333;
   margin-top: 20rpx;
+}
+
+
+.tab-class {
+  font-size: 16px;
+  padding: 12px;
+  text-align: center;
+}
+
+.swiper-class {
+  height: 400px;
+}
+
+.active-class {
+  color: #07c160;
+}
+
+/* 路线内容容器 */
+.route-content {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap; /* 自动换行 */
+  gap: 10px; /* 元素间距 */
+}
+
+/* 单个站点样式 */  
+.subway-point {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40px; /* 每个站点宽度 */
+  text-align: center;
+}
+
+/* 圆点样式 */
+.circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: rgb(14, 226, 120);
+  border: 3px solid #ffffff;
+  margin-bottom: 5px;
+}
+
+/* 站点名称样式 */
+.station-name {
+  font-size: 10px;
+  color: #333;
+}
+
+/* 连线样式 */
+.line {
+  width: 40px;
+  height: 2px;
+  margin-bottom: 30px;
+  background-color: #07c160;
+  align-self: center; /* 居中对齐 */
 }
