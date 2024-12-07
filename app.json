@@ -2,14 +2,17 @@
   "pages": [
     "pages/start/start",
     "pages/index/index",
-    "pages/getInfo/getInfo"
-
+    "pages/getInfo/getInfo",
+    "pages/camera/camera",
+    "pages/RouteDetail/RouteDetail"
   ],
   "window": {
     "navigationBarTitleText": "校园导览"
   },
   "requiredPrivateInfos": [
-    "getLocation"
+    "getLocation",
+    "startLocationUpdate",
+    "onLocationChange"
   ],
   "permission": {
     "scope.userLocation": {
@@ -17,6 +20,7 @@
     }
   },
   "usingComponents": {
-    "t-icon": "tdesign-miniprogram/icon/icon"
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-link": "tdesign-miniprogram/link/link"
   }
 }
