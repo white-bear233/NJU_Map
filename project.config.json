@@ -6,6 +6,7 @@
     "ignore": [],
     "include": []
   },
+  "condition": {},
   "setting": {
     "coverView": true,
     "es6": true,
@@ -21,7 +22,6 @@
     },
     "ignoreUploadUnusedFiles": false
   },
-  "condition": {},
   "editorSetting": {
     "tabIndent": "insertSpaces",
     "tabSize": 2
