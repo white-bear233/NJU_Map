@@ -15,7 +15,13 @@ Page({
 	isRouteVisible: false,
 	tempImagePath: '',
 	isFlashing: false, // 控制闪烁层的显示与隐藏
-    
+	indexOfShowingBuilding: -1,
+	showPopup: false, // 控制弹窗显示与否
+    buildingInfo: {
+      name: "南京大学鼓楼校区",
+      description: "诚朴雄伟，励学敦行",
+	},
+	newBuilding: false // 周围是否有新建筑
   },
 
   Rad: function(d) { //根据经纬度判断距离
@@ -35,30 +41,35 @@ getDistance: function(lat1, lng1, lat2, lng2) {
     return s
 },
 
-  onLoad() {
+  onLoad(options) {
 	// 获得路线
-	// const eventChannel = this.getOpenerEventChannel();
-	// eventChannel.on('sendPonyLine', function(data) {
-	// 	if (this.isRouteVisible) {
-	// 		this.setData({
-	// 			polyline: data.polyline
-	// 		});
-	// 		isRouteVisible = true;
-	// 	}
-	// 	console.log(data.polyline);  // 输出路线
-    // });
+	// 获取 polyline 参数并进行解析
+	const eventChannel = this.getOpenerEventChannel();
+  	eventChannel.once('polylineEvent', (sendPolyline) => {
+		// console.log('接收到的 polylineData:', sendPolyline.data);
+		let polylineArray = JSON.parse(sendPolyline.data);
+		// console.log(polylineArray);
+		this.setData({
+			polyline: polylineArray // 更新 polyline 数据
+		});
+		if (this.data.polyline != []) {
+			this.setData({isRouteVisible: true});
+		}
+		// console.log('接收 polylineData:', this.data.polyline);
+  	});
     // 检查用户是否授予权限
     var that = this;
     const locationArray = getApp().globalData.locationArray;
     // console.log(locationArray);
     const locationDataTmp = [];
     for (let index = 0; index <   this.data.locationNum; index++) {
-      const name = locationArray[index].name;
+	  const name = locationArray[index].name;
+	  const description = locationArray[index].description;
       var distance = 0.0;
       var angle = 0.0;
       var isNearBy = false;
-      var isFacing = false;
-      locationDataTmp.push({name, distance, isNearBy, angle, isFacing});
+	  var isFacing = false;
+      locationDataTmp.push({name, description, distance, isNearBy, angle, isFacing});
       this.setData({
         locationData: locationDataTmp
       });
@@ -109,10 +120,44 @@ getDistance: function(lat1, lng1, lat2, lng2) {
               that.setData({
                 latitude: res.latitude,
                 longitude: res.longitude
-              });
+			  });
+			  var nearbyBuilding = false;
+			  var nearestBuildingIndex = -1;
+			  var nearestBuildingDistance = 10000;
               for (let index = 0; index < that.data.locationNum; index++) {
-                that.checkProximityAndDirection(index); // 更新距离和方向 
-              }
+				that.checkProximityAndDirection(index); // 更新距离和方向
+				if (that.data.locationData[index].isNearBy && that.data.locationData[index].isFacing) {
+					nearbyBuilding = true;
+					console.log("IN ", that.data.indexOfShowingBuilding, index);
+					if (that.data.indexOfShowingBuilding != index) {
+						that.toggleNewBuilding();
+						that.setData({
+							indexOfShowingBuilding: index,
+							buildingInfo: {
+								name: that.data.locationData[index].name,
+								description: that.data.locationData[index].description,
+								// name: "老八总部",
+								// description: "老八老八"
+							}
+						})
+					}
+				}
+				if (that.data.locationData[index].distance < nearestBuildingDistance) {
+					nearestBuildingDistance = that.data.locationData[index].distance;
+					nearestBuildingIndex = index;
+				}
+			  }
+			  if (nearbyBuilding == false) {
+				  that.setData({
+					indexOfShowingBuilding: -1,
+					buildingInfo: {
+						name: "南京大学鼓楼校区",
+						description: `距您最近的景点为： ${that.data.locationData[nearestBuildingIndex].name}`,
+						// name: "老八总部",
+						// description: "老八老八"
+					}
+				  })
+			  }
             });
           },
           fail(err) {
@@ -134,10 +179,25 @@ getDistance: function(lat1, lng1, lat2, lng2) {
     wx.onCompassChange((res) => {
       this.setData({
         direction: res.direction
-      });
+	  });
       for (let index = 0; index < this.data.locationNum; index++) {
-          this.checkProximityAndDirection(index); // 更新距离和方向 
-      }
+		  this.checkProximityAndDirection(index); // 更新距离和方向 
+		  if (this.data.locationData[index].isNearBy && this.data.locationData[index].isFacing) {
+			if (this.data.indexOfShowingBuilding != index) {
+				this.setData({
+					indexOfShowingBuilding: index,
+					buildingInfo: {
+						name: this.data.locationData[index].name,
+						description: this.data.locationData[index].description,
+						// name: "老八总部",
+						// description: "老八老八"
+					}
+				})
+				this.toggleNewBuilding();
+				break;
+			}
+		} 
+	  }
     });
   },
 
@@ -230,13 +290,13 @@ getDistance: function(lat1, lng1, lat2, lng2) {
     const distance = this.getDistance(latitude, longitude, targetLatitude, targetLongitude);
     
     this.setData({
-      distance: distance // 保留两位小数，单位为千米
+      distance: distance
     });
     locationDataTmp[targetIndex].distance = distance;
     // console.log("name: ", name, " distance: ", locationDataTmp[targetIndex]);
 
-    // 2. 判断是否在附近（距离小于 50 米）
-    const isNearby = distance <= 50;
+    // 2. 判断是否在附近（距离小于 25 米）
+    const isNearby = distance <= 25;
     locationDataTmp[targetIndex].isNearBy = isNearby;
     const dLat = (targetLatitude - latitude) * Math.PI / 180;
     const dLon = (targetLongitude - longitude) * Math.PI / 180;
@@ -247,8 +307,8 @@ getDistance: function(lat1, lng1, lat2, lng2) {
     let targetDirection = Math.atan2(y, x) * 180 / Math.PI; // 方位角，单位为度
     targetDirection = (targetDirection + 360) % 360; // 将角度标准化到 [0, 360)
     locationDataTmp[targetIndex].angle = targetDirection;
-    // 4. 判断是否面向目标（方向差距在 ±15° 内）
-    const isFacing = Math.abs(direction - targetDirection) <= 50;
+    // 4. 判断是否面向目标（方向差距在 ±45° 内）
+    const isFacing = Math.abs(direction - targetDirection) <= 90;
     locationDataTmp[targetIndex].isFacing = isFacing;
     // console.log("angle: ",  Math.abs(direction - targetDirection));
     // 5. 设置结果
@@ -258,6 +318,34 @@ getDistance: function(lat1, lng1, lat2, lng2) {
     this.setData({
       locationData: locationDataTmp
     });
+  },
+
+  // 点击按钮时显示建筑信息
+  showBuildingInfo: function() {
+    this.setData({
+	  showPopup: true, // 显示浮动弹窗
+	  newBuilding: false
+    });
+  },
+
+  // 关闭浮动弹窗
+  closePopup: function() {
+    this.setData({
+      showPopup: false, // 隐藏浮动弹窗
+    });
+  },
+
+  toggleNewBuilding() {
+    this.setData({
+      newBuilding: true  // 开始闪烁
+    });
+
+    // 设置闪烁结束后恢复按钮状态
+    setTimeout(() => {
+      this.setData({
+        newBuilding: false  // 结束闪烁
+      });
+    }, 10000);  // 假设10秒后结束闪烁
   },
 
   // 停止罗盘监听

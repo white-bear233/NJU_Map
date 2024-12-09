@@ -1,9 +1,9 @@
 {
   "pages": [
-    "pages/camera/camera",
-    "pages/start/start",
-    "pages/index/index"
-
+	"pages/index/index",
+	"pages/camera/camera",
+    "pages/getInfo/getInfo",
+    "pages/RouteDetail/RouteDetail"
   ],
   "window": {
     "navigationBarTitleText": "校园导览"
@@ -19,7 +19,10 @@
     }
   },
   "usingComponents": {
+
 	"t-icon": "tdesign-miniprogram/icon/icon",
-	"t-button": "tdesign-miniprogram/button/button"
+	"t-button": "tdesign-miniprogram/button/button",
+    "t-link": "tdesign-miniprogram/link/link"
+
   }
 }

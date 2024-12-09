@@ -1,0 +1,39 @@
+<view class="container">
+  <view class="number-box">
+    <view class="number">
+      <text class="number-text">01</text>
+    </view>
+  </view>
+  <view class="text-box">
+    <view class="text">
+      <text class="title">汉口路校门</text>
+      <text class="subtitle">——叩开南大人的荣光记忆</text>
+    </view>
+  </view>
+  <view class="section">
+    <view class="paragraph">
+      <text>建于1959年国庆佳节的汉口路校门，是我们的第一站。作为南园、北园的分界线，汉口路校门矗立经年，静静地诉说着伟岸和庄重，在历史的长河中注视一代又一代南大人。两侧立柱上
+        <text class="highlight">“团结紧张”、“严肃活泼”的毛体手书浮雕</text>，磅礴酣畅，雄伟肃穆，展示着南大的气概和襟怀。</text>
+    </view>
+  </view>
+  <image class="image" src="https://box.nju.edu.cn/f/9701fc9c6a274813adba/?dl=1" alt="汉口路校门" />
+
+  <view class="number-box">
+    <view class="number">
+      <text class="number-text">02</text>
+    </view>
+  </view>
+  <view class="text-box">
+    <view class="text">
+      <text class="title">二源壁</text>
+      <text class="subtitle">——碑石裂痕间，寻根源头处</text>
+    </view>
+  </view>
+  <view class="section">
+    <view class="paragraph">
+      <text>在鼓楼校区北园，矗立着一块印满时光记忆的“二源壁”。它
+        <text class="highlight">一面刻着“两江师范学堂”，一面刻着“金陵大学堂”，分别代表南京大学的两个源头。</text>1906年，南京大学前身三江师范学堂更名为两江师范学堂，著名教育家、书法家李瑞清先生为其手书“两江师范学堂”。1910年，李瑞清亲笔书写“金陵大学堂”校碑。</text>
+    </view>
+  </view>
+  <image class="image" src="https://box.nju.edu.cn/f/e742a08b0adc47ba9770/?dl=1" alt="汉口路校门" />
+</view>

@@ -8,6 +8,23 @@
     bindinitdone="onCameraInitDone">
 	<view class="flash-overlay" wx:if="{{isFlashing}}"></view>
   </camera>
+  <view class="showBuildingData">
+  <t-button theme="primary" icon="building" shape="circle" size="medium" aria-label="建筑信息" bindtap="showBuildingInfo" class="{{newBuilding ? 'buttonFlashing' : ''}}"></t-button>
+	</view>
+	<!-- 自定义浮动窗口 -->
+	<view class="popup" wx:if="{{showPopup}}">
+    <view class="popup-content">
+      <view class="popup-header">
+        <text>{{buildingInfo.name}}</text>
+      </view>
+      <view class="popup-body">
+        <text>{{buildingInfo.description}}</text>
+      </view>
+      <view class="popup-footer">
+        <button bindtap="closePopup">关闭</button>
+      </view>
+    </view>
+  </view>
 
   <view class="separator"></view>
 
@@ -22,9 +39,7 @@
       show-location="true" 
 	  polyline="{{polyline}}"
       markers="{{markers}}">
+	  <t-button theme="primary" icon="camera" shape="circle" size="large" aria-label="拍照" bindtap="takePhoto" class = "take_photo_button"></t-button>
     </map>
-	<view class="button-example">
-  <t-button theme="light" icon="camera" shape="circle" size="large" aria-label="拍照" bindtap="takePhoto" ></t-button>
-	</view>
   </view>
 </view>

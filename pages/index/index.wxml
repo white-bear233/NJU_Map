@@ -1,72 +1,109 @@
-
-<view class="map_container">
+<view class="map_container" style="height: {{map_height}}vh;">
   <map class="map" 
-  id="map" 
-  longitude="{{longitude}}" 
-  latitude="{{latitude}}" 
-  scale="18" 
-  show-location="true" 
-  markers="{{markers}}" 
-  polyline="{{polyline}}" 
-  bindtap="mapTap" 
-  >
+    id="map" 
+    longitude="{{longitude}}" 
+    latitude="{{latitude}}" 
+    scale="18" 
+    show-location="true" 
+    markers="{{markers}}" 
+    polyline="{{polyline}}" 
+    bindtap="mapTap">
+    
+
+
+    <movable-area class="movable-area">
+      <movable-view class="movable-view"
+        direction="vertical" 
+        y="{{drawerY}}"
+        out-of-bounds="true" 
+        bindchange="onDrawerChange" 
+        bindtouchend="onDrawerTouchEnd"
+        disabled="{{isMovableViewDisabled}}">
+            <!-- 推荐路线按钮 -->
+        <button class="recommend-route-button" bindtap="onShowDrawer" style="position: absolute; left: 645rpx; top: -100rpx">
+          <t-icon name="subway-line" size="25px" color="white" />
+        </button> 
+
+        <!-- 目标定位按钮 -->
+        <button class="recommend-route-button" bindtap="mapAiming" style="position: absolute; left: 645rpx; top: -200rpx">
+          <t-icon name="map-aiming" size="25px" color="white" />
+        </button> 
+        <view class="drawer">
+            <text class="route-title">推荐路线</text>
+
+
+          <!-- 使用 scroll-view 来处理滚动 -->
+          <scroll-view class="route-wrapper-container" scroll-y="true" > <!-- 设置高度为容器的最大高度 -->
+            
+            <!-- 路线 1 -->
+            <view class="route-wrapper {{selectedRoute === 'routeOnePoints' ? 'selected' : ''}}" bindtap="ChooseRoute" data-route="routeOnePoints">
+              <text class="route-title">沉浸历史</text>
+              <view class="recommend-tag">推荐</view>
+              <view class="link-example" catch:tap="onLinkClick">
+                  路线详情
+              </view>
+              <view class="goButton" catchtap="onLinkClick">
+                <t-button theme="success" size="small" style="background-color: rgb(14, 226, 120); color: white;" catchtap="startNavigate">导航</t-button>
+              </view>
+              
+              <view class="route-content">
+                <block wx:for="{{routeOneStations}}" wx:key="index">
+                  <view class="subway-point" catchtap="onPointClick" data-longitude="{{item.longitude}}" data-latitude="{{item.latitude}}" data-name="{{item.name}}">
+                    <view class="circle {{index === currentPointIndex ? 'current' : ''}}"   ></view>
+                    <text class="station-name">{{item.name || ('站点' + (index + 1))}}</text>
+                  </view>
+                  <view wx:if="{{index < routeOneStations.length - 1}}" class="line"></view>
+                </block>
+              </view>
+              
+
+            </view>
+
+            <!-- 路线 2 -->
+            <view class="route-wrapper {{selectedRoute === 'routeTwoPoints' ? 'selected' : ''}}" bindtap="ChooseRoute" data-route="routeTwoPoints">
+              <text class="route-title">路线 2</text>
+              <view class="recommend-tag">推荐</view>
+              <view class="link-example" catch:tap="onLinkClick">
+                  路线详情
+              </view>
+              <view class="goButton" >
+                <t-button theme="success" size="small" style="background-color: rgb(14, 226, 120); color: white;" catchtap="startNavigate">导航</t-button>
+              </view>
+              <view class="route-content">
+                <block wx:for="{{routeTwoStations}}" wx:key="index">
+                  <view class="subway-point">
+                    <view class="circle {{index === currentPointIndex ? 'current' : ''}}" bindtap="onPointClick" data-longitude="{{item.longitude}}" data-latitude="{{item.latitude}}" data-name="{{item.name}}"></view>
+                    <text class="station-name">{{item.name || ('站点' + (index + 1))}}</text>
+                  </view>
+                  <view wx:if="{{index < routeTwoStations.length - 1}}" class="line"></view>
+                </block>
+              </view>
+            </view>
+
+            <!-- 路线 3 -->
+            <view class="route-wrapper {{selectedRoute === 'routeThreePoints' ? 'selected' : ''}}" bindtap="ChooseRoute"data-route="routeThreePoints">
+              <view class="recommend-tag">推荐</view>
+              <view class="link-example" catch:tap="onLinkClick">
+                  路线详情
+              </view>
+              <text class="route-title">路线 3</text>
+              <view class="goButton" >
+                <t-button theme="success" size="small" style="background-color: rgb(14, 226, 120); color: white;" catchtap="startNavigate">导航</t-button>
+              </view>
+              <view class="route-content">
+                <block wx:for="{{routeThreeStations}}" wx:key="index">
+                  <view class="subway-point">
+                    <view class="circle {{index === currentPointIndex ? 'current' : ''}}" bindtap="onPointClick" data-longitude="{{item.longitude}}" data-latitude="{{item.latitude}}" data-name="{{item.name}}"></view>
+                    <text class="station-name">{{item.name || ('站点' + (index + 1))}}</text>
+                  </view>
+                  <view wx:if="{{index < routeThreeStations.length - 1}}" class="line"></view>
+                </block>
+              </view>
+            </view>
+
+          </scroll-view>
+        </view>
+      </movable-view>
+    </movable-area>
   </map>
 </view>
-<!-- <button class="recommend-route-button" bindtap="onShowDrawer" style="position: absolute; left: 645rpx; top: 700rpx">
-  <t-icon name="subway-line" size="25px" color = "white" />
-</button> -->
-<movable-area class="movable-area">
-  <movable-view  class="movable-view"
-  direction="vertical" 
-  y="{{drawerY}}"
-  out-of-bounds="true" 
-  bindchange="onDrawerChange" 
-  bindtouchend="onDrawerTouchEnd"
-  >
-    <view class="drawer"  >
-      <view class="drawer-handle"></view>
-      <view >
-        <mp-tabs
-          tabs="{{tabs}}"
-          tab-class="tab-class"
-          swiper-class="swiper-class"
-          active-class="active-class"
-          bindchange="onTabChange"
-        >
-
-          <view slot="tab-content-0" class="route-content">
-            <block wx:for="{{routeOnePoints}}" wx:key="index">
-              <view class="subway-point">
-                <view class="circle  {{index === currentPointIndex ? 'current' : ''}}"  bindtap="onPointClick" data-longitude="{{item.longitude}}" data-latitude="{{item.latitude}}" data-name="{{item.name}}"></view>
-                <text class="station-name">{{item.name || ('站点' + (index + 1))}}</text>
-              </view>
-              <view wx:if="{{index < routeOnePoints.length - 1}}" class="line"></view>
-            </block>
-          </view>
-
-          <view slot="tab-content-1" class="route-content">
-            <block wx:for="{{routeTwoPoints}}" wx:key="index">
-              <view class="subway-point">
-                <view class="circle {{index === currentPointIndex ? 'current' : ''}}"></view>
-                <text class="station-name">{{item.name || ('站点' + (index + 1))}}</text>
-              </view>
-              <view wx:if="{{index < routeTwoPoints.length - 1}}" class="line"></view>
-            </block>
-          </view>
-          <view slot="tab-content-2" class="route-content">
-            <block wx:for="{{routeThreePoints}}" wx:key="index">
-              <view class="subway-point">
-                <view class="circle {{index === currentPointIndex ? 'current' : ''}}"></view>
-                <text class="station-name">{{item.name || ('站点' + (index + 1))}}</text>
-              </view>
-              <view wx:if="{{index < routeThreePoints.length - 1}}" class="line"></view>
-            </block>
-          </view>
-        </mp-tabs>
-      </view>
-    </view>
-    
-  </movable-view>
-</movable-area> 
-
-

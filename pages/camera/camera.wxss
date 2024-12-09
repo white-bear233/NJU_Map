@@ -11,7 +11,7 @@
   top: 0vh;
   left: 0;
   width: 100%;
-  height:60vh; /* 占据页面顶部70%高度 */
+  height:65vh; /* 占据页面顶部70%高度 */
   background-color: black;
 }
 
@@ -20,7 +20,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 60vh;
+  height: 65vh;
   background-color: white;
   opacity: 0.5;
   z-index: 9999;  /* 确保覆盖整个相机界面 */
@@ -41,7 +41,7 @@
 
 .separator {
   width: 100%;
-  top: 60vh;
+  top: 65vh;
   height: 1vh; /* 分割线高度 */
   background: linear-gradient(to right, #ffffff, azure); /* 渐变效果 */
   box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* 阴影效果 */
@@ -52,8 +52,8 @@
 
 .map_container {
   width: 100%;
-  top: 60vh;
-  height: 30vh;
+  top: 65vh;
+  height: 35vh;
   position: absolute;
 }
 
@@ -69,6 +69,78 @@
 	justify-content: space-between;
 
 }
+
+.take_photo_button {
+	position: absolute;
+	top: 26vh;  
+	left: 45%;
+	z-index: 10; /* 确保按钮在最上层 */
+}
+
+.showBuildingData {
+	position: absolute;
+	top: 20rpx;   /* 距离顶部10px */
+	right: 20rpx; /* 距离右边10px */
+	background-color: rgba(0, 0, 0, 0.5);
+	color: white;
+	border: none;
+	border-radius: 50%;
+	z-index: 10; /* 确保按钮在最上层 */
+  }
+
+  .popup {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.5); /* 背景半透明 */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000; /* 确保浮动窗口位于最上层 */
+  }
+  
+  .popup-content {
+	background-color: white;
+	padding: 40rpx;
+	width: 80%;
+	border-radius: 10px;
+  }
+  
+  .popup-header {
+	font-size: 48rpx;
+	font-weight: bold;
+  }
+  
+  .popup-body {
+	margin-top: 20rpx;
+  }
+  
+  .popup-footer {
+	margin-top: 40rpx;
+	text-align: right;
+  }
+
+  .buttonFlashing {
+	animation: buttonFlash 1s infinite;
+  }
+  
+  @keyframes buttonFlash {
+	0% {
+	  opacity: 0.3;
+	  transform: scale(1);
+	}
+	50% {
+	  opacity: 1;
+	  transform: scale(1.5);
+	}
+	100% {
+	  opacity: 0.3;
+	  transform: scale(1);
+	}
+	}
+  
   
 
 
