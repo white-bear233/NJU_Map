@@ -1,8 +1,8 @@
 {
   "pages": [
+    "pages/camera/camera",
     "pages/start/start",
-    "pages/index/index",
-    "pages/camera/camera"
+    "pages/index/index"
 
   ],
   "window": {
@@ -19,6 +19,7 @@
     }
   },
   "usingComponents": {
-    "t-icon": "tdesign-miniprogram/icon/icon"
+	"t-icon": "tdesign-miniprogram/icon/icon",
+	"t-button": "tdesign-miniprogram/button/button"
   }
 }

@@ -1,42 +1,74 @@
+
 .container {
   display: flex;
   flex-direction: column;
   height: 100vh; /* 适配屏幕高度 */
-  background-color: #f5f5f5;
+  background-color: azure;
 }
 
 .camera {
-  position: absolute; /* 绝对定位 */
-  top: 0;
+  position: absolute;
+  top: 0vh;
   left: 0;
   width: 100%;
-  height: 70vh; /* 占据页面顶部70%高度 */
+  height:60vh; /* 占据页面顶部70%高度 */
   background-color: black;
 }
 
-.location-status {
-  bottom: 0vh; /* 底部区域占据页面高度的30% */
-  height: 30vh;
-  display: flex;
-  position: absolute; /* 绝对定位 */
-  align-items: center;
-  justify-content: center;
+.flash-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60vh;
   background-color: white;
-  font-size: 20rpx;
-  color: #333;
-  text-align: center;
-  box-shadow: 0 -10rpx 20rpx rgba(0, 0, 0, 0.1);
+  opacity: 0.5;
+  z-index: 9999;  /* 确保覆盖整个相机界面 */
+  animation: flash 0.1s ease-in-out 1;
 }
 
-.location-list {
-  margin-top: 90vh;
+@keyframes flash {
+	0% {
+	  opacity: 0;
+	}
+	50% {
+	  opacity: 1;
+	}
+	100% {
+	  opacity: 0;
+	}
+  }
+
+.separator {
+  width: 100%;
+  top: 60vh;
+  height: 1vh; /* 分割线高度 */
+  background: linear-gradient(to right, #ffffff, azure); /* 渐变效果 */
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+  position: absolute;
+  z-index: 1;
 }
 
-.location-item {
-  margin-bottom: 20rpx;
-  padding: 10rpx;
-  border: 1rpx solid #ccc;
-  border-radius: 10rpx;
-  background-color: #f9f9f9;
+
+.map_container {
+  width: 100%;
+  top: 60vh;
+  height: 30vh;
+  position: absolute;
 }
+
+.map {
+  width: 100%;
+  height: 100%;
+}
+
+.button-example {
+	height: 10%;
+	margin: 32rpx;
+	display: flex;
+	justify-content: space-between;
+
+}
+  
+
 

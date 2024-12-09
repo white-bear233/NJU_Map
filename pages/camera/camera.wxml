@@ -1,23 +1,30 @@
 <view class="container">
   <!-- 相机实时画面 -->
-  <camera class="camera" device-sposition="back" flash="on" binderror="onCameraError" bindinitdone="onCameraInitDone"></camera>
+  <camera 
+    class="camera" 
+    device-position="back" 
+    flash="on" 
+    binderror="onCameraError" 
+    bindinitdone="onCameraInitDone">
+	<view class="flash-overlay" wx:if="{{isFlashing}}"></view>
+  </camera>
+
+  <view class="separator"></view>
 
   <!-- 定位状态 -->
-</view>
-
-<view class="location-status">
-  <text>当前位置：纬度 {{latitude}}, 经度 {{longitude}}, {{locationData.length}} </text>
-  
-  <!-- 渲染 locationData -->
-  <view class="location-list">
-    <block wx:for="{{locationData}}" wx:key="index">
-      <view class="location-item">
-        <view><text>景点：{{item.name}} </text></view>
-        <view><text>距离：{{item.distance}} 米 </text>
-        <text>是否在附近：{{item.isNearBy? '是' : '否'}} </text></view>
-        <view><text>方位角：{{item.angle}}° </text>
-        <text>是否面对: {{item.isFacing? '是' : '否'}} </text></view>
-      </view>
-    </block>
+  <view class="map_container">
+    <map 
+      class="map" 
+      id="map" 
+      longitude="{{longitude}}" 
+      latitude="{{latitude}}" 
+      scale="18" 
+      show-location="true" 
+	  polyline="{{polyline}}"
+      markers="{{markers}}">
+    </map>
+	<view class="button-example">
+  <t-button theme="light" icon="camera" shape="circle" size="large" aria-label="拍照" bindtap="takePhoto" ></t-button>
+	</view>
   </view>
 </view>

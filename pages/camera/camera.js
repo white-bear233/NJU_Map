@@ -9,7 +9,12 @@ Page({
     isNearby: false, // 是否在目标附近
     distance: '', // 距离
     locationNum: 11, // 景点数量
-    locationData: [], // 用于存储每个景点的距离和角度
+	locationData: [], // 用于存储每个景点的距离和角度
+	polyline: [], // 推荐的路线
+	markers: [],
+	isRouteVisible: false,
+	tempImagePath: '',
+	isFlashing: false, // 控制闪烁层的显示与隐藏
     
   },
 
@@ -17,11 +22,7 @@ Page({
     return d * Math.PI / 180.0;
 },
 getDistance: function(lat1, lng1, lat2, lng2) {
-    // lat1用户的纬度
-    // lng1用户的经度
-    // lat2商家的纬度
-    // lng2商家的经度
-    console.log(lat1, lng1, lat2, lng2);
+    // console.log(lat1, lng1, lat2, lng2);
     var radLat1 = this.Rad(lat1);
     var radLat2 = this.Rad(lat2);
     var a = radLat1 - radLat2;
@@ -30,17 +31,28 @@ getDistance: function(lat1, lng1, lat2, lng2) {
     s = s * 6378.137;
     s = Math.round(s * 10000) / 10;
     s = s.toFixed(2)
-    console.log('经纬度计算的距离:' + s)
+    // console.log('经纬度计算的距离:' + s)
     return s
 },
 
   onLoad() {
+	// 获得路线
+	// const eventChannel = this.getOpenerEventChannel();
+	// eventChannel.on('sendPonyLine', function(data) {
+	// 	if (this.isRouteVisible) {
+	// 		this.setData({
+	// 			polyline: data.polyline
+	// 		});
+	// 		isRouteVisible = true;
+	// 	}
+	// 	console.log(data.polyline);  // 输出路线
+    // });
     // 检查用户是否授予权限
     var that = this;
     const locationArray = getApp().globalData.locationArray;
     // console.log(locationArray);
-  const locationDataTmp = [];
-  for (let index = 0; index <   this.data.locationNum; index++) {
+    const locationDataTmp = [];
+    for (let index = 0; index <   this.data.locationNum; index++) {
       const name = locationArray[index].name;
       var distance = 0.0;
       var angle = 0.0;
@@ -50,8 +62,7 @@ getDistance: function(lat1, lng1, lat2, lng2) {
       this.setData({
         locationData: locationDataTmp
       });
-    }
-
+    }    
     // 获取用户当前位置
     wx.getLocation({
       type: 'wgs84', // 默认类型
@@ -60,7 +71,7 @@ getDistance: function(lat1, lng1, lat2, lng2) {
           latitude: res.latitude, // 设置当前纬度
           longitude: res.longitude // 设置当前经度
         });
-       console.log(res.latitude + " " + res.longitude);
+    //    console.log(res.latitude + " " + res.longitude);
       },
       fail: function (err) {
         wx.showModal({
@@ -73,13 +84,15 @@ getDistance: function(lat1, lng1, lat2, lng2) {
       this.setData({
         direction: res.direction
       });
-      console.log("Get Direnction: ")
-      console.log(this.data.direction)
+    //   console.log("Get Direnction: ")
+    //   console.log(this.data.direction)
     });
 
     this.startLocationMonitoring();
     this.startCompassMonitoring();
   },
+
+  
 
   // 开始位置监听
   startLocationMonitoring() {
@@ -141,6 +154,64 @@ getDistance: function(lat1, lng1, lat2, lng2) {
     this.setData({ cameraStatus: '相机加载失败，请检查权限或真机调试' });
   },
 
+  // 拍照
+  takePhoto() {
+	const ctx = wx.createCameraContext()
+	// 启动闪烁效果
+    this.setData({
+		isFlashing: true
+	  });
+
+	  setTimeout(() => {
+		this.setData({
+		  isFlashing: false
+		});
+  
+		
+	  }, 100);
+  
+
+    ctx.takePhoto({
+	  quality: 'high',
+	  flash: 'off',
+      success: (res) => {
+        this.setData({
+          tempImagePath: res.tempImagePath
+		});
+		console.log("拍照成功", res.tempImagePath);
+		// 保存图片到本地相册
+		wx.saveImageToPhotosAlbum({
+			filePath: res.tempImagePath, // 使用拍摄后返回的图片路径
+			success: (saveRes) => {
+			  wx.showToast({
+				title: '保存成功',
+				icon: 'success',
+				duration: 2000
+			  });
+			},
+			fail: (saveErr) => {
+			  wx.showToast({
+				title: '保存失败',
+				icon: 'none',
+				duration: 2000
+			  });
+			  console.log('保存失败:', saveErr);
+			}
+		  });
+	  },
+	  error(e) {
+		wx.showToast({
+		title: '拍照失败',
+		icon: 'none',
+		duration: 2000
+		});
+		console.log(e.detail)
+	  },
+    })
+  },
+  
+  
+
   checkProximityAndDirection(targetIndex) {
     const app = getApp();
     const locations = app.globalData.locationArray;
@@ -156,23 +227,13 @@ getDistance: function(lat1, lng1, lat2, lng2) {
       return;
     }
     const locationDataTmp = this.data.locationData;
-    // 1. 计算距离
-    // const R = 6371; // 地球半径，单位为千米
-    // const dLat = (targetLatitude - latitude) * Math.PI / 180;
-    // const dLon = (targetLongitude - longitude) * Math.PI / 180;
-    // const a =
-    //   Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    //   Math.cos(latitude * Math.PI / 180) * Math.cos(targetLatitude * Math.PI / 180) *
-    //   Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    // const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    // const distance = R * c * 1000; // 距离单位转换为米
     const distance = this.getDistance(latitude, longitude, targetLatitude, targetLongitude);
     
     this.setData({
       distance: distance // 保留两位小数，单位为千米
     });
     locationDataTmp[targetIndex].distance = distance;
-    console.log("name: ", name, " distance: ", locationDataTmp[targetIndex]);
+    // console.log("name: ", name, " distance: ", locationDataTmp[targetIndex]);
 
     // 2. 判断是否在附近（距离小于 50 米）
     const isNearby = distance <= 50;
@@ -186,10 +247,10 @@ getDistance: function(lat1, lng1, lat2, lng2) {
     let targetDirection = Math.atan2(y, x) * 180 / Math.PI; // 方位角，单位为度
     targetDirection = (targetDirection + 360) % 360; // 将角度标准化到 [0, 360)
     locationDataTmp[targetIndex].angle = targetDirection;
-    // 4. 判断是否面向北大楼（方向差距在 ±15° 内）
+    // 4. 判断是否面向目标（方向差距在 ±15° 内）
     const isFacing = Math.abs(direction - targetDirection) <= 50;
     locationDataTmp[targetIndex].isFacing = isFacing;
-    console.log("angle: ",  Math.abs(direction - targetDirection));
+    // console.log("angle: ",  Math.abs(direction - targetDirection));
     // 5. 设置结果
     this.setData({
       isFacingBuilding:  isFacing
