@@ -132,6 +132,19 @@ Page({
     });
   },
 
+  //点击打开照片墙
+  getPicture(){
+    console.log("1111");
+    wx.navigateTo({
+      url: "/pages/pictureWall/pictureWall",
+      success() {
+        console.log("页面跳转成功");
+      },
+      fail(err) {
+        console.error("页面跳转失败", err);
+      },
+    });
+},
 
   // 点击定位按钮时调用此方法
   mapAiming() {

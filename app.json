@@ -3,7 +3,8 @@
 	"pages/index/index",
 	"pages/camera/camera",
     "pages/getInfo/getInfo",
-    "pages/RouteDetail/RouteDetail"
+    "pages/RouteDetail/RouteDetail",
+    "pages/pictureWall/pictureWall"
   ],
   "window": {
     "navigationBarTitleText": "校园导览"

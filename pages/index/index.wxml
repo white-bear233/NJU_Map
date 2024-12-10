@@ -19,8 +19,9 @@
         bindchange="onDrawerChange" 
         bindtouchend="onDrawerTouchEnd"
         disabled="{{isMovableViewDisabled}}">
+        
             <!-- 推荐路线按钮 -->
-        <button class="recommend-route-button" bindtap="onShowDrawer" style="position: absolute; left: 645rpx; top: -100rpx">
+        <button class="recommend-route-button" bindtap="onShowDrawer" style="position: absolute; left: 644rpx; top: -80rpx">
           <t-icon name="subway-line" size="25px" color="white" />
         </button> 
 
@@ -28,10 +29,13 @@
         <button class="recommend-route-button" bindtap="mapAiming" style="position: absolute; left: 645rpx; top: -200rpx">
           <t-icon name="map-aiming" size="25px" color="white" />
         </button> 
+        <!-- 照片墙按钮 -->
+        <button class="recommend-route-button" bindtap="getPicture" style="position: absolute; left: 645rpx; top: -300rpx">
+          <t-icon name="image-search" size="25px" color="white" />
+        </button> 
+
         <view class="drawer">
             <text class="route-title">推荐路线</text>
-
-
           <!-- 使用 scroll-view 来处理滚动 -->
           <scroll-view class="route-wrapper-container" scroll-y="true" > <!-- 设置高度为容器的最大高度 -->
             
