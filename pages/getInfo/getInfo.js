@@ -35,7 +35,7 @@ Page({
 
     // 发起网络请求，传递查询参数
     wx.request({
-      url: `http://localhost:8080/api/buildings/getBuilding`, // 后端接口地址
+      url: `http://172.29.4.191:8080/api/buildings/getBuilding`, // 后端接口地址
       method: 'GET',
       data: {
         name: buildingName, // 将用户输入的楼宇名称作为查询参数传递

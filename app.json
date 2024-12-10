@@ -1,9 +1,9 @@
 {
   "pages": [
+    "pages/getInfo/getInfo",
     "pages/start/start",
     "pages/index/index",
     "pages/camera/camera"
-
   ],
   "window": {
     "navigationBarTitleText": "校园导览"

@@ -1,6 +1,3 @@
-// app.js
-
-
 App({
   globalData: {
     locationArray: [{
@@ -59,6 +56,7 @@ App({
         longitude: 118.7801589997433
       }
     ],
+    openid: null,
   },
   "pages": [
     "pages/getInfo/getInfo",
@@ -71,5 +69,36 @@ App({
     "scope.userLocation": {
       "desc": "需要获取您的地理位置用于导航"
     }
+  },
+
+  onLaunch() {
+    // 调用 wx.login 获取临时登录凭证
+    wx.login({
+      success: (res) => {
+        if (res.code) {
+          console.log('登录成功，临时凭证:', res.code);
+          // 将 code 发送到后端，获取 openid
+          wx.request({
+            url: 'http://172.29.4.191:8080/user/login', // 替换为你的后端接口地址
+            method: 'POST',
+            data: {
+              code: res.code,
+            },
+            success: (response) => {
+              console.log(response.data)
+              console.log('获取到的 openid:', response.data.result.openid);
+              // 将 openid 存储到全局变量
+              this.globalData.openid = response.data.result.openid;
+              console.log(this.globalData.openid)
+            },
+            fail: (err) => {
+              console.error('获取 openid 失败:', err);
+            },
+          });
+        } else {
+          console.log('登录失败:', res.errMsg);
+        }
+      },
+    });
   }
 })
