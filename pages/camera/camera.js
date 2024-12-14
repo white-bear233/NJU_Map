@@ -21,12 +21,44 @@ Page({
       name: "南京大学鼓楼校区",
       description: "诚朴雄伟，励学敦行",
 	},
-	newBuilding: false // 周围是否有新建筑
+	newBuilding: false, // 周围是否有新建筑
+	showOverlay: false, // 控制遮罩层显示
+	isLandscape: false, // 横屏标记
+	leftLandScape: true, // 向哪边横屏
   },
 
   Rad: function(d) { //根据经纬度判断距离
     return d * Math.PI / 180.0;
 },
+
+startListeningDeviceOrientation() {
+    wx.startDeviceMotionListening({
+      interval: 'normal',
+      success: () => {
+        console.log('设备方向监听已启动');
+        wx.onDeviceMotionChange((res) => {
+          // 判断方向: alpha 是设备旋转角度，gamma 用来判断横屏
+          const { gamma } = res;
+          const isLandscape = Math.abs(gamma) > 45; // 横屏的角度通常大于 45 度
+          if (this.data.isLandscape !== isLandscape) {
+			this.setData({ isLandscape });
+			if (gamma > 0) {
+				this.setData({leftLandScape: true});
+			}
+			else if (gamma < 0) {
+				this.setData({leftLandScape: false});
+			}
+		  }
+		  console.log(isLandscape);
+        });
+      },
+      fail: (err) => {
+        console.error('设备方向监听失败:', err);
+      },
+    });
+  },
+
+
 getDistance: function(lat1, lng1, lat2, lng2) {
     // console.log(lat1, lng1, lat2, lng2);
     var radLat1 = this.Rad(lat1);
@@ -48,9 +80,11 @@ getDistance: function(lat1, lng1, lat2, lng2) {
   	eventChannel.once('polylineEvent', (sendPolyline) => {
 		// console.log('接收到的 polylineData:', sendPolyline.data);
 		let polylineArray = JSON.parse(sendPolyline.data);
+		let markersArray = JSON.parse(sendPolyline.mark);
 		// console.log(polylineArray);
 		this.setData({
-			polyline: polylineArray // 更新 polyline 数据
+			polyline: polylineArray, // 更新 polyline 数据
+			markers: markersArray
 		});
 		if (this.data.polyline != []) {
 			this.setData({isRouteVisible: true});
@@ -100,7 +134,8 @@ getDistance: function(lat1, lng1, lat2, lng2) {
     });
 
     this.startLocationMonitoring();
-    this.startCompassMonitoring();
+	this.startCompassMonitoring();
+	this.startListeningDeviceOrientation();
   },
 
   
@@ -234,6 +269,7 @@ getDistance: function(lat1, lng1, lat2, lng2) {
     ctx.takePhoto({
 	  quality: 'high',
 	  flash: 'off',
+	  resolution: 'high',
       success: (res) => {
         this.setData({
           tempImagePath: res.tempImagePath
@@ -296,7 +332,7 @@ getDistance: function(lat1, lng1, lat2, lng2) {
     // console.log("name: ", name, " distance: ", locationDataTmp[targetIndex]);
 
     // 2. 判断是否在附近（距离小于 25 米）
-    const isNearby = distance <= 25;
+    const isNearby = distance <= 70;
     locationDataTmp[targetIndex].isNearBy = isNearby;
     const dLat = (targetLatitude - latitude) * Math.PI / 180;
     const dLon = (targetLongitude - longitude) * Math.PI / 180;
@@ -324,8 +360,14 @@ getDistance: function(lat1, lng1, lat2, lng2) {
   showBuildingInfo: function() {
     this.setData({
 	  showPopup: true, // 显示浮动弹窗
-	  newBuilding: false
+	  newBuilding: false,
+	  showOverlay: true
     });
+  },
+
+  // 关闭遮罩层
+  closeOverlay() {
+    this.setData({ showOverlay: false });
   },
 
   // 关闭浮动弹窗
@@ -340,12 +382,14 @@ getDistance: function(lat1, lng1, lat2, lng2) {
       newBuilding: true  // 开始闪烁
     });
 
-    // 设置闪烁结束后恢复按钮状态
-    setTimeout(() => {
-      this.setData({
-        newBuilding: false  // 结束闪烁
+    wx.vibrateLong({
+        success: () => {
+          console.log('手机短振动成功');
+        },
+        fail: (err) => {
+          console.error('振动失败:', err);
+        },
       });
-    }, 10000);  // 假设10秒后结束闪烁
   },
 
   // 停止罗盘监听

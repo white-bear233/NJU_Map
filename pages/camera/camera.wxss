@@ -1,9 +1,9 @@
-
 .container {
   display: flex;
   flex-direction: column;
   height: 100vh; /* 适配屏幕高度 */
-  background-color: azure;
+  background: var(--theme-purple-gradient);
+  color: var(--text-color-light);
 }
 
 .camera {
@@ -55,12 +55,14 @@
   top: 65vh;
   height: 35vh;
   position: absolute;
+  visibility: visible;
 }
 
 .map {
   width: 100%;
   height: 100%;
 }
+
 
 .button-example {
 	height: 10%;
@@ -70,12 +72,31 @@
 
 }
 
-.take_photo_button {
+
+.take_photo_button_portrait {
 	position: absolute;
 	top: 26vh;  
 	left: 45%;
 	z-index: 10; /* 确保按钮在最上层 */
 }
+
+.take_photo_button_left {
+	position: absolute;
+	top: 26vh;  
+	left: 45%;
+	z-index: 10; /* 确保按钮在最上层 */  
+	transform: rotate(-90deg);
+}
+
+.take_photo_button_right {
+	position: absolute;
+	top: 26vh;  
+	left: 45%;
+	z-index: 10; /* 确保按钮在最上层 */  
+	transform: rotate(90deg);
+}
+
+
 
 .showBuildingData {
 	position: absolute;
@@ -88,39 +109,7 @@
 	z-index: 10; /* 确保按钮在最上层 */
   }
 
-  .popup {
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background-color: rgba(0, 0, 0, 0.5); /* 背景半透明 */
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	z-index: 1000; /* 确保浮动窗口位于最上层 */
-  }
-  
-  .popup-content {
-	background-color: white;
-	padding: 40rpx;
-	width: 80%;
-	border-radius: 10px;
-  }
-  
-  .popup-header {
-	font-size: 48rpx;
-	font-weight: bold;
-  }
-  
-  .popup-body {
-	margin-top: 20rpx;
-  }
-  
-  .popup-footer {
-	margin-top: 40rpx;
-	text-align: right;
-  }
+
 
   .buttonFlashing {
 	animation: buttonFlash 1s infinite;
@@ -140,7 +129,62 @@
 	  transform: scale(1);
 	}
 	}
+  /* 遮罩层样式 */
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
+  }
   
+  /* 信息窗口样式 */
+  .info-window {
+	width: 80%;
+	background-color: #ffffff;
+	padding: 20rpx;
+	border-radius: 16rpx;
+	height: 50%;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .info-header {
+	font-size: 40rpx;
+	font-weight: bold;
+	margin-bottom: 16rpx;
+	color: #333333;
+	text-align: center;
+  }
+  
+  .info-body {
+	font-size: 28rpx;
+	color: #666666;
+	text-align: center;
+	margin-bottom: 20rpx;
+	height: 90%;
+  }
+  .info-footer {
+	text-align: center;
+	position: relative;
+	margin: 10%;
+	width: 40%;
+	left: 20%;
+  }
+
+  .building_left{
+	transform: rotate(-90deg);
+  }
+
+  .building_right {
+	transform: rotate(90deg);
+  }
+
+
   
 
 

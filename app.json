@@ -23,7 +23,8 @@
 
 	"t-icon": "tdesign-miniprogram/icon/icon",
 	"t-button": "tdesign-miniprogram/button/button",
-    "t-link": "tdesign-miniprogram/link/link"
+	"t-link": "tdesign-miniprogram/link/link",
+	"t-badge": "tdesign-miniprogram/badge/badge"
 
   }
 }

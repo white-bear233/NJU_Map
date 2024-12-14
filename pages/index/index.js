@@ -401,11 +401,12 @@ Page({
   },
   startNavigate: function() {
 	const polylineData = JSON.stringify(this.data.polyline); // 将 polyline 转换为 JSON 字符串
+	const markData = JSON.stringify(this.data.markers);
     // 使用 wx.navigateTo 跳转页面并传递 polyline 数据
     wx.navigateTo({
 	  url: '/pages/camera/camera',
 	  success: function (res) {
-		const sendPolyline = { data: polylineData }; 
+		const sendPolyline = { data: polylineData, mark: markData}; 
     	res.eventChannel.emit('polylineEvent', sendPolyline);
 	 }   
     });

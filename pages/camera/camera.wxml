@@ -9,19 +9,24 @@
 	<view class="flash-overlay" wx:if="{{isFlashing}}"></view>
   </camera>
   <view class="showBuildingData">
-  <t-button theme="primary" icon="building" shape="circle" size="medium" aria-label="建筑信息" bindtap="showBuildingInfo" class="{{newBuilding ? 'buttonFlashing' : ''}}"></t-button>
+	<view class="demo-wrapper">
+		<t-badge 
+		count = "{{newBuilding ? 'NEW' : '0'}}"
+		offset="{{ [-5, 3] }}" ariaRole="button" size = "medium">
+			<t-button theme="primary" icon="building" shape="circle" size="medium" aria-label="建筑信息" bindtap="showBuildingInfo" class = "{{isLandscape ? (leftLandScape ? 'building_left' : 'building_right') : 'building_portrait'}}"></t-button>
+		</t-badge>
 	</view>
-	<!-- 自定义浮动窗口 -->
-	<view class="popup" wx:if="{{showPopup}}">
-    <view class="popup-content">
-      <view class="popup-header">
+	</view>
+  <view class="overlay" wx:if="{{showOverlay}}">
+    <view class="info-window">
+      <view class="info-header">
         <text>{{buildingInfo.name}}</text>
       </view>
-      <view class="popup-body">
+      <view class="info-body">
         <text>{{buildingInfo.description}}</text>
       </view>
-      <view class="popup-footer">
-        <button bindtap="closePopup">关闭</button>
+      <view class="info-footer">
+        <t-button theme="primary" shape = "round" block bindtap="closeOverlay">关闭</t-button>
       </view>
     </view>
   </view>
@@ -39,7 +44,7 @@
       show-location="true" 
 	  polyline="{{polyline}}"
       markers="{{markers}}">
-	  <t-button theme="primary" icon="camera" shape="circle" size="large" aria-label="拍照" bindtap="takePhoto" class = "take_photo_button"></t-button>
+	  <t-button theme="primary" icon="camera" shape="circle" size="large" aria-label="拍照" bindtap="takePhoto" class = "{{isLandscape ? (leftLandScape ? 'take_photo_button_left' : 'take_photo_button_right') : 'take_photo_button_portrait'}}"></t-button>
     </map>
   </view>
 </view>
