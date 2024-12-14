@@ -19,8 +19,10 @@ Page({
 	showPopup: false, // 控制弹窗显示与否
     buildingInfo: {
       name: "南京大学鼓楼校区",
-      description: "诚朴雄伟，励学敦行",
+	  description: "诚朴雄伟，励学敦行",
+	  image:null,
 	},
+	errorMsg: '', // 错误信息，显示查询失败时的提示
 	newBuilding: false, // 周围是否有新建筑
 	showOverlay: false, // 控制遮罩层显示
 	isLandscape: false, // 横屏标记
@@ -32,6 +34,9 @@ Page({
 },
 
 startListeningDeviceOrientation() {
+
+
+
     wx.startDeviceMotionListening({
       interval: 'normal',
       success: () => {
@@ -59,6 +64,72 @@ startListeningDeviceOrientation() {
   },
 
 
+
+ onQueryBuilding:function () {
+	const buildingName = this.data.buildingInfo.name;
+    if (!buildingName) {
+      wx.showToast({
+        title: '请输入楼宇名称',
+        icon: 'none',
+      });
+      return;
+    }
+
+    // 发起网络请求，传递查询参数
+    wx.request({
+      url: `http://localhost:8080/api/buildings/getBuilding`, // 后端接口地址
+      method: 'GET',
+      data: {
+        name: buildingName, // 将用户输入的楼宇名称作为查询参数传递
+      },
+      success: (res) => {
+        console.log(res); // 打印整个响应结果
+        if (res.statusCode === 200) {
+          if (res.data.code === "000") {
+            // 请求成功，更新页面的数据
+            this.setData({
+				buildingInfo: {
+					name: buildingName,
+					description: res.data.description,
+					image: res.data.image,
+					// name: "老八总部",
+					// description: "老八老八"
+				},
+              errorMsg: '', // 清空错误信息
+            });
+          } else {
+            // 如果返回的 code 不是 "000"，说明查询失败
+            this.setData({
+              buildingInfo: null, // 清空建筑信息
+              errorMsg: res.data.msg || '查询失败，请重试', // 设置错误信息
+            });
+            wx.showToast({
+              title: res.data.msg || '查询失败',
+              icon: 'none',
+            });
+          }
+        } else {
+          console.error('请求失败:', res.data.msg);
+          wx.showToast({
+            title: '查询失败',
+            icon: 'none',
+          });
+        }
+      },
+      fail: (error) => {
+		console.log("building Name: ", buildingName);
+        console.error('请求失败:', error);
+        wx.showToast({
+          title: '请求失败',
+          icon: 'none',
+        });
+      },
+    });
+  },
+
+
+
+  
 getDistance: function(lat1, lng1, lat2, lng2) {
     // console.log(lat1, lng1, lat2, lng2);
     var radLat1 = this.Rad(lat1);
@@ -142,13 +213,20 @@ getDistance: function(lat1, lng1, lat2, lng2) {
 
   // 开始位置监听
   startLocationMonitoring() {
-    const that = this;
 
+	const that = this;
+	this.setData({
+		buildingInfo:{
+			name:"中山楼"
+		}
+	})
+	this.onQueryBuilding(""); // 用于测试
+	
     // 检查权限
     wx.authorize({
       scope: 'scope.userLocation',
       success() {
-        // 启动实时位置监听
+		// 启动实时位置监听
         wx.startLocationUpdate({
           success() {
             wx.onLocationChange((res) => {
@@ -170,11 +248,12 @@ getDistance: function(lat1, lng1, lat2, lng2) {
 							indexOfShowingBuilding: index,
 							buildingInfo: {
 								name: that.data.locationData[index].name,
-								description: that.data.locationData[index].description,
+								// description: that.data.locationNum[index].description,
 								// name: "老八总部",
 								// description: "老八老八"
 							}
 						})
+						that.onQueryBuilding();
 					}
 				}
 				if (that.data.locationData[index].distance < nearestBuildingDistance) {
@@ -217,17 +296,22 @@ getDistance: function(lat1, lng1, lat2, lng2) {
 	  });
       for (let index = 0; index < this.data.locationNum; index++) {
 		  this.checkProximityAndDirection(index); // 更新距离和方向 
+		
+
 		  if (this.data.locationData[index].isNearBy && this.data.locationData[index].isFacing) {
 			if (this.data.indexOfShowingBuilding != index) {
+
+
 				this.setData({
 					indexOfShowingBuilding: index,
 					buildingInfo: {
 						name: this.data.locationData[index].name,
-						description: this.data.locationData[index].description,
+						// description: this.data.locationData[index].description,
 						// name: "老八总部",
 						// description: "老八老八"
 					}
 				})
+				this.onQueryBuilding();
 				this.toggleNewBuilding();
 				break;
 			}
