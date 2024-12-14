@@ -67,6 +67,7 @@ startListeningDeviceOrientation() {
 
  onQueryBuilding:function () {
 	const buildingName = this.data.buildingInfo.name;
+	console.log("Enter", buildingName);
     if (!buildingName) {
       wx.showToast({
         title: '请输入楼宇名称',
@@ -74,16 +75,17 @@ startListeningDeviceOrientation() {
       });
       return;
     }
-
+	console.log("Enter1", buildingName);
     // 发起网络请求，传递查询参数
     wx.request({
-      url: `http://localhost:8080/api/buildings/getBuilding`, // 后端接口地址
+      url: `http://172.29.4.191:8080/api/buildings/getBuilding`, // 后端接口地址
       method: 'GET',
       data: {
         name: buildingName, // 将用户输入的楼宇名称作为查询参数传递
       },
       success: (res) => {
-        console.log(res); // 打印整个响应结果
+		console.log("Enter3", buildingName);
+        console.log("RES", res); // 打印整个响应结果
         if (res.statusCode === 200) {
           if (res.data.code === "000") {
             // 请求成功，更新页面的数据
@@ -96,9 +98,11 @@ startListeningDeviceOrientation() {
 					// description: "老八老八"
 				},
               errorMsg: '', // 清空错误信息
-            });
+			});
+			console.log("des: ", this.data.buildingInfo.description);
           } else {
-            // 如果返回的 code 不是 "000"，说明查询失败
+			// 如果返回的 code 不是 "000"，说明查询失败
+			console.log("EEEEEE");
             this.setData({
               buildingInfo: null, // 清空建筑信息
               errorMsg: res.data.msg || '查询失败，请重试', // 设置错误信息
@@ -117,6 +121,8 @@ startListeningDeviceOrientation() {
         }
       },
       fail: (error) => {
+		console.log("Enter4", buildingName);
+		console.log("EEEEEE");
 		console.log("building Name: ", buildingName);
         console.error('请求失败:', error);
         wx.showToast({
