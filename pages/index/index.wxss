@@ -26,7 +26,7 @@
 /* movable-area 样式 */
 .movable-area {
   width: 100%;
-  height: 2%;
+  height: 0%;
   position: fixed;
   bottom: 0;
   pointer-events: none;  /* 默认不响应事件 */
@@ -185,6 +185,60 @@
 .goButton{
   position: absolute;
   height: 28px; 
-  right: 10px; 
-  bottom: 10px;
+  right: 3%; 
+  bottom: 5%;
+}
+/* 遮罩层样式 */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  }
+/* 信息窗口样式 */
+.info-window {
+  overflow-y: auto; /* 启用垂直滚动 */
+  overflow-x: hidden; /* 禁用水平滚动 */
+  width: 80%;
+  background-color: #ffffff;
+  padding: 20rpx;
+  border-radius: 16rpx;
+  height: 70%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+/* 顶栏布局 */
+.top-bar {
+  display: flex;
+  justify-content: center; /* 中心对齐整个内容 */
+  align-items: center; /* 垂直居中 */
+  padding: 5px;
+  width: 100%; /* 父容器宽度 */
+  position: relative; /* 使得关闭按钮相对定位 */
+}
+
+/* 标题居中 */
+.title {
+  text-align: center; /* 标题文本居中 */
+  font-weight: bold;
+  color: rgb(14, 226, 120); /* 设置标题颜色 */
+  flex: 1; /* 确保标题占据容器内所有空间 */
+}
+
+/* 关闭按钮设置右对齐 */
+.close-button {
+  position: absolute;
+  right: 10px; /* 右侧 10px */
+  z-index: 10;
+}
+
+/* 关闭按钮样式 */
+.t-icon {
+  width: 25px;
+  height: 25px;
 }
