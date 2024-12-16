@@ -221,7 +221,7 @@ page {
 	background-color: #ffffff;
 	padding: 20rpx;
 	border-radius: 16rpx;
-	height: 60%;
+	height: 65%;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 	animation: fadeSlideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	backdrop-filter: blur(5px);

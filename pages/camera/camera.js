@@ -386,7 +386,10 @@ getDistance: function(lat1, lng1, lat2, lng2) {
 		});
 		console.log("拍照成功", res.tempImagePath);
 		// 上传图片到服务器
-		this.uploadImageToServer(res.tempImagePath, this.data.buildingInfo.name);
+		const openId = getApp().globalData.openId;
+		console.log("OpenId: ", openId);
+		this.uploadImageToServer(res.tempImagePath, openId); // 登录上传
+		// this.uploadImageToServer(res.tempImagePath, this.data.buildingInfo.name); // 不登录上传
 		// 保存图片到本地相册
 		wx.saveImageToPhotosAlbum({
 			filePath: res.tempImagePath, // 使用拍摄后返回的图片路径
