@@ -23,7 +23,9 @@
 		offset="{{ [-5, 3] }}" ariaRole="button" size = "medium">
 			<t-button theme="primary" icon="building" shape="circle" size="medium" aria-label="建筑信息" bindtap="showBuildingInfo" class = "{{isLandscape ? (leftLandScape ? 'building_left' : 'building_right') : 'building_portrait'}}"></t-button>
 		</t-badge>
+		<!-- 照片墙按钮 -->
 	</view>
+	<t-button theme="primary" icon="image-search"  shape="circle" bindtap="getPicture" class = "{{isLandscape ? (leftLandScape ? 'building_left' : 'building_right') : 'building_portrait'}}"></t-button>
 	</view>
   <view class="overlay" wx:if="{{showOverlay}}">
     <view class="{{isLandscape ? 'info-window-landscape' : 'info-window'}}">
@@ -105,7 +107,9 @@
       show-location="true" 
 	  polyline="{{polyline}}"
       markers="{{markers}}">
+	  <!-- :center= "center"> -->
     </map>
 	<t-button theme="primary" icon="camera" shape="circle" size="large" aria-label="拍照" bindtap="takePhoto" class = "{{isLandscape ? (leftLandScape ? 'take_photo_button_left' : 'take_photo_button_right') : 'take_photo_button_portrait'}}"></t-button>
+
   </view>
 </view>

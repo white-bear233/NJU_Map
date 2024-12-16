@@ -1,8 +1,12 @@
 Page({
   data: {
-    cameraStatus: '相机加载中...', // 初始化状态
+	cameraStatus: '相机加载中...', // 初始化状态
     latitude: '',
-    longitude: '',
+	longitude: '',
+	center: {
+		latitude: '',
+		longitude: '',
+	},
     targetLatitude: '', // 目标纬度
     targetLongitude: '', // 目标经度
     isFacingBuilding: false, // 是否朝向目标
@@ -208,10 +212,17 @@ getDistance: function(lat1, lng1, lat2, lng2) {
     wx.getLocation({
       type: 'wgs84', // 默认类型
       success: function (res) {
-        that.setData({
-          latitude: res.latitude, // 设置当前纬度
-          longitude: res.longitude // 设置当前经度
-        });
+		// if (res.latitude != that.data.latitude && res.longitude != that.data.longitude) {
+			that.setData({
+			latitude: res.latitude, // 设置当前纬度
+			longitude: res.longitude // 设置当前经度
+			});
+
+			        // 获取地图上下文对象
+					const mapCtx = wx.createMapContext('map');
+					// 将地图移动到当前位置
+					mapCtx.moveToLocation();
+		// }
     //    console.log(res.latitude + " " + res.longitude);
       },
       fail: function (err) {
@@ -255,10 +266,16 @@ getDistance: function(lat1, lng1, lat2, lng2) {
         wx.startLocationUpdate({
           success() {
             wx.onLocationChange((res) => {
-              that.setData({
-                latitude: res.latitude,
-                longitude: res.longitude
-			  });
+				console.log("LASSS: ", res.latitude);
+				console.log("LOSSS: ", res.longitude);
+			// if (res.latitude != that.data.latitude && res.longitude != that.data.longitude) {
+				console.log("LA: ", res.latitude);
+				console.log("LO: ", res.longitude);
+				that.setData({
+					latitude: res.latitude,
+					longitude: res.longitude
+				});
+			// }
 			  var nearbyBuilding = false;
 			  var nearestBuildingIndex = -1;
 			  var nearestBuildingDistance = 10000;
@@ -581,6 +598,20 @@ uploadImageToServer(imagePath, fileName) {
         },
       });
   },
+
+  //点击打开照片墙
+  getPicture(){
+		console.log("1111");
+		wx.navigateTo({
+		url: "/pages/pictureWall/pictureWall",
+		success() {
+			console.log("页面跳转成功");
+		},
+		fail(err) {
+			console.error("页面跳转失败", err);
+		},
+		});
+	},
 
   // 停止罗盘监听
   stopCompass() {
