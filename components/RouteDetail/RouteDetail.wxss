@@ -3,7 +3,6 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  margin-top: 10px;
   padding: 20px;
 }
 
@@ -46,12 +45,7 @@
   font-size: 14px;
 }
 
-.image {
-  margin-top: 15px;
-  border-radius: 10px; /* 设置圆角 */
-  border: 3px solid rgb(106, 0, 95); /* 紫色边框 */
-  margin-top: 15px;
-}
+
 
 .section {
   font-size: 12px;
@@ -68,4 +62,24 @@
 .highlight {
   color: rgb(106, 0, 95);
   font-weight: bold;
+}
+
+/* 父容器 */
+.tab-panel {
+  overflow-y: auto; /* 启用垂直滚动 */
+  flex-direction: column; /* 垂直布局 */
+  justify-content: center; /* 垂直方向上的居中 */
+  align-items: center;    /* 水平方向上的居中 */
+}
+
+.image {
+  margin-top: 15px;
+  border-radius: 10px; /* 设置圆角 */
+  border: 3px solid rgb(106, 0, 95); /* 紫色边框 */
+  width: 95%;
+  
+}
+
+.tabs{
+  overflow-y: auto; /* 启用垂直滚动 */
 }
