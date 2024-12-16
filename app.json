@@ -1,5 +1,6 @@
 {
   "pages": [
+	"pages/start/start",
     "pages/index/index",
     "pages/camera/camera",
     "pages/getInfo/getInfo",
@@ -21,10 +22,12 @@
   },
   "usingComponents": {
 
-    "t-icon": "tdesign-miniprogram/icon/icon",
-    "t-button": "tdesign-miniprogram/button/button",
-    "t-link": "tdesign-miniprogram/link/link",
-    "t-badge": "tdesign-miniprogram/badge/badge"
+	"t-icon": "tdesign-miniprogram/icon/icon",
+	"t-button": "tdesign-miniprogram/button/button",
+	"t-link": "tdesign-miniprogram/link/link",
+	"t-badge": "tdesign-miniprogram/badge/badge",
+	"t-swiper": "tdesign-miniprogram/swiper/swiper",
+  	"t-swiper-nav": "tdesign-miniprogram/swiper-nav/swiper-nav"
 
   }
 }

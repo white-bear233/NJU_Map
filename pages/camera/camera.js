@@ -1,8 +1,12 @@
 Page({
   data: {
-    cameraStatus: '相机加载中...', // 初始化状态
+	cameraStatus: '相机加载中...', // 初始化状态
     latitude: '',
-    longitude: '',
+	longitude: '',
+	center: {
+		latitude: '',
+		longitude: '',
+	},
     targetLatitude: '', // 目标纬度
     targetLongitude: '', // 目标经度
     isFacingBuilding: false, // 是否朝向目标
@@ -20,18 +24,34 @@ Page({
     buildingInfo: {
       name: "南京大学鼓楼校区",
 	  description: "诚朴雄伟，励学敦行",
-	  image:null,
+	  image:[],
 	},
 	errorMsg: '', // 错误信息，显示查询失败时的提示
 	newBuilding: false, // 周围是否有新建筑
 	showOverlay: false, // 控制遮罩层显示
 	isLandscape: false, // 横屏标记
 	leftLandScape: true, // 向哪边横屏
+	  // 竖屏地图样式
+	photoList: [],
+	current: 0,
+    autoplay: false,
+    duration: 500,
+    interval: 5000,
   },
 
   Rad: function(d) { //根据经纬度判断距离
     return d * Math.PI / 180.0;
 },
+
+onChange(e) {
+	const {
+	  detail: { current, source },
+	} = e;
+	console.log(current, source);
+},
+
+
+
 
 startListeningDeviceOrientation() {
 
@@ -76,6 +96,7 @@ startListeningDeviceOrientation() {
       return;
     }
 	console.log("Enter1", buildingName);
+	var buildingInfoTmp;
     // 发起网络请求，传递查询参数
     wx.request({
       url: `http://172.29.4.191:8080/api/buildings/getBuilding`, // 后端接口地址
@@ -88,12 +109,12 @@ startListeningDeviceOrientation() {
         console.log("RES", res); // 打印整个响应结果
         if (res.statusCode === 200) {
           if (res.data.code === "000") {
-            // 请求成功，更新页面的数据
+			// 请求成功，更新页面的数据
             this.setData({
 				buildingInfo: {
 					name: buildingName,
-					description: res.data.description,
-					image: res.data.image,
+					description: res.data.result.description,
+					image: res.data.result.image,
 					// name: "老八总部",
 					// description: "老八老八"
 				},
@@ -153,6 +174,8 @@ getDistance: function(lat1, lng1, lat2, lng2) {
   onLoad(options) {
 	// 获得路线
 	// 获取 polyline 参数并进行解析
+	// this.getPhotosByOpenId("斗鸡闸");
+	console.log("PHOTO: ", this.data.photoList);
 	const eventChannel = this.getOpenerEventChannel();
   	eventChannel.once('polylineEvent', (sendPolyline) => {
 		// console.log('接收到的 polylineData:', sendPolyline.data);
@@ -189,10 +212,17 @@ getDistance: function(lat1, lng1, lat2, lng2) {
     wx.getLocation({
       type: 'wgs84', // 默认类型
       success: function (res) {
-        that.setData({
-          latitude: res.latitude, // 设置当前纬度
-          longitude: res.longitude // 设置当前经度
-        });
+		// if (res.latitude != that.data.latitude && res.longitude != that.data.longitude) {
+			that.setData({
+			latitude: res.latitude, // 设置当前纬度
+			longitude: res.longitude // 设置当前经度
+			});
+
+			        // 获取地图上下文对象
+					const mapCtx = wx.createMapContext('map');
+					// 将地图移动到当前位置
+					mapCtx.moveToLocation();
+		// }
     //    console.log(res.latitude + " " + res.longitude);
       },
       fail: function (err) {
@@ -236,10 +266,16 @@ getDistance: function(lat1, lng1, lat2, lng2) {
         wx.startLocationUpdate({
           success() {
             wx.onLocationChange((res) => {
-              that.setData({
-                latitude: res.latitude,
-                longitude: res.longitude
-			  });
+				console.log("LASSS: ", res.latitude);
+				console.log("LOSSS: ", res.longitude);
+			// if (res.latitude != that.data.latitude && res.longitude != that.data.longitude) {
+				console.log("LA: ", res.latitude);
+				console.log("LO: ", res.longitude);
+				that.setData({
+					latitude: res.latitude,
+					longitude: res.longitude
+				});
+			// }
 			  var nearbyBuilding = false;
 			  var nearestBuildingIndex = -1;
 			  var nearestBuildingDistance = 10000;
@@ -318,6 +354,7 @@ getDistance: function(lat1, lng1, lat2, lng2) {
 					}
 				})
 				this.onQueryBuilding();
+				console.log("discription: ", this.data.buildingInfo.description);
 				this.toggleNewBuilding();
 				break;
 			}
@@ -365,6 +402,11 @@ getDistance: function(lat1, lng1, lat2, lng2) {
           tempImagePath: res.tempImagePath
 		});
 		console.log("拍照成功", res.tempImagePath);
+		// 上传图片到服务器
+		const openId = getApp().globalData.openId;
+		console.log("OpenId: ", openId);
+		this.uploadImageToServer(res.tempImagePath, openId); // 登录上传
+		// this.uploadImageToServer(res.tempImagePath, this.data.buildingInfo.name); // 不登录上传
 		// 保存图片到本地相册
 		wx.saveImageToPhotosAlbum({
 			filePath: res.tempImagePath, // 使用拍摄后返回的图片路径
@@ -395,6 +437,81 @@ getDistance: function(lat1, lng1, lat2, lng2) {
 	  },
     })
   },
+
+
+  // 上传图片到后端服务器
+uploadImageToServer(imagePath, fileName) {
+	console.log("ImagePath: ", imagePath);
+	console.log("fileName: ", fileName);
+	wx.uploadFile({
+	  url: 'http://172.29.4.191:8080/api/photos/upload', // 替换成你的服务器接口地址
+	  filePath: imagePath,  // 拍照后得到的图片路径
+      name: 'file',         // 后端接收文件的字段名
+	  formData: {
+		openId: fileName,     // 传递 openId 给后端
+	  },
+	  success: (res) => {
+		console.log('上传成功', res);
+		const data = JSON.parse(res.data);  // 假设后端返回的是 JSON 格式
+		if (data.code === '000') {
+		  wx.showToast({
+			title: '上传成功',
+			icon: 'success',
+			duration: 2000
+		  });
+		} else {
+		  wx.showToast({
+			title: '上传失败',
+			icon: 'none',
+			duration: 2000
+		  });
+		}
+	  },
+	  fail: (err) => {
+		console.log('上传失败', err);
+		wx.showToast({
+		  title: '上传失败',
+		  icon: 'none',
+		  duration: 2000
+		});
+	  }
+	});
+  },
+
+
+  getPhotosByOpenId(openId) {
+	wx.request({
+	  url: 'http://172.29.4.191:8080/api/photos/getPhotosByOpenId',  // 替换为你的后端接口地址
+	  method: 'GET',
+	  data: {
+		openId: openId  // 传递 openId 参数
+	  },
+	  success: (res) => {
+		console.log('照片列表:', res.data);
+		if (res.data.code === '000') {
+		  // 请求成功，处理返回的数据
+		  const photos = res.data.result;
+		  // 假设你将这些照片显示在页面上
+		  this.setData({
+			photoList: photos
+		  });
+		} else {
+		  wx.showToast({
+			title: '获取图片失败',
+			icon: 'none'
+		  });
+		}
+	  },
+	  fail: (error) => {
+		console.error('请求失败:', error);
+		wx.showToast({
+		  title: '网络请求失败',
+		  icon: 'none'
+		});
+	  }
+	})
+  },
+  
   
   
 
@@ -481,6 +598,20 @@ getDistance: function(lat1, lng1, lat2, lng2) {
         },
       });
   },
+
+  //点击打开照片墙
+  getPicture(){
+		console.log("1111");
+		wx.navigateTo({
+		url: "/pages/pictureWall/pictureWall",
+		success() {
+			console.log("页面跳转成功");
+		},
+		fail(err) {
+			console.error("页面跳转失败", err);
+		},
+		});
+	},
 
   // 停止罗盘监听
   stopCompass() {
