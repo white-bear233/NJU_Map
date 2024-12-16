@@ -1,7 +1,7 @@
 {
   "pages": [
-	"pages/index/index",
-	"pages/camera/camera",
+    "pages/index/index",
+    "pages/camera/camera",
     "pages/getInfo/getInfo",
     "pages/RouteDetail/RouteDetail",
     "pages/pictureWall/pictureWall"
@@ -21,10 +21,10 @@
   },
   "usingComponents": {
 
-	"t-icon": "tdesign-miniprogram/icon/icon",
-	"t-button": "tdesign-miniprogram/button/button",
-	"t-link": "tdesign-miniprogram/link/link",
-	"t-badge": "tdesign-miniprogram/badge/badge"
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-button": "tdesign-miniprogram/button/button",
+    "t-link": "tdesign-miniprogram/link/link",
+    "t-badge": "tdesign-miniprogram/badge/badge"
 
   }
 }
