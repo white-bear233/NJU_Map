@@ -4,6 +4,7 @@ import amapFile from '../../libs/amap-wx.130';
 let isLocked = false; // 定义锁
 Page({
   data: {
+    showOverlay: false,
     markers: [],
     latitude: '',
     longitude: '',
@@ -371,16 +372,25 @@ Page({
     this.stopCompass();
   },
   onLinkClick() {
-    console.log("1111");
-    wx.navigateTo({
-      url: "/pages/RouteDetail/RouteDetail",
-      success() {
-        console.log("页面跳转成功");
-      },
-      fail(err) {
-        console.error("页面跳转失败", err);
-      },
-    });
+    this.setData({
+      showOverlay:true
+    })
+    // console.log("1111");
+    // wx.navigateTo({
+    //   url: "/pages/RouteDetail/RouteDetail",
+    //   success() {
+    //     console.log("页面跳转成功");
+    //   },
+    //   fail(err) {
+    //     console.error("页面跳转失败", err);
+    //   },
+    // });
+  },
+
+  closeDialog(){
+    this.setData({
+      showOverlay:false
+    })   
   },
   onDrawerChange(e) {
     const {y} = e.detail;
