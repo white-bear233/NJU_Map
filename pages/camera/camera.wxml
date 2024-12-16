@@ -1,3 +1,11 @@
+<view class="photo-gallery">
+  <!-- 使用 wx:for 循环遍历 photoList 并显示每张图片 -->
+  <block wx:for="{{photoList}}" wx:key="index">
+    <image src="{{item}}" mode="aspectFill" class="photo-item" />
+  </block>
+</view>
+ <!--测试获取图片接口-->
+
 <view class="container">
   <!-- 相机实时画面 -->
   <camera 
@@ -18,12 +26,65 @@
 	</view>
 	</view>
   <view class="overlay" wx:if="{{showOverlay}}">
-    <view class="info-window">
+    <view class="{{isLandscape ? 'info-window-landscape' : 'info-window'}}">
       <view class="info-header">
-        <text>{{buildingInfo.name}}</text>
+        <text class="title">{{buildingInfo.name}}</text>
       </view>
+
+
+
+
       <view class="info-body">
-        <text>{{buildingInfo.description}}</text>
+        <scroll-view scroll-y="true" style="height: 100%;">
+
+
+			<t-swiper
+				class="scale-card-theme"
+				current="{{current}}"
+				autoplay="{{autoplay}}"
+				duration="{{duration}}"
+				interval="{{interval}}"
+				bindchange="onChange"
+				navigation="{{ { type: 'dots' } }}"
+				list="{{buildingInfo.image}}"
+				image-props="{{ { shape: 'round' } }}"
+				previousMargin="34px"
+				nextMargin="34px"
+				t-class-nav="card-theme-nav"
+				t-class-prev-image="scale-candidate"
+				t-class-next-image="scale-candidate">
+
+				
+				</t-swiper>
+
+
+
+			<!-- <swiper class="image-carousel" indicator-dots="true" autoplay="true" interval="3000" circular="true">
+		<swiper-item>
+			<image class="image" src="{{buildingInfo.image[0]}}" />
+		</swiper-item>
+		<swiper-item>
+			<image class="image" src="{{buildingInfo.image[1]}}" />
+		</swiper-item>
+		<swiper-item>
+			<image class="image" src="{{buildingInfo.image[2]}}" />
+		</swiper-item>
+		<swiper-item>
+			<image class="image" src="{{buildingInfo.image[3]}}" />
+		</swiper-item>
+		</swiper> -->
+			<view class="section">
+				<view class="paragraph">
+					<text >{{buildingInfo.description}}</text>
+				</view>
+			</view>
+    	</scroll-view>
+
+		<!-- <swiper class="image-carousel" indicator-dots="true" autoplay="true" interval="3000" circular="true">
+			<swiper-item wx:for="{{images}}" wx:key="index">
+				<image class="image" src="{{item}}" />
+			</swiper-item>
+		</swiper> -->
       </view>
       <view class="info-footer">
         <t-button theme="primary" shape = "round" block bindtap="closeOverlay">关闭</t-button>
@@ -44,7 +105,7 @@
       show-location="true" 
 	  polyline="{{polyline}}"
       markers="{{markers}}">
-	  <t-button theme="primary" icon="camera" shape="circle" size="large" aria-label="拍照" bindtap="takePhoto" class = "{{isLandscape ? (leftLandScape ? 'take_photo_button_left' : 'take_photo_button_right') : 'take_photo_button_portrait'}}"></t-button>
     </map>
+	<t-button theme="primary" icon="camera" shape="circle" size="large" aria-label="拍照" bindtap="takePhoto" class = "{{isLandscape ? (leftLandScape ? 'take_photo_button_left' : 'take_photo_button_right') : 'take_photo_button_portrait'}}"></t-button>
   </view>
 </view>
