@@ -21,7 +21,7 @@
         disabled="{{isMovableViewDisabled}}">
         
             <!-- 推荐路线按钮 -->
-        <button class="recommend-route-button" bindtap="onShowDrawer" style="position: absolute; left: 644rpx; top: -80rpx">
+        <button class="recommend-route-button" bindtap="onShowDrawer" style="position: absolute; left: 645rpx; top: -100rpx">
           <t-icon name="subway-line" size="25px" color="white" />
         </button> 
 
@@ -40,7 +40,7 @@
           <!-- 标题居中 -->
           <text class="title" style="height: 30px;">推荐路线</text>
           <view class="close-button" >
-                <t-button theme="success" size="small" style="background-color: rgb(14, 226, 120); color: white;" catchtap="startNavigate">开始导览</t-button>
+                <t-button theme="success" size="small" style="background-color: rgb(185, 63, 173); color: white;" catchtap="startNavigate">开始导览</t-button>
           </view>
         </view>
           <!-- 使用 scroll-view 来处理滚动 -->

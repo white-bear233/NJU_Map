@@ -248,7 +248,9 @@ Page({
           content: err.errMsg
         });
       }
+      
     });
+
     wx.onCompassChange((res) => {
       this.setData({
         direction: res.direction
@@ -264,9 +266,22 @@ Page({
       areaHeight :1.2*screenHeight,
       areaTop:0.4*screenHeight
     });
-
-
   },
+    // 获取当前位置
+    getLocation: function () {
+      wx.getLocation({
+        type: 'wgs84',
+        success: (res) => {
+          this.setData({
+            latitude: res.latitude,
+            longitude: res.longitude,
+          });
+        },
+        fail: (err) => {
+          console.error('获取位置失败', err);
+        }
+      });
+    },
   // 添加标记点到路线
   addMarkersToRoute() {
     const customRoutePoints = [
@@ -369,6 +384,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload() {
+    clearInterval(this.updateLocationInterval);
     this.stopCompass();
   },
   onLinkClick() {
