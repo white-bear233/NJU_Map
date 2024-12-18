@@ -1,9 +1,11 @@
 {
   "pages": [
-	"pages/index/index",
-	"pages/camera/camera",
+	"pages/start/start",
+    "pages/index/index",
+    "pages/camera/camera",
     "pages/getInfo/getInfo",
-    "pages/RouteDetail/RouteDetail"
+    "pages/RouteDetail/RouteDetail",
+    "pages/pictureWall/pictureWall"
   ],
   "window": {
     "navigationBarTitleText": "校园导览"
@@ -22,7 +24,10 @@
 
 	"t-icon": "tdesign-miniprogram/icon/icon",
 	"t-button": "tdesign-miniprogram/button/button",
-    "t-link": "tdesign-miniprogram/link/link"
+	"t-link": "tdesign-miniprogram/link/link",
+	"t-badge": "tdesign-miniprogram/badge/badge",
+	"t-swiper": "tdesign-miniprogram/swiper/swiper",
+  	"t-swiper-nav": "tdesign-miniprogram/swiper-nav/swiper-nav"
 
   }
 }

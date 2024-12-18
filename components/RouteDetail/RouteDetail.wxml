@@ -1,0 +1,183 @@
+<t-tabs animation="{{ { duration: 0.6 } }}" defaultValue="{{0}}" bind:change="onTabsChange" bind:click="onTabsClick" t-class="custom-tabs" t-class-content="custom-panel" class=" tabs">
+  <t-tab-panel label="汉口路校门" value="0" class="tab-panel">
+    <view class="number-box">
+      <view class="number">
+        <text class="number-text">01</text>
+      </view>
+    </view>
+    <view class="text-box">
+      <view class="text">
+        <text class="title">汉口路校门</text>
+        <text class="subtitle">——叩开南大人的荣光记忆</text>
+      </view>
+    </view>
+    <image class="image" src="https://box.nju.edu.cn/f/9701fc9c6a274813adba/?dl=1" alt="汉口路校门" />
+    <view class="section">
+      <view class="paragraph">
+        <text>建于1959年国庆佳节的汉口路校门，是我们的第一站。作为南园、北园的分界线，汉口路校门矗立经年，静静地诉说着伟岸和庄重，在历史的长河中注视一代又一代南大人。两侧立柱上
+          <text class="highlight">“团结紧张”、“严肃活泼”的毛体手书浮雕</text>，磅礴酣畅，雄伟肃穆，展示着南大的气概和襟怀。</text>
+      </view>
+    </view>
+  </t-tab-panel>
+  <t-tab-panel label="二源壁" value="1" class="tab-panel">
+
+    <view class="number-box">
+      <view class="number">
+        <text class="number-text">02</text>
+      </view>
+    </view>
+    <view class="text-box">
+      <view class="text">
+        <text class="title">二源壁</text>
+        <text class="subtitle">——碑石裂痕间，寻根源头处</text>
+      </view>
+    </view>
+    <image class="image" src="https://box.nju.edu.cn/f/e742a08b0adc47ba9770/?dl=1" alt="汉口路校门" />
+    <view class="section">
+      <view class="paragraph">
+        <text>在鼓楼校区北园，矗立着一块印满时光记忆的“二源壁”。它
+          <text class="highlight">一面刻着“两江师范学堂”，一面刻着“金陵大学堂”，分别代表南京大学的两个源头。</text>1906年，南京大学前身三江师范学堂更名为两江师范学堂，著名教育家、书法家李瑞清先生为其手书“两江师范学堂”。1910年，李瑞清亲笔书写“金陵大学堂”校碑。</text>
+      </view>
+    </view>
+
+  </t-tab-panel>
+  <t-tab-panel label="小礼堂" value="2">
+    <view class="number-box">
+      <view class="number">
+        <text class="number-text">03</text>
+      </view>
+    </view>
+    <view class="text-box">
+      <view class="text">
+        <text class="title">小礼堂</text>
+        <text class="subtitle">——百年的钟声说，回来吧</text>
+      </view>
+    </view>
+    <image class="image" src="https://box.nju.edu.cn/f/d3d361e3adfa4d1e922b/?dl=1" alt="汉口路校门" />
+    <view class="section">
+      <view class="paragraph">
+        <text>建于1916年，由中国建筑师齐兆昌、美国芝加哥珀金斯建筑师事务所共同设计的小礼堂，是当年金陵大学内最为精美的建筑，也是现在无数南大学子的精神寄托。
+          建设之初，小礼堂的东侧有钟亭一座，内悬挂有铜钟，每日上下课的钟声由此敲出，也成为余光中先生创作《钟声说》的灵感来源。铜钟曾遗失，后在南京大学百年校庆之时重建。。</text>
+      </view>
+    </view>
+  </t-tab-panel>
+  <t-tab-panel label="大礼堂" value="3">
+    <view class="number-box">
+      <view class="number">
+        <text class="number-text">04</text>
+      </view>
+    </view>
+    <view class="text-box">
+      <view class="text">
+        <text class="title">大礼堂</text>
+        <text class="subtitle">——书写动人的南大故事</text>
+      </view>
+    </view>
+    <image class="image" src="https://box.nju.edu.cn/f/de916ae82cc9443ba2c9/?dl=1" alt="汉口路校门" />
+    <view class="section">
+      <view class="paragraph">
+        <text>位于西大楼南面，建于1918年，由美国珀金斯建筑事务所设计，由戴先生（Mr. Day）捐资所建，因此又称Day Chapel。礼拜堂的设计部分汲取我国古代庙宇造型，严谨庄重，外墙为明代城墙砖砌筑，显得厚重而有历史感。
+          大礼堂作为校园里最具礼仪性质的建筑，是重要的学术、文化交流中心，也是全国重点文物保护单位。多名国内外政要曾在礼堂做过演讲,许多重要晚会和庆典在此举行。期待小蓝鲸们继续在这片舞台上书写新的动人篇章！</text>
+      </view>
+    </view>
+  </t-tab-panel>
+  <t-tab-panel label="北大楼" value="4">
+    <view class="number-box">
+      <view class="number">
+        <text class="number-text">05</text>
+      </view>
+    </view>
+    <view class="text-box">
+      <view class="text">
+        <text class="title">北大楼</text>
+        <text class="subtitle">——“是藤呢还是浪子的离愁”</text>
+      </view>
+    </view>
+    <image class="image" src="https://box.nju.edu.cn/f/100f44b40cea48039084/?dl=1" alt="汉口路校门" style="height: 360px;" />
+    <view class="section">
+      <view class="paragraph">
+        <text>位于西大楼南面，建于1918年，由美国珀金斯建筑事务所设计，由戴先生（Mr. Day）捐资所建，因此又称Day Chapel。礼拜堂的设计部分汲取我国古代庙宇造型，严谨庄重，外墙为明代城墙砖砌筑，显得厚重而有历史感。
+          大礼堂作为校园里最具礼仪性质的建筑，是重要的学术、文化交流中心，也是全国重点文物保护单位。多名国内外政要曾在礼堂做过演讲,许多重要晚会和庆典在此举行。期待小蓝鲸们继续在这片舞台上书写新的动人篇章！</text>
+      </view>
+    </view>
+  </t-tab-panel>
+  <t-tab-panel label="革命烈士纪念碑" value="5">
+    <view class="number-box">
+      <view class="number">
+        <text class="number-text">06</text>
+      </view>
+    </view>
+    <view class="text-box">
+      <view class="text">
+        <text class="title">革命烈士纪念碑</text>
+        <text class="subtitle">——烈烈英雄诉长风</text>
+      </view>
+    </view>
+    <image class="image" src="https://mmbiz.qpic.cn/sz_mmbiz_jpg/T0yule9ico8bjKFFVeelfzxmGbeuJK1tX0hZiaCjeIvo6MMia1WJiczD53jciao6Via69vGViapQ2RhQsVS4hz08qqwTw/640?wx_fmt=jpeg&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="汉口路校门" />
+    <view class="section">
+      <view class="paragraph">
+        <text>革命烈士纪念碑建成于1982年，是南京高校中唯一在校园内树立的英雄纪念碑。碑身正面刻有“革命烈士永垂不朽”八个金色大字，背面镌刻着21位烈士的姓名。
+          南京是一片有着光荣革命传统的红色土地。斯人虽已逝，风骨尤长存，他们战斗和学习过的地方，书声琅琅，鲜花不败。在赶去上课的途中，记得驻足瞻仰纪念碑上熠熠生辉的名字，唤醒心中的党史记忆。</text>
+      </view>
+    </view>
+  </t-tab-panel>
+  <t-tab-panel label="大纛坪" value="6">
+    <view class="number-box">
+      <view class="number">
+        <text class="number-text">07</text>
+      </view>
+    </view>
+    <view class="text-box">
+      <view class="text">
+        <text class="title">大纛坪</text>
+        <text class="subtitle">——不甘人下一尺一寸</text>
+      </view>
+    </view>
+    <image class="image" src="https://mmbiz.qpic.cn/sz_mmbiz_jpg/T0yule9ico8bjKFFVeelfzxmGbeuJK1tXwCKu9SjXUM3tcag2kicUVeFMrMacD0udecOhia9NtG5Nd4SIfb8Gt43Q/640?wx_fmt=jpeg&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="汉口路校门" />
+    <view class="section">
+      <view class="paragraph">
+        <text>1934年秋，与金陵大学仅有一墙之隔的日本领事馆兀然竖起一座钢骨旗杆，每日升挂“太阳旗”。全校学生忿而共慨，朱恕、郑槐等30余人联名要求建筑金陵大学的旗杆，以显精神，以壮观瞻。1935年8月，一座高耸入云的旗杆拔地而起——此旗杆入土5米，地上部分由28节钢管套接而成，高40米，比日本领事馆的旗杆高出10尺有余，质量与外观都胜日本旗杆一筹，以镇其邪、挫其锐、克其霸！
+        在纪念抗日战争胜利50周年的时候，南京大学特将此处正式辟成“大纛坪”(原来旗杆位置在大礼堂与教学楼之间大香樟树旁，1962年为造教学楼而移至现在位置)。每逢节日庆典，广大师生便列队坪上，隆重举行庄严的升旗仪式。今日的大纛坪和大旗杆，不甘人下的历史印记展示着南大人的不屈挺拔。</text>
+      </view>
+    </view>
+  </t-tab-panel>
+  <t-tab-panel label="赛珍珠纪念馆" value="7">
+    <view class="number-box">
+      <view class="number">
+        <text class="number-text">08</text>
+      </view>
+    </view>
+    <view class="text-box">
+      <view class="text">
+        <text class="title">赛珍珠纪念馆</text>
+        <text class="subtitle">——赛珍珠的南大记忆</text>
+      </view>
+    </view>
+    <image class="image" src="https://mmbiz.qpic.cn/sz_mmbiz_jpg/T0yule9ico8bjKFFVeelfzxmGbeuJK1tXoP8bI39o6Vfsp2Uc9icicTNvZyq9mOEwcvyDQEFqzsI16iaaqcLicQ1AqQ/640?wx_fmt=jpeg&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="汉口路校门" />
+    <view class="section">
+      <view class="paragraph">
+        <text>位于北园西墙跟下的赛珍珠楼是江苏省级重点文物保护单位，建于1912年，原为教员 Mr.Moss 宿舍。2012年5月19日，这座有着100多年历史的小楼完成修复并以“赛珍珠纪念馆”的新身份正式对外开放。
+        赛珍珠为促进中国和西方世界的相互理解作出了杰出贡献，被誉为“一座沟通东西方文明的人桥”。很多西方人正是从赛珍珠的作品中，形成对中国的最初印象，并萌生了对中国的好感和向往。1921年至1931年间，她任金陵大学外语系教授时和卜凯生活在这栋小楼里，离开中国前一直在此居住、写作。</text>
+      </view>
+    </view>
+  </t-tab-panel>
+  <t-tab-panel label="斗鸡闸" value="8">
+    <view class="number-box">
+      <view class="number">
+        <text class="number-text">09</text>
+      </view>
+    </view>
+    <view class="text-box">
+      <view class="text">
+        <text class="title">斗鸡闸</text>
+        <text class="subtitle">——中西合璧，跨文化寻大同</text>
+      </view>
+    </view>
+    <image class="image" src="https://mmbiz.qpic.cn/sz_mmbiz_jpg/T0yule9ico8bjKFFVeelfzxmGbeuJK1tXNHvgdFj6zwzSgwTNymw9CW5NbGx2thokHAKSeP5ibEyTEUWV5cNQmFw/640?wx_fmt=jpeg&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="汉口路校门" />
+    <view class="section">
+      <view class="paragraph">
+        <text>从汉口路进入北园，沿着中大路前行，向西侧看会发现掩藏在绿荫里的斗鸡闸。斗鸡闸始建于1934年，由著名建筑师沈鹤甫设计。1937年12月毁于战火。1945年秋，何应钦回南京后在原址重建，翌年3月竣工。重建后的斗鸡闸结构未变，基本上保持着原有的风貌，但装饰一新，房屋外部为鲜亮的米黄色，顶部则覆盖着中国传统的瓦蓝色琉璃，四周广植雪松花木，现为南京大学外事办公室所在地，专作接待贵宾之用，属于江苏省级重点文物保护单位。掩映在苍松翠柏中的斗鸡闸低调而神秘，却常常吸引着行人的目光，遮不住那不同寻常的气势，仿佛欲一吐往日那段曲折的历史。</text>
+      </view>
+    </view>
+  </t-tab-panel>
+</t-tabs>

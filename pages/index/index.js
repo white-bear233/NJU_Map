@@ -4,6 +4,7 @@ import amapFile from '../../libs/amap-wx.130';
 let isLocked = false; // 定义锁
 Page({
   data: {
+    showOverlay: false,
     markers: [],
     latitude: '',
     longitude: '',
@@ -132,6 +133,19 @@ Page({
     });
   },
 
+  //点击打开照片墙
+  getPicture(){
+    console.log("1111");
+    wx.navigateTo({
+      url: "/pages/pictureWall/pictureWall",
+      success() {
+        console.log("页面跳转成功");
+      },
+      fail(err) {
+        console.error("页面跳转失败", err);
+      },
+    });
+},
 
   // 点击定位按钮时调用此方法
   mapAiming() {
@@ -358,16 +372,25 @@ Page({
     this.stopCompass();
   },
   onLinkClick() {
-    console.log("1111");
-    wx.navigateTo({
-      url: "/pages/RouteDetail/RouteDetail",
-      success() {
-        console.log("页面跳转成功");
-      },
-      fail(err) {
-        console.error("页面跳转失败", err);
-      },
-    });
+    this.setData({
+      showOverlay:true
+    })
+    // console.log("1111");
+    // wx.navigateTo({
+    //   url: "/pages/RouteDetail/RouteDetail",
+    //   success() {
+    //     console.log("页面跳转成功");
+    //   },
+    //   fail(err) {
+    //     console.error("页面跳转失败", err);
+    //   },
+    // });
+  },
+
+  closeDialog(){
+    this.setData({
+      showOverlay:false
+    })   
   },
   onDrawerChange(e) {
     const {y} = e.detail;
@@ -388,11 +411,12 @@ Page({
   },
   startNavigate: function() {
 	const polylineData = JSON.stringify(this.data.polyline); // 将 polyline 转换为 JSON 字符串
+	const markData = JSON.stringify(this.data.markers);
     // 使用 wx.navigateTo 跳转页面并传递 polyline 数据
     wx.navigateTo({
 	  url: '/pages/camera/camera',
 	  success: function (res) {
-		const sendPolyline = { data: polylineData }; 
+		const sendPolyline = { data: polylineData, mark: markData}; 
     	res.eventChannel.emit('polylineEvent', sendPolyline);
 	 }   
     });

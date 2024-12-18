@@ -1,3 +1,11 @@
+<view class="photo-gallery">
+  <!-- 使用 wx:for 循环遍历 photoList 并显示每张图片 -->
+  <block wx:for="{{photoList}}" wx:key="index">
+    <image src="{{item}}" mode="aspectFill" class="photo-item" />
+  </block>
+</view>
+ <!--测试获取图片接口-->
+
 <view class="container">
   <!-- 相机实时画面 -->
   <camera 
@@ -9,19 +17,79 @@
 	<view class="flash-overlay" wx:if="{{isFlashing}}"></view>
   </camera>
   <view class="showBuildingData">
-  <t-button theme="primary" icon="building" shape="circle" size="medium" aria-label="建筑信息" bindtap="showBuildingInfo" class="{{newBuilding ? 'buttonFlashing' : ''}}"></t-button>
+	<view class="demo-wrapper">
+		<t-badge 
+		count = "{{newBuilding ? 'NEW' : '0'}}"
+		offset="{{ [-5, 3] }}" ariaRole="button" size = "medium">
+			<t-button theme="primary" icon="building" shape="circle" size="medium" aria-label="建筑信息" bindtap="showBuildingInfo" class = "{{isLandscape ? (leftLandScape ? 'building_left' : 'building_right') : 'building_portrait'}}"></t-button>
+		</t-badge>
+		<!-- 照片墙按钮 -->
 	</view>
-	<!-- 自定义浮动窗口 -->
-	<view class="popup" wx:if="{{showPopup}}">
-    <view class="popup-content">
-      <view class="popup-header">
-        <text>{{buildingInfo.name}}</text>
+	<t-button theme="primary" icon="image-search"  shape="circle" bindtap="getPicture" class = "{{isLandscape ? (leftLandScape ? 'building_left' : 'building_right') : 'building_portrait'}}"></t-button>
+	</view>
+  <view class="overlay" wx:if="{{showOverlay}}">
+    <view class="{{isLandscape ? 'info-window-landscape' : 'info-window'}}">
+      <view class="info-header">
+        <text class="title">{{buildingInfo.name}}</text>
       </view>
-      <view class="popup-body">
-        <text>{{buildingInfo.description}}</text>
+
+
+
+
+      <view class="info-body">
+        <scroll-view scroll-y="true" style="height: 100%;">
+
+
+			<t-swiper
+				class="scale-card-theme"
+				current="{{current}}"
+				autoplay="{{autoplay}}"
+				duration="{{duration}}"
+				interval="{{interval}}"
+				bindchange="onChange"
+				navigation="{{ { type: 'dots' } }}"
+				list="{{buildingInfo.image}}"
+				image-props="{{ { shape: 'round' } }}"
+				previousMargin="34px"
+				nextMargin="34px"
+				t-class-nav="card-theme-nav"
+				t-class-prev-image="scale-candidate"
+				t-class-next-image="scale-candidate">
+
+				
+				</t-swiper>
+
+
+
+			<!-- <swiper class="image-carousel" indicator-dots="true" autoplay="true" interval="3000" circular="true">
+		<swiper-item>
+			<image class="image" src="{{buildingInfo.image[0]}}" />
+		</swiper-item>
+		<swiper-item>
+			<image class="image" src="{{buildingInfo.image[1]}}" />
+		</swiper-item>
+		<swiper-item>
+			<image class="image" src="{{buildingInfo.image[2]}}" />
+		</swiper-item>
+		<swiper-item>
+			<image class="image" src="{{buildingInfo.image[3]}}" />
+		</swiper-item>
+		</swiper> -->
+			<view class="section">
+				<view class="paragraph">
+					<text >{{buildingInfo.description}}</text>
+				</view>
+			</view>
+    	</scroll-view>
+
+		<!-- <swiper class="image-carousel" indicator-dots="true" autoplay="true" interval="3000" circular="true">
+			<swiper-item wx:for="{{images}}" wx:key="index">
+				<image class="image" src="{{item}}" />
+			</swiper-item>
+		</swiper> -->
       </view>
-      <view class="popup-footer">
-        <button bindtap="closePopup">关闭</button>
+      <view class="info-footer">
+        <t-button theme="primary" shape = "round" block bindtap="closeOverlay">关闭</t-button>
       </view>
     </view>
   </view>
@@ -39,7 +107,9 @@
       show-location="true" 
 	  polyline="{{polyline}}"
       markers="{{markers}}">
-	  <t-button theme="primary" icon="camera" shape="circle" size="large" aria-label="拍照" bindtap="takePhoto" class = "take_photo_button"></t-button>
+	  <!-- :center= "center"> -->
     </map>
+	<t-button theme="primary" icon="camera" shape="circle" size="large" aria-label="拍照" bindtap="takePhoto" class = "{{isLandscape ? (leftLandScape ? 'take_photo_button_left' : 'take_photo_button_right') : 'take_photo_button_portrait'}}"></t-button>
+
   </view>
 </view>

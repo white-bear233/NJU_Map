@@ -1,8 +1,12 @@
 Page({
   data: {
-    cameraStatus: '相机加载中...', // 初始化状态
+	cameraStatus: '相机加载中...', // 初始化状态
     latitude: '',
-    longitude: '',
+	longitude: '',
+	center: {
+		latitude: '',
+		longitude: '',
+	},
     targetLatitude: '', // 目标纬度
     targetLongitude: '', // 目标经度
     isFacingBuilding: false, // 是否朝向目标
@@ -19,14 +23,140 @@ Page({
 	showPopup: false, // 控制弹窗显示与否
     buildingInfo: {
       name: "南京大学鼓楼校区",
-      description: "诚朴雄伟，励学敦行",
+	  description: "诚朴雄伟，励学敦行",
+	  image:[],
 	},
-	newBuilding: false // 周围是否有新建筑
+	errorMsg: '', // 错误信息，显示查询失败时的提示
+	newBuilding: false, // 周围是否有新建筑
+	showOverlay: false, // 控制遮罩层显示
+	isLandscape: false, // 横屏标记
+	leftLandScape: true, // 向哪边横屏
+	  // 竖屏地图样式
+	photoList: [],
+	current: 0,
+    autoplay: false,
+    duration: 500,
+    interval: 5000,
   },
 
   Rad: function(d) { //根据经纬度判断距离
     return d * Math.PI / 180.0;
 },
+
+onChange(e) {
+	const {
+	  detail: { current, source },
+	} = e;
+	console.log(current, source);
+},
+
+
+
+
+startListeningDeviceOrientation() {
+
+
+
+    wx.startDeviceMotionListening({
+      interval: 'normal',
+      success: () => {
+        console.log('设备方向监听已启动');
+        wx.onDeviceMotionChange((res) => {
+          // 判断方向: alpha 是设备旋转角度，gamma 用来判断横屏
+          const { gamma } = res;
+          const isLandscape = Math.abs(gamma) > 45; // 横屏的角度通常大于 45 度
+          if (this.data.isLandscape !== isLandscape) {
+			this.setData({ isLandscape });
+			if (gamma > 0) {
+				this.setData({leftLandScape: true});
+			}
+			else if (gamma < 0) {
+				this.setData({leftLandScape: false});
+			}
+		  }
+		  console.log(isLandscape);
+        });
+      },
+      fail: (err) => {
+        console.error('设备方向监听失败:', err);
+      },
+    });
+  },
+
+
+
+ onQueryBuilding:function () {
+	const buildingName = this.data.buildingInfo.name;
+	console.log("Enter", buildingName);
+    if (!buildingName) {
+      wx.showToast({
+        title: '请输入楼宇名称',
+        icon: 'none',
+      });
+      return;
+    }
+	console.log("Enter1", buildingName);
+	var buildingInfoTmp;
+    // 发起网络请求，传递查询参数
+    wx.request({
+      url: `http://172.29.4.191:8080/api/buildings/getBuilding`, // 后端接口地址
+      method: 'GET',
+      data: {
+        name: buildingName, // 将用户输入的楼宇名称作为查询参数传递
+      },
+      success: (res) => {
+		console.log("Enter3", buildingName);
+        console.log("RES", res); // 打印整个响应结果
+        if (res.statusCode === 200) {
+          if (res.data.code === "000") {
+			// 请求成功，更新页面的数据
+            this.setData({
+				buildingInfo: {
+					name: buildingName,
+					description: res.data.result.description,
+					image: res.data.result.image,
+					// name: "老八总部",
+					// description: "老八老八"
+				},
+              errorMsg: '', // 清空错误信息
+			});
+			console.log("des: ", this.data.buildingInfo.description);
+          } else {
+			// 如果返回的 code 不是 "000"，说明查询失败
+			console.log("EEEEEE");
+            this.setData({
+              buildingInfo: null, // 清空建筑信息
+              errorMsg: res.data.msg || '查询失败，请重试', // 设置错误信息
+            });
+            wx.showToast({
+              title: res.data.msg || '查询失败',
+              icon: 'none',
+            });
+          }
+        } else {
+          console.error('请求失败:', res.data.msg);
+          wx.showToast({
+            title: '查询失败',
+            icon: 'none',
+          });
+        }
+      },
+      fail: (error) => {
+		console.log("Enter4", buildingName);
+		console.log("EEEEEE");
+		console.log("building Name: ", buildingName);
+        console.error('请求失败:', error);
+        wx.showToast({
+          title: '请求失败',
+          icon: 'none',
+        });
+      },
+    });
+  },
+
+
+
+  
 getDistance: function(lat1, lng1, lat2, lng2) {
     // console.log(lat1, lng1, lat2, lng2);
     var radLat1 = this.Rad(lat1);
@@ -44,13 +174,17 @@ getDistance: function(lat1, lng1, lat2, lng2) {
   onLoad(options) {
 	// 获得路线
 	// 获取 polyline 参数并进行解析
+	// this.getPhotosByOpenId("斗鸡闸");
+	console.log("PHOTO: ", this.data.photoList);
 	const eventChannel = this.getOpenerEventChannel();
   	eventChannel.once('polylineEvent', (sendPolyline) => {
 		// console.log('接收到的 polylineData:', sendPolyline.data);
 		let polylineArray = JSON.parse(sendPolyline.data);
+		let markersArray = JSON.parse(sendPolyline.mark);
 		// console.log(polylineArray);
 		this.setData({
-			polyline: polylineArray // 更新 polyline 数据
+			polyline: polylineArray, // 更新 polyline 数据
+			markers: markersArray
 		});
 		if (this.data.polyline != []) {
 			this.setData({isRouteVisible: true});
@@ -78,10 +212,17 @@ getDistance: function(lat1, lng1, lat2, lng2) {
     wx.getLocation({
       type: 'wgs84', // 默认类型
       success: function (res) {
-        that.setData({
-          latitude: res.latitude, // 设置当前纬度
-          longitude: res.longitude // 设置当前经度
-        });
+		// if (res.latitude != that.data.latitude && res.longitude != that.data.longitude) {
+			that.setData({
+			latitude: res.latitude, // 设置当前纬度
+			longitude: res.longitude // 设置当前经度
+			});
+
+			        // 获取地图上下文对象
+					const mapCtx = wx.createMapContext('map');
+					// 将地图移动到当前位置
+					mapCtx.moveToLocation();
+		// }
     //    console.log(res.latitude + " " + res.longitude);
       },
       fail: function (err) {
@@ -100,27 +241,41 @@ getDistance: function(lat1, lng1, lat2, lng2) {
     });
 
     this.startLocationMonitoring();
-    this.startCompassMonitoring();
+	this.startCompassMonitoring();
+	this.startListeningDeviceOrientation();
   },
 
   
 
   // 开始位置监听
   startLocationMonitoring() {
-    const that = this;
 
+	const that = this;
+	this.setData({
+		buildingInfo:{
+			name:"中山楼"
+		}
+	})
+	this.onQueryBuilding(""); // 用于测试
+	
     // 检查权限
     wx.authorize({
       scope: 'scope.userLocation',
       success() {
-        // 启动实时位置监听
+		// 启动实时位置监听
         wx.startLocationUpdate({
           success() {
             wx.onLocationChange((res) => {
-              that.setData({
-                latitude: res.latitude,
-                longitude: res.longitude
-			  });
+				console.log("LASSS: ", res.latitude);
+				console.log("LOSSS: ", res.longitude);
+			// if (res.latitude != that.data.latitude && res.longitude != that.data.longitude) {
+				console.log("LA: ", res.latitude);
+				console.log("LO: ", res.longitude);
+				that.setData({
+					latitude: res.latitude,
+					longitude: res.longitude
+				});
+			// }
 			  var nearbyBuilding = false;
 			  var nearestBuildingIndex = -1;
 			  var nearestBuildingDistance = 10000;
@@ -135,11 +290,12 @@ getDistance: function(lat1, lng1, lat2, lng2) {
 							indexOfShowingBuilding: index,
 							buildingInfo: {
 								name: that.data.locationData[index].name,
-								description: that.data.locationData[index].description,
+								// description: that.data.locationNum[index].description,
 								// name: "老八总部",
 								// description: "老八老八"
 							}
 						})
+						that.onQueryBuilding();
 					}
 				}
 				if (that.data.locationData[index].distance < nearestBuildingDistance) {
@@ -182,17 +338,23 @@ getDistance: function(lat1, lng1, lat2, lng2) {
 	  });
       for (let index = 0; index < this.data.locationNum; index++) {
 		  this.checkProximityAndDirection(index); // 更新距离和方向 
+		
+
 		  if (this.data.locationData[index].isNearBy && this.data.locationData[index].isFacing) {
 			if (this.data.indexOfShowingBuilding != index) {
+
+
 				this.setData({
 					indexOfShowingBuilding: index,
 					buildingInfo: {
 						name: this.data.locationData[index].name,
-						description: this.data.locationData[index].description,
+						// description: this.data.locationData[index].description,
 						// name: "老八总部",
 						// description: "老八老八"
 					}
 				})
+				this.onQueryBuilding();
+				console.log("discription: ", this.data.buildingInfo.description);
 				this.toggleNewBuilding();
 				break;
 			}
@@ -234,11 +396,17 @@ getDistance: function(lat1, lng1, lat2, lng2) {
     ctx.takePhoto({
 	  quality: 'high',
 	  flash: 'off',
+	  resolution: 'high',
       success: (res) => {
         this.setData({
           tempImagePath: res.tempImagePath
 		});
 		console.log("拍照成功", res.tempImagePath);
+		// 上传图片到服务器
+		const openId = getApp().globalData.openId;
+		console.log("OpenId: ", openId);
+		this.uploadImageToServer(res.tempImagePath, openId); // 登录上传
+		// this.uploadImageToServer(res.tempImagePath, this.data.buildingInfo.name); // 不登录上传
 		// 保存图片到本地相册
 		wx.saveImageToPhotosAlbum({
 			filePath: res.tempImagePath, // 使用拍摄后返回的图片路径
@@ -269,6 +437,81 @@ getDistance: function(lat1, lng1, lat2, lng2) {
 	  },
     })
   },
+
+
+  // 上传图片到后端服务器
+uploadImageToServer(imagePath, fileName) {
+	console.log("ImagePath: ", imagePath);
+	console.log("fileName: ", fileName);
+	wx.uploadFile({
+	  url: 'http://172.29.4.191:8080/api/photos/upload', // 替换成你的服务器接口地址
+	  filePath: imagePath,  // 拍照后得到的图片路径
+      name: 'file',         // 后端接收文件的字段名
+	  formData: {
+		openId: fileName,     // 传递 openId 给后端
+	  },
+	  success: (res) => {
+		console.log('上传成功', res);
+		const data = JSON.parse(res.data);  // 假设后端返回的是 JSON 格式
+		if (data.code === '000') {
+		  wx.showToast({
+			title: '上传成功',
+			icon: 'success',
+			duration: 2000
+		  });
+		} else {
+		  wx.showToast({
+			title: '上传失败',
+			icon: 'none',
+			duration: 2000
+		  });
+		}
+	  },
+	  fail: (err) => {
+		console.log('上传失败', err);
+		wx.showToast({
+		  title: '上传失败',
+		  icon: 'none',
+		  duration: 2000
+		});
+	  }
+	});
+  },
+
+
+  getPhotosByOpenId(openId) {
+	wx.request({
+	  url: 'http://172.29.4.191:8080/api/photos/getPhotosByOpenId',  // 替换为你的后端接口地址
+	  method: 'GET',
+	  data: {
+		openId: openId  // 传递 openId 参数
+	  },
+	  success: (res) => {
+		console.log('照片列表:', res.data);
+		if (res.data.code === '000') {
+		  // 请求成功，处理返回的数据
+		  const photos = res.data.result;
+		  // 假设你将这些照片显示在页面上
+		  this.setData({
+			photoList: photos
+		  });
+		} else {
+		  wx.showToast({
+			title: '获取图片失败',
+			icon: 'none'
+		  });
+		}
+	  },
+	  fail: (error) => {
+		console.error('请求失败:', error);
+		wx.showToast({
+		  title: '网络请求失败',
+		  icon: 'none'
+		});
+	  }
+	})
+  },
+  
   
   
 
@@ -296,7 +539,7 @@ getDistance: function(lat1, lng1, lat2, lng2) {
     // console.log("name: ", name, " distance: ", locationDataTmp[targetIndex]);
 
     // 2. 判断是否在附近（距离小于 25 米）
-    const isNearby = distance <= 25;
+    const isNearby = distance <= 70;
     locationDataTmp[targetIndex].isNearBy = isNearby;
     const dLat = (targetLatitude - latitude) * Math.PI / 180;
     const dLon = (targetLongitude - longitude) * Math.PI / 180;
@@ -324,8 +567,14 @@ getDistance: function(lat1, lng1, lat2, lng2) {
   showBuildingInfo: function() {
     this.setData({
 	  showPopup: true, // 显示浮动弹窗
-	  newBuilding: false
+	  newBuilding: false,
+	  showOverlay: true
     });
+  },
+
+  // 关闭遮罩层
+  closeOverlay() {
+    this.setData({ showOverlay: false });
   },
 
   // 关闭浮动弹窗
@@ -340,13 +589,29 @@ getDistance: function(lat1, lng1, lat2, lng2) {
       newBuilding: true  // 开始闪烁
     });
 
-    // 设置闪烁结束后恢复按钮状态
-    setTimeout(() => {
-      this.setData({
-        newBuilding: false  // 结束闪烁
+    wx.vibrateLong({
+        success: () => {
+          console.log('手机短振动成功');
+        },
+        fail: (err) => {
+          console.error('振动失败:', err);
+        },
       });
-    }, 10000);  // 假设10秒后结束闪烁
   },
+
+  //点击打开照片墙
+  getPicture(){
+		console.log("1111");
+		wx.navigateTo({
+		url: "/pages/pictureWall/pictureWall",
+		success() {
+			console.log("页面跳转成功");
+		},
+		fail(err) {
+			console.error("页面跳转失败", err);
+		},
+		});
+	},
 
   // 停止罗盘监听
   stopCompass() {
