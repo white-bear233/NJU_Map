@@ -20,11 +20,11 @@ Page({
     tab_value :0,
     selectedRoute: null, // 记录当前选中的路线
     currentPointIndex: null, // 当前选中的站点索引
-    isMovableViewDisabled: false, // 控制是否禁用拖动
+    isMovableViewDisabled: true, // 控制是否禁用拖动
     map_height: 100,
     SpotImages:"https://box.nju.edu.cn/f/9701fc9c6a274813adba/?dl=1",
     SpotDescription: '测试',
-    
+    isButtonActive: false, // 用于控制按钮的点击状态
     routeOneStations: [{name: '汉口路校门',latitude: 32.05370585683426,longitude: 118.7805903995204},
       {name: '图书馆',latitude: 32.054494939563895,longitude: 118.78064529920516},
       {name: '二源碑',latitude: 32.054875573149495,longitude: 118.7811862728513},
@@ -88,39 +88,81 @@ Page({
       { longitude:118.78098680544997, latitude: 32.056858390811506 },
     ]
   },
-
-
-
   // 点击推荐路线按钮时调用
+  // onShowDrawer() {
+  //   // const animation = wx.createAnimation({
+  //   //   duration: 300, // 动画持续时间
+  //   //   timingFunction: 'ease', // 动画过渡效果
+  //   // });
+
+  //   const newHeight = this.data.map_height === 100 ? 50 : 100;
+  //   if(this.data.isButtonActive){
+  //     this.setData({
+  //       isButtonActive : false
+  //     })
+  //   }
+  //   else{
+  //     this.setData({
+  //       isButtonActive : true
+  //     })
+  //   }
+  //   console.log(this.data.isButtonActive)
+  //   //设置动画效果
+  //   //animation.height(newHeight).step();
+  //   const {tab_value} = this.data;
+  //     // 否则选择新的路线
+  //   if(this.data.drawerY == 0){
+  //     this.setData({
+  //       polyline: this.getRoutePolyline(tab_value), // 获取对应路线的坐标
+  //       isButtonActive: !this.data.isButtonActive, // 切换按钮的活跃状态
+  //     });
+  //     this.addMarkersToRoute();
+  //   }else{
+  //     this.setData({
+  //       polyline: [], // 获取对应路线的坐标
+  //       markers:[]
+  //     });
+  //   }
+
+  //   this.setData({
+  //     //animationData: animation.export(), // 更新动画数据
+  //     drawerY: (this.data.drawerY >= -200) ? -0.5 * this.data.screenHeight : 0,
+  //     // map_height: newHeight, // 更新地图高度
+  //   });
+    
+  // },
   onShowDrawer() {
-    const animation = wx.createAnimation({
-      duration: 300, // 动画持续时间
-      timingFunction: 'ease', // 动画过渡效果
-    });
-
-    // const newHeight = this.data.map_height === 100 ? 50 : 100;
-
-    // 设置动画效果
-    // animation.height(newHeight).step();
-    const {tab_value} = this.data;
-      // 否则选择新的路线
+    const newHeight = this.data.map_height === 100 ? 50 : 100;
+    const newButtonState = !this.data.isButtonActive
+    // 更新 isButtonActive 的状态并且在回调中执行其他操作
     this.setData({
-      polyline: this.getRoutePolyline(tab_value), // 获取对应路线的坐标
+      isButtonActive: newButtonState,
+    }, () => {
+
     });
+    const { tab_value } = this.data;
+    if (this.data.drawerY == 0) {
+      this.setData({
+        polyline: this.getRoutePolyline(tab_value),
+      });
+      this.addMarkersToRoute();
+    } else {
+      this.setData({
+        polyline: [],
+        markers: [],
+      });
+    }
     this.setData({
-      // animationData: animation.export(), // 更新动画数据
+      // 这里是用来更新地图高度等其他UI状态
       drawerY: (this.data.drawerY >= -200) ? -0.5 * this.data.screenHeight : 0,
-      // map_height: newHeight, // 更新地图高度
     });
-    this.addMarkersToRoute();
   },
-
 
 
   //点击打开照片墙
   getPicture() {
     console.log("1111");
-    wx.navigateTo({
+    wx.switchTab({
       url: "/pages/pictureWall/pictureWall",
       success() {
         console.log("页面跳转成功");
@@ -399,6 +441,15 @@ Page({
   /**
    * 生命周期函数--监听页面卸载
    */
+  onShow() {
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      const page = getCurrentPages().pop();
+      this.getTabBar().setData({
+        value: '/' + page.route
+      })
+    }
+  },
+
   onUnload() {
     wx.stopLocationUpdate();
     this.stopCompass();
@@ -418,7 +469,7 @@ Page({
     const {
       y
     } = e.detail;
-    //console.log(y);
+
   },
   // 点击地图任意位置事
   mapTap: function (e) {

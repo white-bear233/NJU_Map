@@ -4,7 +4,7 @@
       <movable-view class="movable-view" direction="vertical" y="{{drawerY}}" out-of-bounds="true" bindchange="onDrawerChange" bindtouchend="onDrawerTouchEnd" disabled="{{isMovableViewDisabled}}">
 
         <!-- 推荐路线按钮 -->
-        <button class="recommend-route-button" bindtap="onShowDrawer" style="position: absolute; left: 645rpx; top: -100rpx">
+        <button class="{{isButtonActive ? 'recommend-route-button-active' : 'recommend-route-button'}}" bindtap="onShowDrawer" style="position: absolute; left: 645rpx; top: -100rpx" >
           <view class="icon-with-text">
             <t-icon name="subway-line" size="25px" color="white" style="position: absolute; right: 22%; top: 10%;" />
             <text class="icon-text" style="position: absolute; top: 50%;">推荐路线</text>
@@ -25,10 +25,9 @@
 
         <view class="drawer">
           <!-- 顶栏容器 -->
-          <view class="top-bar">
-            <!-- 标题居中 -->
+          <!-- <view class="top-bar">
             <text class="title" style="height: 30px; font-size: 20px; color: rgb(155, 42, 144);">推荐路线</text>
-          </view>
+          </view> -->
           <t-tabs animation="{{ { duration: 0.6 } }}" defaultValue="{{0}}" bind:change="onTabsChange" t-class="custom-tabs" t-class-content="custom-panel" >
             <t-tab-panel label="寻根之旅" value="0" icon="city-ancient-1">
               <view class="custom-panel__content">
