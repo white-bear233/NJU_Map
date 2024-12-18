@@ -60,7 +60,7 @@ page {
   top: 0vh;
   left: 0;
   width: 100%;
-  height:65vh; /* 占据页面顶部70%高度 */
+  height:0vh; /* 占据页面顶部70%高度 */
   background-color: black;
   transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -109,8 +109,8 @@ page {
 
 .map_container {
   width: 100%;
-  top: 65vh;
-  height: 35vh;
+  top: 0vh;
+  height: 100vh;
   position: absolute;
   visibility: visible;
   animation: fadeUp 0.3s ease-out;
@@ -173,7 +173,20 @@ page {
 
 .showBuildingData {
 	position: absolute;
-	top: 20rpx;   /* 距离顶部10px */
+	top: 240rpx;   /* 距离顶部10px */
+	right: 20rpx; /* 距离右边10px */
+	color: white;
+	border: none;
+	border-radius: 50%;
+	z-index: 10; /* 确保按钮在最上层 */
+	display: flex;
+	flex-direction: column;
+	gap: 15rpx;
+  }
+
+  .takePhotoTab {
+	position: absolute;
+	top: 1200rpx;   /* 距离顶部10px */
 	right: 20rpx; /* 距离右边10px */
 	color: white;
 	border: none;
@@ -325,6 +338,57 @@ page {
   }
 
 
+  .nav-panel {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	background: #ffffff;
+	border-radius: 0 0 20rpx 20rpx;
+	box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.1);
+	z-index: 1000;
+  }
   
-
-
+  .nav-header {
+	padding: 20rpx 30rpx;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1rpx solid #eee;
+  }
+  
+  .nav-title {
+	font-size: 32rpx;
+	font-weight: 500;
+	color: #333;
+  }
+  
+  .nav-close {
+	font-size: 40rpx;
+	color: #999;
+	padding: 0 10rpx;
+  }
+  
+  .nav-body {
+	padding: 20rpx;
+	display: flex;
+	justify-content: space-around;
+  }
+  
+  .nav-stat {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+  }
+  
+  .stat-value {
+	font-size: 36rpx;
+	font-weight: 500;
+	color: #333;
+  }
+  
+  .stat-label {
+	font-size: 24rpx;
+	color: #999;
+	margin-top: 8rpx;
+  }

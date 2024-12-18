@@ -7,15 +7,6 @@
  <!--测试获取图片接口-->
 
 <view class="container">
-  <!-- 相机实时画面 -->
-  <camera 
-    class="camera" 
-    device-position="back" 
-    flash="on" 
-    binderror="onCameraError" 
-    bindinitdone="onCameraInitDone">
-	<view class="flash-overlay" wx:if="{{isFlashing}}"></view>
-  </camera>
   <view class="showBuildingData">
 	<view class="demo-wrapper">
 		<t-badge 
@@ -25,7 +16,10 @@
 		</t-badge>
 		<!-- 照片墙按钮 -->
 	</view>
-	<t-button theme="primary" icon="image-search"  shape="circle" bindtap="getPicture" class = "{{isLandscape ? (leftLandScape ? 'building_left' : 'building_right') : 'building_portrait'}}"></t-button>
+	</view>
+	<view class="takePhotoTab">
+		<t-button theme="primary" icon="camera" shape="circle"   bindtap="navigateToPhotoTaking" class = "{{isLandscape ? (leftLandScape ? 'building_left' : 'building_right') : 'building_portrait'}}"></t-button>
+		<t-button theme="primary" icon="image-search"  shape="circle" bindtap="getPicture" class = "{{isLandscape ? (leftLandScape ? 'building_left' : 'building_right') : 'building_portrait'}}"></t-button>
 	</view>
   <view class="overlay" wx:if="{{showOverlay}}">
     <view class="{{isLandscape ? 'info-window-landscape' : 'info-window'}}">
@@ -60,21 +54,6 @@
 				</t-swiper>
 
 
-
-			<!-- <swiper class="image-carousel" indicator-dots="true" autoplay="true" interval="3000" circular="true">
-		<swiper-item>
-			<image class="image" src="{{buildingInfo.image[0]}}" />
-		</swiper-item>
-		<swiper-item>
-			<image class="image" src="{{buildingInfo.image[1]}}" />
-		</swiper-item>
-		<swiper-item>
-			<image class="image" src="{{buildingInfo.image[2]}}" />
-		</swiper-item>
-		<swiper-item>
-			<image class="image" src="{{buildingInfo.image[3]}}" />
-		</swiper-item>
-		</swiper> -->
 			<view class="section">
 				<view class="paragraph">
 					<text >{{buildingInfo.description}}</text>
@@ -82,11 +61,6 @@
 			</view>
     	</scroll-view>
 
-		<!-- <swiper class="image-carousel" indicator-dots="true" autoplay="true" interval="3000" circular="true">
-			<swiper-item wx:for="{{images}}" wx:key="index">
-				<image class="image" src="{{item}}" />
-			</swiper-item>
-		</swiper> -->
       </view>
       <view class="info-footer">
         <t-button theme="primary" shape = "round" block bindtap="closeOverlay">关闭</t-button>
@@ -94,10 +68,30 @@
     </view>
   </view>
 
-  <view class="separator"></view>
+  <!-- <view class="separator"></view> -->
 
   <!-- 定位状态 -->
   <view class="map_container">
+	<view class="nav-panel" wx:if="{{navigation.isActive}}">
+  <view class="nav-header">
+    <text class="nav-title">路线游览</text>
+  </view>
+  <view class="nav-body">
+    <view class="nav-stat">
+      <text class="stat-value">{{navigation.formattedTime}}</text>
+      <text class="stat-label">时间</text>
+    </view>
+    <view class="nav-stat">
+      <text class="stat-value">{{navigation.distance}}m</text>
+      <text class="stat-label">距离</text>
+    </view>
+    <view class="nav-stat">
+      <text class="stat-value">{{navigation.speed}}km/h</text>
+      <text class="stat-label">配速</text>
+    </view>
+  </view>
+</view>
+
     <map 
       class="map" 
       id="map" 
@@ -105,11 +99,10 @@
       latitude="{{latitude}}" 
       scale="18" 
       show-location="true" 
-	  polyline="{{polyline}}"
+	  polyline="{{polyline[showPolylineMode]}}"
       markers="{{markers}}">
 	  <!-- :center= "center"> -->
     </map>
-	<t-button theme="primary" icon="camera" shape="circle" size="large" aria-label="拍照" bindtap="takePhoto" class = "{{isLandscape ? (leftLandScape ? 'take_photo_button_left' : 'take_photo_button_right') : 'take_photo_button_portrait'}}"></t-button>
 
   </view>
 </view>

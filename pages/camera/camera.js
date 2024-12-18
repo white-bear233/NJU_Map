@@ -7,6 +7,9 @@ Page({
 		latitude: '',
 		longitude: '',
 	},
+	firstCalculate: false,
+	startLatitude: '', // 上一次位置记录
+	startLongitude: '',// 上一次位置记录
     targetLatitude: '', // 目标纬度
     targetLongitude: '', // 目标经度
     isFacingBuilding: false, // 是否朝向目标
@@ -15,6 +18,8 @@ Page({
     locationNum: 11, // 景点数量
 	locationData: [], // 用于存储每个景点的距离和角度
 	polyline: [], // 推荐的路线
+	isGetAwayDotline: false,
+	showPolylineMode: 0,
 	markers: [],
 	isRouteVisible: false,
 	tempImagePath: '',
@@ -36,7 +41,15 @@ Page({
 	current: 0,
     autoplay: false,
     duration: 500,
-    interval: 5000,
+	interval: 5000,
+	navigation: {
+		isActive: false,
+		time: 0,
+		timerInstance: null,
+		formattedTime: '00:00:00',
+		distance: 0,
+      	speed: 0.0,
+	}
   },
 
   Rad: function(d) { //根据经纬度判断距离
@@ -154,7 +167,33 @@ startListeningDeviceOrientation() {
     });
   },
 
+  startNavigation() {
+    if (!this.data.navigation.isActive) {
+      const timer = setInterval(() => {
+        const currentTime = this.data.navigation.time + 1;
+        const hours = Math.floor(currentTime / 3600);
+        const minutes = Math.floor((currentTime % 3600) / 60);
+        const seconds = currentTime % 60;
+        
+        this.setData({
+          'navigation.time': currentTime,
+          'navigation.formattedTime': `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`,
+          'navigation.isActive': true,
+          'navigation.timerInstance': timer
+        });
+      }, 1000);
+    }
+  },
 
+  stopNavigation() {
+    if (this.data.navigation.timerInstance) {
+      clearInterval(this.data.navigation.timerInstance);
+      this.setData({
+        'navigation.isActive': false,
+        'navigation.timerInstance': null
+      });
+    }
+  },
 
   
 getDistance: function(lat1, lng1, lat2, lng2) {
@@ -183,7 +222,7 @@ getDistance: function(lat1, lng1, lat2, lng2) {
 		let markersArray = JSON.parse(sendPolyline.mark);
 		// console.log(polylineArray);
 		this.setData({
-			polyline: polylineArray, // 更新 polyline 数据
+			'polyline[0]': polylineArray, // 更新 polyline 数据
 			markers: markersArray
 		});
 		if (this.data.polyline != []) {
@@ -214,8 +253,10 @@ getDistance: function(lat1, lng1, lat2, lng2) {
       success: function (res) {
 		// if (res.latitude != that.data.latitude && res.longitude != that.data.longitude) {
 			that.setData({
-			latitude: res.latitude, // 设置当前纬度
-			longitude: res.longitude // 设置当前经度
+				latitude: res.latitude, // 设置当前纬度
+				longitude: res.longitude, // 设置当前经度
+				startLatitude: res.latitude,
+				startLongitude: res.longitude
 			});
 
 			        // 获取地图上下文对象
@@ -243,8 +284,40 @@ getDistance: function(lat1, lng1, lat2, lng2) {
     this.startLocationMonitoring();
 	this.startCompassMonitoring();
 	this.startListeningDeviceOrientation();
+	this.startNavigation();
   },
 
+
+
+  addDashedLine(nearestLatitude, nearestLongtitude) {
+	  if (nearestLongtitude == 0) {
+		  this.setData({
+			  isGetAwayDotline: true
+		  })
+		  return;
+	  }
+		// 添加新的虚线路径
+		const newLine = {
+		points: [{
+			latitude: this.data.latitude,
+			longitude: this.data.longitude
+		}, {
+			latitude: nearestLatitude,
+			longitude: nearestLongtitude
+		}],
+		color: '#00CD66',
+		width: 4,
+		dottedLine: true,
+		// borderColor: "#FFFFFF",
+		// borderWidth: 2
+		};
+
+		// 将新路径添加到现有polyline数组
+		this.setData({
+			'polyline[1]': [newLine]
+		});
+		console.log("PL: ", this.data.polyline);
+  },
   
 
   // 开始位置监听
@@ -271,10 +344,43 @@ getDistance: function(lat1, lng1, lat2, lng2) {
 			// if (res.latitude != that.data.latitude && res.longitude != that.data.longitude) {
 				console.log("LA: ", res.latitude);
 				console.log("LO: ", res.longitude);
-				that.setData({
-					latitude: res.latitude,
-					longitude: res.longitude
-				});
+				if (that.data.firstCalculate == true) {
+					const moveDistance = that.getDistance(that.data.startLatitude, that.data.startLongitude, res.latitude, res.longitude);
+					that.setData({
+						latitude: res.latitude,
+						longitude: res.longitude,
+						'navigation.distance': Number(that.data.navigation.distance) + Number(moveDistance),
+						startLongitude: res.longitude,
+						startLatitude: res.latitude
+					});
+					console.log("moveDistance: ", moveDistance);
+					console.log("distance: ", that.data.navigation.distance);
+				}
+				else {
+					that.setData({
+						firstCalculate: true
+					});
+					const moveDistance = that.getDistance(that.data.startLatitude, that.data.startLongitude, res.latitude, res.longitude);
+					if (Number(moveDistance) > 5) {
+						that.setData({
+							latitude: res.latitude,
+							longitude: res.longitude,
+							'navigation.distance': Math.round(Number(that.data.navigation.distance)),
+							startLongitude: res.longitude,
+							startLatitude: res.latitude
+						});
+						console.log("moveDistance: ", moveDistance);
+						console.log("distance: ", that.data.navigation.distance);
+					}
+					else {
+						that.setData({
+							latitude: res.latitude,
+							longitude: res.longitude,
+							startLongitude: res.longitude,
+							startLatitude: res.latitude,
+						});
+					}
+				}
 			// }
 			  var nearbyBuilding = false;
 			  var nearestBuildingIndex = -1;
@@ -313,8 +419,16 @@ getDistance: function(lat1, lng1, lat2, lng2) {
 						// description: "老八老八"
 					}
 				  })
+				  const app = getApp();
+				  const locationsA = app.globalData.locationArray;
+				  that.addDashedLine(locationsA[nearestBuildingIndex].latitude, locationsA[nearestBuildingIndex].longitude);
 			  }
-            });
+			  else {
+				that.addDashedLine(0, 0);
+			  }
+			});
+			const mapCtx = wx.createMapContext('map');
+          	mapCtx.moveToLocation();
           },
           fail(err) {
             console.error('位置更新失败', err);
@@ -375,108 +489,121 @@ getDistance: function(lat1, lng1, lat2, lng2) {
     console.error('相机加载错误:', e.detail);
     this.setData({ cameraStatus: '相机加载失败，请检查权限或真机调试' });
   },
-
-  // 拍照
-  takePhoto() {
-	const ctx = wx.createCameraContext()
-	// 启动闪烁效果
-    this.setData({
-		isFlashing: true
-	  });
-
-	  setTimeout(() => {
-		this.setData({
-		  isFlashing: false
-		});
   
-		
-	  }, 100);
-  
-
-    ctx.takePhoto({
-	  quality: 'high',
-	  flash: 'off',
-	  resolution: 'high',
-      success: (res) => {
-        this.setData({
-          tempImagePath: res.tempImagePath
-		});
-		console.log("拍照成功", res.tempImagePath);
-		// 上传图片到服务器
-		const openId = getApp().globalData.openId;
-		console.log("OpenId: ", openId);
-		this.uploadImageToServer(res.tempImagePath, openId); // 登录上传
-		// this.uploadImageToServer(res.tempImagePath, this.data.buildingInfo.name); // 不登录上传
-		// 保存图片到本地相册
-		wx.saveImageToPhotosAlbum({
-			filePath: res.tempImagePath, // 使用拍摄后返回的图片路径
-			success: (saveRes) => {
-			  wx.showToast({
-				title: '保存成功',
-				icon: 'success',
-				duration: 2000
-			  });
-			},
-			fail: (saveErr) => {
-			  wx.showToast({
-				title: '保存失败',
-				icon: 'none',
-				duration: 2000
-			  });
-			  console.log('保存失败:', saveErr);
-			}
-		  });
-	  },
-	  error(e) {
-		wx.showToast({
-		title: '拍照失败',
-		icon: 'none',
-		duration: 2000
-		});
-		console.log(e.detail)
-	  },
-    })
-  },
-
-
-  // 上传图片到后端服务器
-uploadImageToServer(imagePath, fileName) {
-	console.log("ImagePath: ", imagePath);
-	console.log("fileName: ", fileName);
-	wx.uploadFile({
-	  url: 'http://172.29.4.191:8080/api/photos/upload', // 替换成你的服务器接口地址
-	  filePath: imagePath,  // 拍照后得到的图片路径
-      name: 'file',         // 后端接收文件的字段名
-	  formData: {
-		openId: fileName,     // 传递 openId 给后端
-	  },
-	  success: (res) => {
-		console.log('上传成功', res);
-		const data = JSON.parse(res.data);  // 假设后端返回的是 JSON 格式
-		if (data.code === '000') {
-		  wx.showToast({
-			title: '上传成功',
-			icon: 'success',
-			duration: 2000
-		  });
-		} else {
-		  wx.showToast({
-			title: '上传失败',
-			icon: 'none',
-			duration: 2000
-		  });
-		}
-	  },
-	  fail: (err) => {
-		console.log('上传失败', err);
-		wx.showToast({
-		  title: '上传失败',
-		  icon: 'none',
-		  duration: 2000
-		});
-	  }
+  navigateToPhotoTaking() {
+	console.log("1111");
+	wx.navigateTo({
+	url: "/pages/takePhoto/takePhoto",
+	success() {
+		console.log("页面跳转成功");
+	},
+	fail(err) {
+		console.error("页面跳转失败", err);
+	},
 	});
   },
+
+  // 拍照
+//   takePhoto() {
+// 	const ctx = wx.createCameraContext()
+// 	// 启动闪烁效果
+//     this.setData({
+// 		isFlashing: true
+// 	  });
+
+// 	  setTimeout(() => {
+// 		this.setData({
+// 		  isFlashing: false
+// 		});
+  
+		
+// 	  }, 100);
+  
+
+//     ctx.takePhoto({
+// 	  quality: 'high',
+// 	  flash: 'off',
+// 	  resolution: 'high',
+//       success: (res) => {
+//         this.setData({
+//           tempImagePath: res.tempImagePath
+// 		});
+// 		console.log("拍照成功", res.tempImagePath);
+// 		// 上传图片到服务器
+// 		const openId = getApp().globalData.openId;
+// 		console.log("OpenId: ", openId);
+// 		this.uploadImageToServer(res.tempImagePath, openId); // 登录上传
+// 		// this.uploadImageToServer(res.tempImagePath, this.data.buildingInfo.name); // 不登录上传
+// 		// 保存图片到本地相册
+// 		wx.saveImageToPhotosAlbum({
+// 			filePath: res.tempImagePath, // 使用拍摄后返回的图片路径
+// 			success: (saveRes) => {
+// 			  wx.showToast({
+// 				title: '保存成功',
+// 				icon: 'success',
+// 				duration: 2000
+// 			  });
+// 			},
+// 			fail: (saveErr) => {
+// 			  wx.showToast({
+// 				title: '保存失败',
+// 				icon: 'none',
+// 				duration: 2000
+// 			  });
+// 			  console.log('保存失败:', saveErr);
+// 			}
+// 		  });
+// 	  },
+// 	  error(e) {
+// 		wx.showToast({
+// 		title: '拍照失败',
+// 		icon: 'none',
+// 		duration: 2000
+// 		});
+// 		console.log(e.detail)
+// 	  },
+//     })
+//   },
+
+
+//   // 上传图片到后端服务器
+// uploadImageToServer(imagePath, fileName) {
+// 	console.log("ImagePath: ", imagePath);
+// 	console.log("fileName: ", fileName);
+// 	wx.uploadFile({
+// 	  url: 'http://172.29.4.191:8080/api/photos/upload', // 替换成你的服务器接口地址
+// 	  filePath: imagePath,  // 拍照后得到的图片路径
+//       name: 'file',         // 后端接收文件的字段名
+// 	  formData: {
+// 		openId: fileName,     // 传递 openId 给后端
+// 	  },
+// 	  success: (res) => {
+// 		console.log('上传成功', res);
+// 		const data = JSON.parse(res.data);  // 假设后端返回的是 JSON 格式
+// 		if (data.code === '000') {
+// 		  wx.showToast({
+// 			title: '上传成功',
+// 			icon: 'success',
+// 			duration: 2000
+// 		  });
+// 		} else {
+// 		  wx.showToast({
+// 			title: '上传失败',
+// 			icon: 'none',
+// 			duration: 2000
+// 		  });
+// 		}
+// 	  },
+// 	  fail: (err) => {
+// 		console.log('上传失败', err);
+// 		wx.showToast({
+// 		  title: '上传失败',
+// 		  icon: 'none',
+// 		  duration: 2000
+// 		});
+// 	  }
+// 	});
+//   },
 
 
   getPhotosByOpenId(openId) {
@@ -563,6 +690,11 @@ uploadImageToServer(imagePath, fileName) {
     });
   },
 
+
+  
+
+
+
   // 点击按钮时显示建筑信息
   showBuildingInfo: function() {
     this.setData({
@@ -624,6 +756,7 @@ uploadImageToServer(imagePath, fileName) {
 
   onUnload(){
     this.stopCompass();
-    this.stopMonitoring();
+	this.stopMonitoring();
+	this.stopNavigation();
   }
 });

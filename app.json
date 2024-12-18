@@ -1,8 +1,9 @@
 {
   "pages": [
-	"pages/start/start",
-    "pages/index/index",
-    "pages/camera/camera",
+	"pages/index/index",
+	"pages/camera/camera",
+	"pages/takePhoto/takePhoto",
+    "pages/start/start",
     "pages/getInfo/getInfo",
     "pages/RouteDetail/RouteDetail",
     "pages/pictureWall/pictureWall"
@@ -21,13 +22,11 @@
     }
   },
   "usingComponents": {
-
-	"t-icon": "tdesign-miniprogram/icon/icon",
-	"t-button": "tdesign-miniprogram/button/button",
-	"t-link": "tdesign-miniprogram/link/link",
-	"t-badge": "tdesign-miniprogram/badge/badge",
-	"t-swiper": "tdesign-miniprogram/swiper/swiper",
-  	"t-swiper-nav": "tdesign-miniprogram/swiper-nav/swiper-nav"
-
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-button": "tdesign-miniprogram/button/button",
+    "t-link": "tdesign-miniprogram/link/link",
+    "t-badge": "tdesign-miniprogram/badge/badge",
+    "t-swiper": "tdesign-miniprogram/swiper/swiper",
+	"t-swiper-nav": "tdesign-miniprogram/swiper-nav/swiper-nav"
   }
 }
