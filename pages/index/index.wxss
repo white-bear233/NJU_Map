@@ -9,15 +9,29 @@
   height: 100%;
 }
 .recommend-route-button {
-  width: 40px;
-  height: 40px;
+  position: relative;
+  width: 45px; /* 调整按钮的宽度，适应图标 */
+  height: 45px; /* 按钮是正方形 */
   background-color: #007aff; /* 按钮背景色 */
-  border-radius: 50%; /* 圆形按钮 */
+  border-radius: 12px; /* 圆角效果 */
   box-shadow: 0px 4px 8px rgba(12, 12, 12, 0.2); /* 阴影效果 */
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: center; /* 水平居中对齐 */
+  justify-content: center; /* 垂直居中对齐 */
   border: none; /* 无边框 */
+}
+
+.icon-with-text {
+  display: flex;
+  flex-direction: column; /* 垂直排列图标和文字 */
+  align-items: center; /* 文字和图标居中对齐 */
+  justify-content: center;
+}
+.icon-text {
+  font-size: 9px; /* 设置文字大小 */
+  color: white; /* 文字颜色 */
+  text-align: center; /* 文字居中 */
+    
 }
 
 .recommend-route-button t-icon {
@@ -54,13 +68,8 @@
   flex-direction: column; /* 垂直排列 */
 }
 
-.drawer-handle {
-  width: 120rpx;
-  height: 12rpx;
-  background-color: #ccc;
-  border-radius: 6rpx;
-  margin: 20rpx auto;
-  display: block; /* 确保是块级元素 */
+.tab-content{
+  height: 100%;
 }
 
 .drawer-content {
@@ -70,124 +79,76 @@
   position: relative;
   border: 1px solid #ddd; /* 默认边框颜色 */
   border-radius: 12px;    /* 圆角 */
-  padding: 20px;          /* 内边距 */
   margin: 20px ;         /* 外边距 */
   background-color: #f9f9f9; /* 背景颜色 */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 阴影效果 */
   text-align: center;
-}
-
-.route-wrapper.selected {
-  border-width: 2px;
-  border-color: rgb(160, 66, 150); /* 选中时边框颜色改为绿色 */
+  height: 35vh;
+  overflow: hidden; /* 确保子元素不会溢出父容器 */
 }
 
 .route-wrapper-container{
-  height: 80%;
-}
-.info-title {
-  font-size: 36rpx;
-  font-weight: bold;
-  margin-bottom: 15rpx;
+  height: 100%;
 }
 
-.info-desc {
-  font-size: 28rpx;
-  color: #666;
+.top-section {
+  background: url('https://mmbiz.qpic.cn/mmbiz_jpg/HWrcmj1gz1lo2ic5iaKZMeFBtRdToISbckKs9yggy3azvVyQZBTVMr4q8Zj9k1T7YSS0xIHk2BH0Q3ksqibtRQiadA/640?wx_fmt=jpeg&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1') no-repeat center center;
+  background-size: cover; /* 背景图自适应容器 */
+  height: 70%; /* 上部分占容器的一半高度 */
 }
-
-.additional-info {
-  font-size: 28rpx;
-  color: #333;
-  margin-top: 20rpx;
-}
-
-
-
-/* 路线内容容器 */
-.route-content {
-  position: relative; /* 父容器设置为相对定位 */
-  margin-top: 10px;
-  display: flex;
-  flex-wrap: wrap; /* 自动换行 */
-  gap: 5px; /* 元素间距 */
-}
-.route-title {
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
-}
-.recommend-tag {
-  position: absolute;
-  width: 30px;        /* 距离父容器左侧 10px */
-  top: 0px;
-  left: 0px;
-  background-color: #26eb51; /* 推荐标签背景色 */
-  color: white; /* 标签文字颜色 */
-  font-size: 25rpx; /* 字体大小 */
-  padding: 5rpx 10rpx; /* 内边距 */
-  border-radius: 12rpx; /* 圆角效果 */
-  z-index: 10; /* 保证在最上层显示 */
-}
-.haeder-cl{
-  height: 32px;
-  display: flex;          /* 启用 Flexbox 布局 */
-  align-items: center;    /* 垂直居中 */
-  justify-content: space-between; /* 子元素两端对齐 */
-  width: 100%;            /* 占满容器宽度 */
-  padding: 10rpx;         /* 添加适当内边距 */
-  background-color: #f9f9f9; /* 可选背景色 */
-  border-bottom: 1px solid #ddd; /* 可选分割线 */
-}
-/* 单个站点样式 */  
-.subway-point {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 40px; /* 每个站点宽度 */
-  text-align: center;
-}
-
-/* 圆点样式 */
-.circle {
-  width: 20px;
-  height: 20px; 
-  border-radius: 50%;
-  background-color: rgb(185, 63, 173);
-  border: 3px solid #ffffff;
-  margin-bottom: 5px;
-}
-
-/* 站点名称样式 */
-.station-name {
+.picture-description{
+  position: relative;
+  color: rgb(252, 248, 248);
   font-size: 10px;
-  color: #333;
+
+  top: 90%;
+  width: auto;
+}
+.bottom-section {
+  position: relative; /* 保证父容器为相对定位，使按钮的绝对定位基于父容器 */
+  display: block; /* 保证父容器是块级元素 */
+  background: linear-gradient(45deg, rgba(155, 149, 100, 0.849), rgba(34, 23, 2, 0)); /* 渐变色块，透明到黑色 */
+  height: 30%; /* 下部分占容器的另一半高度 */
+  padding-left: 10px; /* 可以添加一点左侧内边距，增加左边距 */
+  padding-top: 20px;
 }
 
-/* 连线样式 */
-.line {
-  width: 20px;
-  height: 2px;
-  margin-bottom: 30px;
-  background-color: rgb(185, 63, 173);
-  align-self: center; /* 居中对齐 */
+.route-title{
+  color: rgb(250, 250, 250); 
+  text-align: left; /* 确保文本从左侧对齐 */
+  display: block; /* 确保每个text都占一行，按照块级元素显示 */
+  margin: 0; /* 去除默认的外边距 */
+  font-weight:300
+}
+.route-description{
+  color: rgb(250, 250, 250); 
+  text-align: left; /* 确保文本从左侧对齐 */
+  display: block; /* 确保每个text都占一行，按照块级元素显示 */
+  margin: 0; /* 去除默认的外边距 */
+  font-size: 12px;
+  font-weight:100
+}
+/* 圆角渐变色椭圆按钮：两侧半圆，上下直线 */
+.ellipse-button {
+  position: absolute; /* 绝对定位 */
+  top: 40%; /* 垂直居中 */
+  right: 10px; /* 放置在父容器的右侧 */
+  transform: translateY(-50%); /* 使按钮完全垂直居中 */
+  
+  background: linear-gradient(45deg,  rgba(173, 129, 48, 0),rgb(233, 109, 7));  /* 渐变色背景，橙色到粉色 */
+  color: white; /* 文字颜色 */
+  border: none; /* 去掉默认边框 */
+  border-radius: 30px; /* 左右半圆效果，设置较大的圆角 */
+  font-size: 12px; /* 字体大小 */
+  text-align: center; /* 文字居中 */
+  width:60px;
+  height: 30px; /* 设置按钮高度 */
 }
 
-.link-example {
-  position: absolute;
-  top:5px; /* 根据实际调整 */
-  right:5px; /* 根据实际调整 */
-  color: rgb(185, 63, 173);  /* 绿色 */
-  text-decoration: underline; /* 下划线 */
-  font-size: 14px;
+.ellipse-button:hover {
+  opacity: 0.8; /* 悬停时按钮透明度变化 */
 }
 
-.goButton{
-  position: absolute;
-  height: 28px; 
-  right: 3%; 
-  bottom: 5%;
-}
 /* 遮罩层样式 */
 .overlay {
   position: fixed;
@@ -217,7 +178,7 @@
   display: flex;
   justify-content: center; /* 中心对齐整个内容 */
   align-items: center; /* 垂直居中 */
-  padding: 5px;
+  padding-top: 5px;
   width: 100%; /* 父容器宽度 */
   position: relative; /* 使得关闭按钮相对定位 */
 }
@@ -226,19 +187,23 @@
 .title {
   text-align: center; /* 标题文本居中 */
   font-weight: bold;
-  color: rgb(14, 226, 120); /* 设置标题颜色 */
   flex: 1; /* 确保标题占据容器内所有空间 */
-}
-
-/* 关闭按钮设置右对齐 */
-.close-button {
-  position: absolute;
-  right: 10px; /* 右侧 10px */
-  z-index: 10;
 }
 
 /* 关闭按钮样式 */
 .t-icon {
   width: 25px;
   height: 25px;
+}
+.custom-tabs {
+  height: 90%;
+}
+.custom-panel {
+  color: var(--td-text-color-primary);
+}
+.custom-panel__content {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

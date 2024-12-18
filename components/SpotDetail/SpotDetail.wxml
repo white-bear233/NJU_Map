@@ -1,0 +1,13 @@
+<!--components/SpotDetail/SpotDetail.wxml-->
+<view class="text-box">
+  <view class="text">
+    <text class="title">汉口路校门</text>
+    <text class="subtitle">——叩开南大人的荣光记忆</text>
+  </view>
+</view>
+<image class="image" src="{{images}}" alt="汉口路校门" />
+<view class="section">
+  <view class="paragraph">
+    <text>{{description}}</text>
+  </view>
+</view>
