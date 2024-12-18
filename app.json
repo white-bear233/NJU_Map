@@ -4,7 +4,6 @@
     "pages/index/index",
     "pages/camera/camera",
     "pages/getInfo/getInfo",
-    "pages/RouteDetail/RouteDetail",
     "pages/pictureWall/pictureWall"
   ],
   "window": {
