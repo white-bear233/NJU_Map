@@ -100,9 +100,31 @@
       scale="18" 
       show-location="true" 
 	  polyline="{{polyline[showPolylineMode]}}"
-      markers="{{markers}}">
+      markers="{{markers}}"
+	  bindmarkertap="markertap">
 	  <!-- :center= "center"> -->
+
+
     </map>
 
+
+
   </view>
+  <view class="overlay" wx:if="{{showSpotDetail}}">
+      <view class="info-window">
+        <!-- 顶栏容器 -->
+        <view class="top-bar">
+          <!-- 标题居中 -->
+          <text class="title">景点详情</text>
+          <!-- 关闭按钮 -->
+          <view class="close-button" catch:tap="closeDialog">
+            <t-icon name="close-circle" size="25px" color="black" />
+          </view>
+        </view>
+        <SpotDetail 
+          images="{{SpotImages}}" 
+          description="{{SpotDescription}}"
+        ></SpotDetail >
+      </view>
+    </view>
 </view>

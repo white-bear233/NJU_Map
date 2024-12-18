@@ -4,6 +4,9 @@
     "mp-tabs": "@miniprogram-component-plus/tabs",
     "t-icon": "/miniprogram_npm/tdesign-miniprogram/icon/icon",
     "t-button": "/miniprogram_npm/tdesign-miniprogram/button/button",
-    "RouteDetail": "/components/RouteDetail/RouteDetail"
+    "RouteDetail": "/components/RouteDetail/RouteDetail",
+    "t-tabs": "tdesign-miniprogram/tabs/tabs",
+    "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel",
+    "SpotDetail":"/components/SpotDetail/SpotDetail"
   }
 }

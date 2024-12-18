@@ -64,3 +64,72 @@
   //     markers: markers
   //   });
   // },
+
+  
+  // 推荐距离当前位置最近的路线
+  // recommendNearestRoute() {
+  //   const {
+  //     latitude,
+  //     longitude,
+  //     routeOnePoints,
+  //     routeTwoPoints,
+  //     routeThreePoints
+  //   } = this.data;
+
+  //   // 获取各条路线的起点位置
+  //   const routeOneStart = routeOnePoints[0]; // 路线一起点
+  //   const routeTwoStart = routeTwoPoints[0]; // 路线二起点
+  //   const routeThreeStart = routeThreePoints[0]; // 路线三起点
+
+  //   // 计算当前位置与各个起点之间的距离
+  //   const distanceToRouteOne = calculateDistance(latitude, longitude, routeOneStart.latitude, routeOneStart.longitude);
+  //   const distanceToRouteTwo = calculateDistance(latitude, longitude, routeTwoStart.latitude, routeTwoStart.longitude);
+  //   const distanceToRouteThree = calculateDistance(latitude, longitude, routeThreeStart.latitude, routeThreeStart.longitude);
+
+  //   // 找到最近的路线
+  //   const distances = [{
+  //       route: 'routeOne',
+  //       distance: distanceToRouteOne
+  //     },
+  //     {
+  //       route: 'routeTwo',
+  //       distance: distanceToRouteTwo
+  //     },
+  //     {
+  //       route: 'routeThree',
+  //       distance: distanceToRouteThree
+  //     }
+  //   ];
+
+  //   // 按照距离从小到大排序，选择最短的距离
+  //   distances.sort((a, b) => a.distance - b.distance);
+  //   const nearestRoute = distances[0].route;
+
+  //   // 更新选中的路线
+  //   this.setData({
+  //     selectedRoute: nearestRoute
+  //   });
+  //   // 可以在这里执行一些额外的操作，比如更新地图的显示
+  //   console.log(`推荐路线: ${nearestRoute}，距离: ${distances[0].distance} 米`);
+  // },
+  // onPointClick(e) {
+  //   const {
+  //     longitude,
+  //     latitude,
+  //     name
+  //   } = e.currentTarget.dataset; // 获取点击点的信息
+  //   console.log(e);
+  //   console.log(name);
+  //   // 更新地图中心点和 markers
+  //   this.setData({
+  //     latitude: latitude,
+  //     longitude: longitude,
+  //   });
+
+  //   // 使用地图 API 移动到目标点
+  //   const mapCtx = wx.createMapContext('map'); // 确保地图组件的 ID 为 "myMap"
+  //   mapCtx.moveToLocation({
+  //     longitude: longitude,
+  //     latitude: latitude,
+  //   });
+  // },
