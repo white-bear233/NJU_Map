@@ -8,3 +8,8 @@
   padding: 200rpx 0;
   box-sizing: border-box;
 }
+
+.custom-navbar {
+	--td-navbar-color: #fff;
+	--td-navbar-bg-color: rgba(137, 207, 240, 0.95)
+}

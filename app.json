@@ -1,9 +1,10 @@
 {
   "pages": [
+	"pages/start/start",
 	"pages/index/index",
-	"pages/camera/camera",
-	"pages/takePhoto/takePhoto",
-    "pages/start/start",
+	"pages/userCenter/userCenter",
+    "pages/camera/camera",
+    "pages/takePhoto/takePhoto",
     "pages/getInfo/getInfo",
     "pages/RouteDetail/RouteDetail",
     "pages/pictureWall/pictureWall"
@@ -22,11 +23,27 @@
     }
   },
   "usingComponents": {
+    "t-tab-bar": "tdesign-miniprogram/tab-bar/tab-bar",
+    "t-tab-bar-item": "tdesign-miniprogram/tab-bar-item/tab-bar-item",
     "t-icon": "tdesign-miniprogram/icon/icon",
     "t-button": "tdesign-miniprogram/button/button",
     "t-link": "tdesign-miniprogram/link/link",
     "t-badge": "tdesign-miniprogram/badge/badge",
     "t-swiper": "tdesign-miniprogram/swiper/swiper",
-	"t-swiper-nav": "tdesign-miniprogram/swiper-nav/swiper-nav"
+	"t-swiper-nav": "tdesign-miniprogram/swiper-nav/swiper-nav",
+	"t-navbar": "tdesign-miniprogram/navbar/navbar"
+  },
+  "tabBar": {
+    "custom": true,
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "地图"
+      },
+      {
+        "pagePath": "pages/userCenter/userCenter",
+        "text": "主页"
+	  }
+    ]
   }
 }

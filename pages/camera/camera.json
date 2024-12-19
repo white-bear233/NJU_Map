@@ -8,7 +8,10 @@
     "RouteDetail": "/components/RouteDetail/RouteDetail",
     "t-tabs": "tdesign-miniprogram/tabs/tabs",
     "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel",
-	"SpotDetail":"/components/SpotDetail/SpotDetail"
-  }
+	"SpotDetail":"/components/SpotDetail/SpotDetail",
+	"t-dialog": "tdesign-miniprogram/dialog/dialog",
+	"t-navbar": "tdesign-miniprogram/navbar/navbar"
+  },
+  "navigationStyle": "custom"
   
 }
