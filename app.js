@@ -113,10 +113,11 @@ App({
   "pages": [
     "pages/start/start",
     "pages/index/index",
-    "pages/getInfo/getInfo",
+	"pages/getInfo/getInfo"
   ],
   "window": {
-    "navigationBarTitleText": "校园导览"
+	"navigationBarTitleText": "校园导览",
+	"navigationStyle": "custom"
   },
   "permission": {
     "scope.userLocation": {

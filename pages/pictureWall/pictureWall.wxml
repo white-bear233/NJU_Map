@@ -1,9 +1,16 @@
 <view class="container">
+<<<<<<< HEAD
   <view class="location">
     <view class="number-box">
       <view class="number">
         <text class="number-text">01</text>
       </view>
+=======
+	<t-navbar t-class-placeholder="t-navbar-placeholder" t-class-content="t-navbar-content" class="custom-navbar" left-arrow title="校园导览" />
+  <view class="number-box">
+    <view class="number">
+      <text class="number-text">01</text>
+>>>>>>> a3eac546d0c83cd14fb6d0144402c8e65e64c451
     </view>
     <view class="text-box">
       <view class="text">

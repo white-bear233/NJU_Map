@@ -1,10 +1,11 @@
 import amapFile from '../../libs/amap-wx.130';
 
+
 // var markersData = [];
-let isLocked = false; // 定义锁
 Page({
   data: {
     showOverlay: false,
+    showSpotDetail:false,
     markers: [],
     latitude: '',
     longitude: '',
@@ -13,35 +14,28 @@ Page({
     polyline: [], // 保存路线的折线数
     isRouteOneVisible: false, // 初始化线路一为隐藏状态
     direction: '',
-    directionName:  '您的朝向：',
+    directionName: '您的朝向：',
     screenHeight: 0, // 屏幕高度
     drawerY: 0, // 抽屉初始位置（相对于 movable-area）
-    selectedRoute: null,  // 记录当前选中的路线
+    tab_value :0,
+    selectedRoute: null, // 记录当前选中的路线
     currentPointIndex: null, // 当前选中的站点索引
     isMovableViewDisabled: true, // 控制是否禁用拖动
-    map_height:100,
-    routeTwoStations: [
-      { name: '站点D' },
-      { name: '站点E' },
-      { name: '站点F' },
-    ],
-    routeThreeStations: [
-      { name: '站点G' },
-      { name: '站点H' },
-      { name: '站点I' },
-    ],
-    routeOneStations: [
-      { name: '汉口路校门',   latitude: 32.05370585683426, longitude: 118.7805903995204  },
-      { name: '图书馆',  latitude: 32.054494939563895, longitude: 118.78064529920516  },
-      { name: '二源碑',   latitude: 32.054875573149495, longitude: 118.7811862728513  },
-      { name: '校史馆',  latitude: 32.054700517528914, longitude: 118.78128997375563  },
-      { name: '小礼堂',  latitude: 32.05519481339915, longitude: 118.78073202691496 },
-      { name: '大礼堂',  latitude: 32.056071941285616, longitude: 118.78071847288084 } ,
-      { name: '北大楼',  latitude: 32.05689357932788, longitude: 118.78097916355443 } ,
-      { name: '革命烈士纪念碑',  latitude: 32.05621368784742, longitude: 118.78019601293454 } ,
-      { name: '大纛坪', latitude: 32.05584764537453, longitude: 118.77886909273411 } ,
-      { name: '赛珍珠故居',  latitude: 32.05518987690895, longitude: 118.77834734590897 } ,
-      { name: '斗鸡闸',  latitude: 32.05486493188022, longitude: 118.78002502178742 } ,
+    map_height: 100,
+    SpotImages:"https://box.nju.edu.cn/f/9701fc9c6a274813adba/?dl=1",
+    SpotDescription: '测试',
+    isButtonActive: false, // 用于控制按钮的点击状态
+    routeOneStations: [{name: '汉口路校门',latitude: 32.05370585683426,longitude: 118.7805903995204},
+      {name: '图书馆',latitude: 32.054494939563895,longitude: 118.78064529920516},
+      {name: '二源碑',latitude: 32.054875573149495,longitude: 118.7811862728513},
+      {name: '校史馆',latitude: 32.054700517528914,longitude: 118.78128997375563},
+      {name: '小礼堂',latitude: 32.05519481339915,longitude: 118.78073202691496},
+      {name: '大礼堂',latitude: 32.056071941285616,longitude: 118.78071847288084},
+      {name: '北大楼',latitude: 32.05689357932788,longitude: 118.78097916355443},
+      {name: '革命烈士纪念碑',latitude: 32.05621368784742,longitude: 118.78019601293454},
+      {name: '大纛坪',latitude: 32.05584764537453,longitude: 118.77886909273411},
+      {name: '赛珍珠故居',latitude: 32.05518987690895,longitude: 118.77834734590897},
+      {name: '斗鸡闸',latitude: 32.05486493188022,longitude: 118.78002502178742},
     ],
     routeOnePoints : [
       { longitude: 118.7805903995204, latitude: 32.05370585683426 }, // 位置一
@@ -95,46 +89,78 @@ Page({
     ]
   },
   // 点击推荐路线按钮时调用
+  // onShowDrawer() {
+  //   // const animation = wx.createAnimation({
+  //   //   duration: 300, // 动画持续时间
+  //   //   timingFunction: 'ease', // 动画过渡效果
+  //   // });
+
+  //   const newHeight = this.data.map_height === 100 ? 50 : 100;
+  //   if(this.data.isButtonActive){
+  //     this.setData({
+  //       isButtonActive : false
+  //     })
+  //   }
+  //   else{
+  //     this.setData({
+  //       isButtonActive : true
+  //     })
+  //   }
+  //   console.log(this.data.isButtonActive)
+  //   //设置动画效果
+  //   //animation.height(newHeight).step();
+  //   const {tab_value} = this.data;
+  //     // 否则选择新的路线
+  //   if(this.data.drawerY == 0){
+  //     this.setData({
+  //       polyline: this.getRoutePolyline(tab_value), // 获取对应路线的坐标
+  //       isButtonActive: !this.data.isButtonActive, // 切换按钮的活跃状态
+  //     });
+  //     this.addMarkersToRoute();
+  //   }else{
+  //     this.setData({
+  //       polyline: [], // 获取对应路线的坐标
+  //       markers:[]
+  //     });
+  //   }
+
+  //   this.setData({
+  //     //animationData: animation.export(), // 更新动画数据
+  //     drawerY: (this.data.drawerY >= -200) ? -0.5 * this.data.screenHeight : 0,
+  //     // map_height: newHeight, // 更新地图高度
+  //   });
+    
+  // },
   onShowDrawer() {
-    const animation = wx.createAnimation({
-      duration: 300, // 动画持续时间
-      timingFunction: 'ease', // 动画过渡效果
-    });
-
     const newHeight = this.data.map_height === 100 ? 50 : 100;
-
-    // 设置动画效果
-    animation.height(newHeight).step();
-
+    const newButtonState = !this.data.isButtonActive
+    // 更新 isButtonActive 的状态并且在回调中执行其他操作
     this.setData({
-      animationData: animation.export(), // 更新动画数据
-      drawerY: (this.data.drawerY >= -100) ? -0.5 * this.data.screenHeight : 0,
-      map_height: newHeight, // 更新地图高度
-    });
-  },
-  handleTouchStart(e) {
-    e.stopPropagation(); // 阻止事件冒泡，确保点击站点时不会触发ChooseRoute
-  },
-  onPointClick(e) {
-    const { longitude, latitude, name } = e.currentTarget.dataset; // 获取点击点的信息
-    console.log(e);
-    console.log(name);
-    // 更新地图中心点和 markers
-    this.setData({
-      latitude: latitude,
-      longitude: longitude,
-    });
+      isButtonActive: newButtonState,
+    }, () => {
 
-    // 使用地图 API 移动到目标点
-    const mapCtx = wx.createMapContext('map'); // 确保地图组件的 ID 为 "myMap"
-    mapCtx.moveToLocation({
-      longitude: longitude,
-      latitude: latitude,
+    });
+    const { tab_value } = this.data;
+    if (this.data.drawerY == 0) {
+      this.setData({
+        polyline: this.getRoutePolyline(tab_value),
+      });
+      this.addMarkersToRoute();
+    } else {
+      this.setData({
+        polyline: [],
+        markers: [],
+      });
+    }
+    this.setData({
+      // 这里是用来更新地图高度等其他UI状态
+      drawerY: (this.data.drawerY >= -200) ? -0.5 * this.data.screenHeight : 0,
     });
   },
+
 
   //点击打开照片墙
-  getPicture(){
+  getPicture() {
     console.log("1111");
     wx.navigateTo({
       url: "/pages/pictureWall/pictureWall",
@@ -145,7 +171,7 @@ Page({
         console.error("页面跳转失败", err);
       },
     });
-},
+  },
 
   // 点击定位按钮时调用此方法
   mapAiming() {
@@ -153,7 +179,10 @@ Page({
     wx.getLocation({
       type: 'wgs84',
       success: (res) => {
-        const { latitude, longitude } = res;
+        const {
+          latitude,
+          longitude
+        } = res;
         this.setData({
           latitude: latitude,
           longitude: longitude, // 更新当前位置
@@ -173,57 +202,11 @@ Page({
       }
     });
   },
-  // 判断人是否在地区范围内
-  checkProximityAndDirection() {
-    const { latitude, longitude, targetLatitude, targetLongitude, direction } = this.data;
-    
-    if (!latitude || !longitude || direction === null) {
-      wx.showToast({
-        title: '请先获取当前位置和朝向',
-        icon: 'none'
-      });
-      return;
-    }
-
-    // 1. 计算距离
-    const R = 6371; // 地球半径，单位为千米
-    const dLat = (targetLatitude - latitude) * Math.PI / 180;
-    const dLon = (targetLongitude - longitude) * Math.PI / 180;
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(latitude * Math.PI / 180) * Math.cos(targetLatitude * Math.PI / 180) *
-      Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c * 1000; // 距离单位转换为米
-
-    this.setData({
-      distance: (distance / 1000) // 保留两位小数，单位为千米
-    });
-    console.log("distance: ", distance);
-
-    // 2. 判断是否在附近（距离小于 5000 米）
-    const isNearby = distance <= 5000;
-
-    // 3. 计算用户位置到北大楼的方位角（目标方向）
-    const y = Math.sin(dLon) * Math.cos(targetLatitude * Math.PI / 180);
-    const x = Math.cos(latitude * Math.PI / 180) * Math.sin(targetLatitude * Math.PI / 180) -
-              Math.sin(latitude * Math.PI / 180) * Math.cos(targetLatitude * Math.PI / 180) * Math.cos(dLon);
-    let targetDirection = Math.atan2(y, x) * 180 / Math.PI; // 方位角，单位为度
-    targetDirection = (targetDirection + 360) % 360; // 将角度标准化到 [0, 360)
-
-    // 4. 判断是否面向北大楼（方向差距在 ±15° 内）
-    const isFacing = Math.abs(direction - targetDirection) <= 15;
-    console.log("angle: ",  Math.abs(direction - targetDirection));
-    // 5. 设置结果
-    this.setData({
-      isFacingBuilding: isNearby && isFacing
-    });
-  },
-
   // 停止罗盘监听
   stopCompass() {
     wx.offCompassChange();
   },
+  // 计算地理坐标间的距离（单位：米）
 
   // 页面加载时获取位置
   onLoad: function () {
@@ -235,12 +218,13 @@ Page({
     // 获取用户当前位置
     wx.getLocation({
       type: 'wgs84', // 默认类型
-      success: function (res) {
+      success:  (res) =>{
         that.setData({
           latitude: res.latitude, // 设置当前纬度
           longitude: res.longitude // 设置当前经度
         });
-       console.log(res.latitude + " " + res.longitude);
+        console.log(res.latitude + " " + res.longitude);
+        // this.recommendNearestRoute();
       },
       fail: function (err) {
         wx.showModal({
@@ -248,39 +232,107 @@ Page({
           content: err.errMsg
         });
       }
+
     });
+    
     wx.onCompassChange((res) => {
       this.setData({
         direction: res.direction
       });
-    //   console.log("Get Direnction: ")
-    //   console.log(this.data.direction)
+      //   console.log("Get Direnction: ")
+      //   console.log(this.data.direction)
     });
     const systemInfo = wx.getSystemInfoSync();
     console.log(systemInfo.windowHeight); // 输出基础库版本
     const screenHeight = systemInfo.windowHeight;
     this.setData({
       screenHeight: screenHeight,
-      areaHeight :1.2*screenHeight,
-      areaTop:0.4*screenHeight
+      areaHeight: 1.2 * screenHeight,
+      areaTop: 0.4 * screenHeight
     });
-
+    this.startLocationMonitoring();
 
   },
+
   // 添加标记点到路线
   addMarkersToRoute() {
-    const customRoutePoints = [
-      { name: '汉口路校门', coords: { latitude: 32.05370585683426, longitude: 118.7805903995204 } },
-      { name: '图书馆', coords: { latitude: 32.054494939563895, longitude: 118.78064529920516 } },
-      { name: '二源碑', coords: { latitude: 32.054875573149495, longitude: 118.7811862728513 } },
-      { name: '校史馆', coords: { latitude: 32.054700517528914, longitude: 118.78128997375563 } },
-      { name: '小礼堂', coords: { latitude: 32.05519481339915, longitude: 118.78073202691496 } },
-      { name: '大礼堂', coords: { latitude: 32.056071941285616, longitude: 118.78071847288084 } },
-      { name: '北大楼', coords: { latitude: 32.05689357932788, longitude: 118.78097916355443 } },
-      { name: '革命烈士纪念碑', coords: { latitude: 32.05621368784742, longitude: 118.78019601293454 } },
-      { name: '大纛坪', coords: { latitude: 32.05584764537453, longitude: 118.77886909273411 } },
-      { name: '赛珍珠故居', coords: { latitude: 32.05518987690895, longitude: 118.77834734590897 } },
-      { name: '斗鸡闸', coords: { latitude: 32.05486493188022, longitude: 118.78002502178742 } },
+    const customRoutePoints = [{
+        name: '汉口路校门',
+        coords: {
+          latitude: 32.05370585683426,
+          longitude: 118.7805903995204
+        }
+      },
+      {
+        name: '图书馆',
+        coords: {
+          latitude: 32.054494939563895,
+          longitude: 118.78064529920516
+        }
+      },
+      {
+        name: '二源碑',
+        coords: {
+          latitude: 32.054875573149495,
+          longitude: 118.7811862728513
+        }
+      },
+      {
+        name: '校史馆',
+        coords: {
+          latitude: 32.054700517528914,
+          longitude: 118.78128997375563
+        }
+      },
+      {
+        name: '小礼堂',
+        coords: {
+          latitude: 32.05519481339915,
+          longitude: 118.78073202691496
+        }
+      },
+      {
+        name: '大礼堂',
+        coords: {
+          latitude: 32.056071941285616,
+          longitude: 118.78071847288084
+        }
+      },
+      {
+        name: '北大楼',
+        coords: {
+          latitude: 32.05689357932788,
+          longitude: 118.78097916355443
+        }
+      },
+      {
+        name: '革命烈士纪念碑',
+        coords: {
+          latitude: 32.05621368784742,
+          longitude: 118.78019601293454
+        }
+      },
+      {
+        name: '大纛坪',
+        coords: {
+          latitude: 32.05584764537453,
+          longitude: 118.77886909273411
+        }
+      },
+      {
+        name: '赛珍珠故居',
+        coords: {
+          latitude: 32.05518987690895,
+          longitude: 118.77834734590897
+        }
+      },
+      {
+        name: '斗鸡闸',
+        coords: {
+          latitude: 32.05486493188022,
+          longitude: 118.78002502178742
+        }
+      },
     ];
     const markers = customRoutePoints.map((point, index) => ({
       id: index, // 唯一标识符
@@ -303,35 +355,56 @@ Page({
       markers: markers // 更新标记点数据
     });
   },
-  ChooseRoute(e) {
-    const routeName = e.currentTarget.dataset.route; // 获取当前点击的路线名称
-    const selectedRoute = this.data.selectedRoute;
-
-    // 判断当前是否已经选择了此路线，如果是则取消选中
-    if (selectedRoute === routeName) {
-      this.setData({
-        selectedRoute: null, // 取消选中
-        polyline: [], // 清除显示的路线
-        markers: [],
-        [`is${routeName}Visible`]: false, // 取消显示该路线
-      });
-    } else {
-      // 否则选择新的路线
-      this.setData({
-        selectedRoute: routeName, // 更新选中的路线
-        polyline: this.getRoutePolyline(routeName), // 获取对应路线的坐标
-        [`is${routeName}Visible`]: true, // 显示该路线
-        
-      });
-      this.addMarkersToRoute();
-    }
+  // 开始位置监听
+  startLocationMonitoring() {
+    const that = this;
+    wx.authorize({
+      scope: 'scope.userLocation',
+      success() {
+        // 启动实时位置监听
+        wx.startLocationUpdate({
+          success() {
+            wx.onLocationChange((res) => {
+              //console.log("LA: ", res.latitude);
+              //console.log("LO: ", res.longitude);
+              // that.setData({
+              //   latitude: res.latitude,
+              //   longitude: res.longitude
+              // });
+            });
+          },
+          fail(err) {
+            console.error('位置更新失败', err);
+          }
+        });
+      },
+      fail(err) {
+        wx.showModal({
+          title: '定位权限未开启',
+          content: '请在设置中开启定位权限',
+        });
+      }
+    });
   },
+   
+  onTabsChange(e){
+    let currentTab = e.detail.value;  // 获取当前选中的 tab 的 value
+    currentTab = parseInt(currentTab, 10);  // 将字符串转换为整数
+    this.setData({
+      tab_value:currentTab,
+      
+    });
+    console.log(currentTab)
+    this.setData({
+      polyline: this.getRoutePolyline(currentTab), // 获取对应路线的坐标
+    });
+  } ,
 
   // 获取路线的 polyline 配置
   getRoutePolyline(routeName) {
     console.log(routeName);
     switch (routeName) {
-      case 'routeOnePoints':
+      case 0:
         return [{
           points: this.data.routeOnePoints,
           color: "#00CD66", // 浅蓝色路径
@@ -341,7 +414,7 @@ Page({
           borderColor: "#FFFFFF", // 白色边框（透明度50%）
           borderWidth: 2 // 边框宽度
         }];
-      case 'routeTwoPoints':
+      case 1:
         return [{
           points: this.data.routeTwoPoints,
           color: "#FF6347", // 浅红色路径
@@ -351,7 +424,7 @@ Page({
           borderColor: "#FFFFFF", // 白色边框（透明度50%）
           borderWidth: 2 // 边框宽度
         }];
-      case 'routeThreePoints':
+      case 2:
         return [{
           points: this.data.routeThreePoints,
           color: "#1E90FF", // 浅蓝色路径
@@ -368,33 +441,35 @@ Page({
   /**
    * 生命周期函数--监听页面卸载
    */
+  onShow() {
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      const page = getCurrentPages().pop();
+      this.getTabBar().setData({
+        value: '/' + page.route
+      })
+    }
+  },
+
   onUnload() {
+    wx.stopLocationUpdate();
     this.stopCompass();
   },
   onLinkClick() {
     this.setData({
-      showOverlay:true
+      showOverlay: true
     })
-    // console.log("1111");
-    // wx.navigateTo({
-    //   url: "/pages/RouteDetail/RouteDetail",
-    //   success() {
-    //     console.log("页面跳转成功");
-    //   },
-    //   fail(err) {
-    //     console.error("页面跳转失败", err);
-    //   },
-    // });
   },
-
-  closeDialog(){
+  closeDialog() {
     this.setData({
-      showOverlay:false
-    })   
+      showOverlay: false,
+      showSpotDetail: false,
+    })
   },
   onDrawerChange(e) {
-    const {y} = e.detail;
-    console.log(y);
+    const {
+      y
+    } = e.detail;
+
   },
   // 点击地图任意位置事
   mapTap: function (e) {
@@ -404,21 +479,30 @@ Page({
     console.log(`点击位置的经度: ${longitude}, 纬度: ${latitude}`);
   },
   onDrawerTouchEnd(e) {
-    
   },
   handleTouchStart(e) {
     e.stopPropagation(); // 阻止冒泡，确保地图的点击事件能够触发
   },
-  startNavigate: function() {
-	const polylineData = JSON.stringify(this.data.polyline); // 将 polyline 转换为 JSON 字符串
-	const markData = JSON.stringify(this.data.markers);
+  startNavigate: function () {
+    const polylineData = JSON.stringify(this.data.polyline); // 将 polyline 转换为 JSON 字符串
+    const markData = JSON.stringify(this.data.markers);
     // 使用 wx.navigateTo 跳转页面并传递 polyline 数据
     wx.navigateTo({
-	  url: '/pages/camera/camera',
-	  success: function (res) {
-		const sendPolyline = { data: polylineData, mark: markData}; 
-    	res.eventChannel.emit('polylineEvent', sendPolyline);
-	 }   
-    });
-  } // 开始导航传递信息
+      url: '/pages/camera/camera',
+      success: function (res) {
+        const sendPolyline = {
+          data: polylineData,
+          mark: markData
+        };
+        res.eventChannel.emit('polylineEvent', sendPolyline);
+      }
+    }   
+    );
+  }, // 开始导航传递信息
+  markertap:function(e){
+     console.log(e)
+     this.setData({
+       showSpotDetail:true
+     })
+  }
 });

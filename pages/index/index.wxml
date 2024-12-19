@@ -1,125 +1,111 @@
 <view class="map_container" style="height: {{map_height}}vh;">
-  <map class="map" 
-    id="map" 
-    longitude="{{longitude}}" 
-    latitude="{{latitude}}" 
-    scale="18" 
-    show-location="true" 
-    markers="{{markers}}" 
-    polyline="{{polyline}}" 
-    bindtap="mapTap">
-    
+	<t-navbar t-class-placeholder="t-navbar-placeholder" t-class-content="t-navbar-content" class="custom-navbar" title="校园导览" />
 
-
+  <map class="map" id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="18" show-location="true" markers="{{markers}}" polyline="{{polyline}}" bindtap ="mapTap" bindmarkertap="markertap">
     <movable-area class="movable-area">
-      <movable-view class="movable-view"
-        direction="vertical" 
-        y="{{drawerY}}"
-        out-of-bounds="true" 
-        bindchange="onDrawerChange" 
-        bindtouchend="onDrawerTouchEnd" 
-        disabled="{{isMovableViewDisabled}}">
-        
-            <!-- 推荐路线按钮 -->
-        <button class="recommend-route-button" bindtap="onShowDrawer" style="position: absolute; left: 644rpx; top: -80rpx">
-          <t-icon name="subway-line" size="25px" color="white" />
-        </button> 
+      <movable-view class="movable-view" direction="vertical" y="{{drawerY}}" out-of-bounds="true" bindchange="onDrawerChange" bindtouchend="onDrawerTouchEnd" disabled="{{isMovableViewDisabled}}">
+
+        <!-- 推荐路线按钮 -->
+        <button class="{{isButtonActive ? 'recommend-route-button-active' : 'recommend-route-button'}}" bindtap="onShowDrawer" style="position: absolute; left: 645rpx; top: -100rpx" >
+          <view class="icon-with-text">
+            <t-icon name="subway-line" size="25px" color="white" style="position: absolute; right: 22%; top: 10%;" />
+            <text class="icon-text" style="position: absolute; top: 50%;">推荐路线</text>
+          </view>
+        </button>
 
         <!-- 目标定位按钮 -->
         <button class="recommend-route-button" bindtap="mapAiming" style="position: absolute; left: 645rpx; top: -200rpx">
           <t-icon name="map-aiming" size="25px" color="white" />
-        </button> 
+        </button>
         <!-- 照片墙按钮 -->
         <button class="recommend-route-button" bindtap="getPicture" style="position: absolute; left: 645rpx; top: -300rpx">
-          <t-icon name="image-search" size="25px" color="white" />
-        </button> 
+          <view class="icon-with-text">
+            <t-icon name="image-search" size="25px" color="white" style="position: absolute; right: 22%; top: 10%;" />
+            <text class="icon-text" style="position: absolute; top: 50%;">照片墙</text>
+          </view>
+        </button>
 
         <view class="drawer">
-              <!-- 顶栏容器 -->
-        <view class="top-bar">
-          <!-- 标题居中 -->
-          <text class="title" style="height: 30px;">推荐路线</text>
-          <view class="close-button" >
-                <t-button theme="success" size="small" style="background-color: rgb(14, 226, 120); color: white;" catchtap="startNavigate">开始导览</t-button>
-          </view>
-        </view>
-          <!-- 使用 scroll-view 来处理滚动 -->
-          <scroll-view class="route-wrapper-container" scroll-y="true" > <!-- 设置高度为容器的最大高度 -->
-            
-            <!-- 路线 1 -->
-            <view class="route-wrapper {{selectedRoute === 'routeOnePoints' ? 'selected' : ''}}" bindtap="ChooseRoute" data-route="routeOnePoints">
-              <text class="route-title">沉浸历史</text>
-              <view class="recommend-tag">推荐</view>
-              <view class="link-example" catch:tap="onLinkClick">
-                  路线详情
-              </view>
-
-              
-              <view class="route-content">
-                <block wx:for="{{routeOneStations}}" wx:key="index">
-                  <view class="subway-point" catchtap="onPointClick" data-longitude="{{item.longitude}}" data-latitude="{{item.latitude}}" data-name="{{item.name}}">
-                    <view class="circle {{index === currentPointIndex ? 'current' : ''}}"   ></view>
-                    <text class="station-name">{{item.name || ('站点' + (index + 1))}}</text>
+          <!-- 顶栏容器 -->
+          <!-- <view class="top-bar">
+            <text class="title" style="height: 30px; font-size: 20px; color: rgb(155, 42, 144);">推荐路线</text>
+          </view> -->
+          <t-tabs animation="{{ { duration: 0.6 } }}" defaultValue="{{0}}" bind:change="onTabsChange" t-class="custom-tabs" t-class-content="custom-panel" >
+            <t-tab-panel label="寻根之旅" value="0" icon="city-ancient-1">
+              <view class="custom-panel__content">
+                <scroll-view class="route-wrapper-container">
+                  <view class="route-wrapper " bindtap="onLinkClick">
+                    <view class="top-section">
+                      <view class="picture-description">
+                        <text style="position: relative; left: 35%;">图 | 北大楼细部</text>
+                      </view>
+                    </view>
+                    <view class="bottom-section">
+                      <text class="route-title">历史寻根之旅</text>
+                      <text class="route-description">寻访鼓楼校区历史建筑，品味建筑之美</text>
+                      <button class="ellipse-button" catch:tap="startNavigate">去探索</button>
+                    </view>
                   </view>
-                  <view wx:if="{{index < routeOneStations.length - 1}}" class="line"></view>
-                </block>
+                </scroll-view>
               </view>
-              
-
-            </view>
-
-            <!-- 路线 2 -->
-            <view class="route-wrapper {{selectedRoute === 'routeTwoPoints' ? 'selected' : ''}}" bindtap="ChooseRoute" data-route="routeTwoPoints">
-              <text class="route-title">路线 2</text>
-              <view class="recommend-tag">推荐</view>
-              <view class="link-example" catch:tap="onLinkClick">
-                  路线详情
-              </view>
-              <view class="route-content">
-                <block wx:for="{{routeTwoStations}}" wx:key="index">
-                  <view class="subway-point">
-                    <view class="circle {{index === currentPointIndex ? 'current' : ''}}" bindtap="onPointClick" data-longitude="{{item.longitude}}" data-latitude="{{item.latitude}}" data-name="{{item.name}}"></view>
-                    <text class="station-name">{{item.name || ('站点' + (index + 1))}}</text>
+            </t-tab-panel>
+            <t-tab-panel label="体验生活" value="1" icon="joyful">
+              <view class="custom-panel__content">
+                <scroll-view class="route-wrapper-container">
+                  <view class="route-wrapper " bindtap="onLinkClick">
+                    <view class="top-section">
+                      <view class="picture-description">
+                        <text style="position: relative; left: 35%;">图 | 北大楼细部</text>
+                      </view>
+                    </view>
+                    <view class="bottom-section">
+                      <text class="route-title">历史寻根之旅</text>
+                      <text class="route-description">寻访鼓楼校区历史建筑，品味建筑之美</text>
+                      <button class="ellipse-button">去探索</button>
+                    </view>
                   </view>
-                  <view wx:if="{{index < routeTwoStations.length - 1}}" class="line"></view>
-                </block>
+                </scroll-view>
               </view>
-            </view>
-
-            <!-- 路线 3 -->
-            <view class="route-wrapper {{selectedRoute === 'routeThreePoints' ? 'selected' : ''}}" bindtap="ChooseRoute"data-route="routeThreePoints">
-              <view class="recommend-tag">推荐</view>
-              <view class="link-example" catch:tap="onLinkClick">
-                  路线详情
-              </view>
-              <text class="route-title">路线 3</text>
-              <view class="route-content">
-                <block wx:for="{{routeThreeStations}}" wx:key="index">
-                  <view class="subway-point">
-                    <view class="circle {{index === currentPointIndex ? 'current' : ''}}" bindtap="onPointClick" data-longitude="{{item.longitude}}" data-latitude="{{item.latitude}}" data-name="{{item.name}}"></view>
-                    <text class="station-name">{{item.name || ('站点' + (index + 1))}}</text>
-                  </view>
-                  <view wx:if="{{index < routeThreeStations.length - 1}}" class="line"></view>
-                </block>
-              </view>
-            </view>
-
-          </scroll-view>
+            </t-tab-panel>
+            <t-tab-panel label="选项三" value="2">
+              <view class="custom-panel__content">选项三内容</view>
+            </t-tab-panel>
+            <t-tab-panel label="选项四" value="3">
+              <view class="custom-panel__content">选项四内容</view>
+            </t-tab-panel>
+          </t-tabs>
         </view>
       </movable-view>
     </movable-area>
     <view class="overlay" wx:if="{{showOverlay}}">
       <view class="info-window">
-    <!-- 顶栏容器 -->
-      <view class="top-bar">
-        <!-- 标题居中 -->
-        <text class="title" >路线详情</text>
-        <!-- 关闭按钮 -->
-        <view class="close-button" catch:tap="closeDialog">
-          <t-icon name="close-circle" size="25px" color="black" />
+        <!-- 顶栏容器 -->
+        <view class="top-bar">
+          <!-- 标题居中 -->
+          <text class="title">路线详情</text>
+          <!-- 关闭按钮 -->
+          <view class="close-button" catch:tap="closeDialog">
+            <t-icon name="close-circle" size="25px" color="black" />
+          </view>
         </view>
-      </view>
         <RouteDetail></RouteDetail>
+      </view>
+    </view>
+    <view class="overlay" wx:if="{{showSpotDetail}}">
+      <view class="info-window">
+        <!-- 顶栏容器 -->
+        <view class="top-bar">
+          <!-- 标题居中 -->
+          <text class="title">景点详情</text>
+          <!-- 关闭按钮 -->
+          <view class="close-button" catch:tap="closeDialog">
+            <t-icon name="close-circle" size="25px" color="black" />
+          </view>
+        </view>
+        <SpotDetail 
+          images="{{SpotImages}}" 
+          description="{{SpotDescription}}"
+        ></SpotDetail >
       </view>
     </view>
   </map>

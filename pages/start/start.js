@@ -10,9 +10,9 @@ Page({
 
   // 按钮点击事件
   startGuide: function () {
-    wx.navigateTo({
-      url: '/pages/index/index' // 跳转到 index 页面
-    });
+    wx.switchTab({
+      url: '/pages/index/index',  // 目标页面路径
+    })
   },
   /**
    * 生命周期函数--监听页面加载

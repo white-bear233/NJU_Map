@@ -1,5 +1,6 @@
 <view class="container">
   <!-- 背景图片 -->
+  <t-navbar t-class-placeholder="t-navbar-placeholder" t-class-content="t-navbar-content" class="custom-navbar" title="校园导览" />
   <image class="background-image"  mode="aspectFill"></image>
   <!-- src="/images/nju-campus.jpg" -->
   <!-- 欢迎文字 -->
