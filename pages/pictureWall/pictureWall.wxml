@@ -1,29 +1,71 @@
 <view class="container">
-  <view class="number-box">
-    <view class="number">
-      <text class="number-text">01</text>
+  <view class="location">
+    <view class="number-box">
+      <view class="number">
+        <text class="number-text">01</text>
+      </view>
     </view>
-  </view>
-  <view class="text-box">
-    <view class="text">
-      <text class="title">拍摄地点：汉口路校门\n</text>
-      <!--TODO : 加上点击地名跳转到对应介绍功能-->
-      <text class="subtitle">拍摄时间：22:35 11/23/2024</text>
+    <view class="text-box">
+      <view class="text">
+        <text class="title">地点：汉口路校门</text>
+      </view>
     </view>
+    <swiper class="image-swiper" indicator-dots="true" autoplay="true" interval="3000">
+      <swiper-item>
+        <view class="image-container">
+          <image class="image" src="https://mmbiz.qpic.cn/sz_mmbiz_jpg/T0yule9ico8bjKFFVeelfzxmGbeuJK1tX0hZiaCjeIvo6MMia1WJiczD53jciao6Via69vGViapQ2RhQsVS4hz08qqwTw/640?wx_fmt=jpeg&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="汉口路校门" />
+        </view>
+        <!-- 拍摄时间和保存按钮放入同一行容器 -->
+        <view class="info-container">
+          <view class="image-time">拍摄时间：22:35 11/23/2024</view>
+          <button class="save-button">保存</button>
+        </view>
+      </swiper-item>
+      <swiper-item>
+        <view class="image-container">
+          <image class="image" src="https://box.nju.edu.cn/f/e742a08b0adc47ba9770/?dl=1" alt="汉口路校门 - 另一个视角" />
+        </view>
+        <!-- 拍摄时间和保存按钮放入同一行容器 -->
+        <view class="info-container">
+          <view class="image-time">拍摄时间：22:40 11/23/2024</view>
+          <button class="save-button">保存</button>
+        </view>
+      </swiper-item>
+    </swiper>
   </view>
-  
-  <image class="image" src="https://box.nju.edu.cn/f/9701fc9c6a274813adba/?dl=1" alt="汉口路校门" />
 
-  <view class="number-box">
-    <view class="number">
-      <text class="number-text">02</text>
+  <view class="location">
+    <view class="number-box">
+      <view class="number">
+        <text class="number-text">02</text>
+      </view>
     </view>
-  </view>
-  <view class="text-box">
-    <view class="text">
-      <text class="title">拍摄地点：二源壁</text>
-      <text class="subtitle">拍摄时间：15:29 1/6/2024</text>
+    <view class="text-box">
+      <view class="text">
+        <text class="title">地点：二源壁</text>
+      </view>
     </view>
+    <swiper class="image-swiper" indicator-dots="true" autoplay="true" interval="3000">
+      <swiper-item>
+        <view class="image-container">
+          <image class="image" src="https://box.nju.edu.cn/f/e742a08b0adc47ba9770/?dl=1" alt="二源壁" />
+        </view>
+        <!-- 拍摄时间和保存按钮放入同一行容器 -->
+        <view class="info-container">
+          <view class="image-time">拍摄时间：15:29 1/6/2024</view>
+          <button class="save-button">保存</button>
+        </view>
+      </swiper-item>
+      <swiper-item>
+        <view class="image-container">
+          <image class="image" src="https://box.nju.edu.cn/f/e742a08b0adc47ba9770/?dl=1" alt="二源壁 - 另一个视角" />
+        </view>
+        <!-- 拍摄时间和保存按钮放入同一行容器 -->
+        <view class="info-container">
+          <view class="image-time">拍摄时间：15:35 1/6/2024</view>
+          <button class="save-button">保存</button>
+        </view>
+      </swiper-item>
+    </swiper>
   </view>
-  <image class="image" src="https://box.nju.edu.cn/f/e742a08b0adc47ba9770/?dl=1" alt="汉口路校门" />
 </view>

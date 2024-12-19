@@ -1,24 +1,28 @@
-/* pages/pictureWall/pictureWall.wxss */
 .container {
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-top: 10px;
+  flex-direction: column;
   padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.location {
+  width: 100%;
+  margin-bottom: 20px;
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 15px;
+  box-sizing: border-box;
+  padding-bottom: 60rpx; /* 增加底部间距，避免时间和按钮被遮挡 */
 }
 
 .number-box {
-  margin-top: 10px;
-  display: inline-block;
-  align-self: center;
   background-color: rgb(106, 0, 95);
-  padding: 1px 8px;
-  border-radius: 14px 0 14px 14px;
-  overflow: hidden;
-}
-
-.number {
-  text-align: center;
+  padding: 5px 10px;
+  border-radius: 0 10px 10px 0;
+  display: inline-block;
 }
 
 .number-text {
@@ -27,45 +31,89 @@
 }
 
 .text-box {
-  display: inline-block;
-  align-self: center;
-  padding-left: 8px;
-}
-
-.text {
-  text-align: left;
+  padding: 10px 0;
 }
 
 .title {
+  font-size: 16px;
   color: rgb(106, 0, 95);
   font-weight: bold;
 }
 
-.subtitle {
-  color: rgb(106, 0, 95);
-  font-size: 14px;
+.image-swiper {
+  margin-top: 10px;
+  height: 390rpx;
+}
+
+.image-container {
+  width: 100%;
+  height: 300rpx; /* 图片高度设为300rpx */
+  position: relative;
 }
 
 .image {
-  margin-top: 15px;
-  border-radius: 10px; /* 设置圆角 */
-  border: 3px solid rgb(106, 0, 95); /* 紫色边框 */
-  margin-top: 15px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 确保图片按比例裁剪 */
+  border-radius: 10px;
 }
 
-.section {
-  font-size: 12px;
-  margin: 10px;
+/* 修改 info-container，使时间和按钮在同一行 */
+.info-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 40rpx;  /* 设置相同的高度 */
 }
 
-.paragraph {
-  background-color: #fcfcdc; /* 米色背景 */
-  border-radius: 10px;  /* 圆角 */
-  padding: 15px;  /* 内部的填充，避免文字贴边 */
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);  /* 可以加阴影效果 */
+.image-time {
+  font-size: 14px;
+  color: white;
+  height: 40rpx;
+  background-color: rgba(139, 64, 121, 0.6); /* 背景半透明 */
+  padding: 4rpx 8rpx;
+  border-radius: 5rpx;
+  display: flex;
+  align-items: center; /* 垂直居中 */
 }
 
-.highlight {
-  color: rgb(106, 0, 95);
-  font-weight: bold;
+.save-button {
+  width: auto;  /* 宽度自动，根据文字长度自适应 */
+  padding: 4rpx 10rpx; /* 内边距调整，以适应文字 */
+  font-size: 14px; /* 字体大小 */
+  color: white;
+  background-color: #a677b9; /* 紫色按钮 */
+  border: none;
+  border-radius: 8rpx; /* 钝角正方形 */
+  cursor: pointer;
+  display: flex;
+  height: 50rpx;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap; /* 防止文字换行 */
+  position: absolute; /* 绝对定位 */
+  right: 10rpx; /* 靠右边框 */
+  bottom: 36rpx; /* 保证按钮在图片下方 */
+}
+
+.save-button:hover {
+  background-color: #9b59b6; /* 改变按钮的背景颜色 */
+}
+
+@media screen and (max-width: 640rpx) {
+  .image {
+    height: 250rpx; /* 小屏幕调整图片高度 */
+  }
+
+  .image-time {
+    font-size: 12px;
+  }
+
+  .save-button {
+    width: auto;
+    height: 36rpx;
+    font-size: 12px;
+    padding: 4rpx 8rpx;
+  }
 }
