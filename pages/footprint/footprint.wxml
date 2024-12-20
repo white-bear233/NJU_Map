@@ -1,0 +1,52 @@
+<t-navbar t-class-placeholder="t-navbar-placeholder" class="custom-navbar" left-arrow title="我的足迹" />
+
+<view class="container">
+	<view class="route-list">
+		<block wx:for="{{routes}}" wx:key="id">
+			<view class="route-card">
+				<!-- 卡片头部 -->
+				<view class="card-header">
+					<view class="header-left">
+						<text class="route-name">{{item.name}}</text>
+						<view class="route-info">
+							<t-icon name="time" size="32rpx" />
+							<text class="info-text">{{item.duration}}</text>
+							<t-icon name="calendar" size="32rpx" />
+							<text class="info-text">{{item.date}}</text>
+						</view>
+					</view>
+
+					<!-- 添加环形进度 -->
+
+					<t-icon name="{{item.showDetail ? 'chevron-up' : 'chevron-down'}}" size="40rpx" bind:tap="toggleDetail" data-id="{{item.id}}" />
+				</view>
+
+				<view class="progress-section">
+					<text class="progress-label">路线完成进度：</text>
+					<view class="progress-wrapper">
+						<t-progress theme="plump" color="{{ { from: '#7B1FA2', to: '#1976D2' } }}"  percentage="{{item.percentage}}" status="active" />
+					</view>
+				</view>
+
+				<!-- 展开内容 -->
+				<view class="card-detail" wx:if="{{item.showDetail}}">
+					<view class="detail-block">
+						<text class="block-title">路线描述</text>
+						<text class="block-content">{{item.description}}</text>
+					</view>
+
+					<view class="photo-wall">
+						<text class="block-title">照片回顾</text>
+						<view class="photo-grid">
+							<block wx:for="{{item.photos}}" wx:for-item="photo" wx:key="index">
+								<view class="photo-wrapper">
+									<image src="{{photo.url}}" mode="aspectFill" class="photo-item" bindtap="previewImage" data-urls="{{item.photos}}" data-current="{{photo.url}}" />
+								</view>
+							</block>
+						</view>
+					</view>
+				</view>
+			</view>
+		</block>
+	</view>
+</view>

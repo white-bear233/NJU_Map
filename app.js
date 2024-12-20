@@ -71,12 +71,19 @@ App({
         longitude: 118.7801589997433,
         description: "南京大学革命烈士纪念碑"
       }
-    ],
+	],
+	
+
+	takePhotoPosition: '南京大学鼓楼校区',
+
+	completePolylineName: '游览路线',
+	completePolylineTime: '',
+	exitPolyline: false
   },
 
   onLaunch() {
     console.log("小程序启动");
-    this.login(); // 在启动时调用登录逻辑
+	this.login(); // 在启动时调用登录逻辑
   },
 
   login() {
@@ -95,11 +102,13 @@ App({
               console.log(response.data);
               if (response.data.code === '000') {
                 console.log('登录成功', response.data.result);
-                console.log(response.data.result.openid);
-                that.openid = response.data.result.openid;
-                console.log(that.openid);
+				console.log(response.data.result.openid);
+                that.globalData.openid = response.data.result.openid;
+				console.log("openiddddddddddddd: ", that.openid);
+				console.log("LLLLLLLLLL: ", that.globalData.openid);
               } else {
-                console.error('登录失败', response.data.msg);
+				console.error('登录失败', response.data.msg);
+				console.error("Code: ", response.data.code);
               }
             }
           });

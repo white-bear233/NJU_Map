@@ -86,7 +86,10 @@ Page({
       { longitude: 118.77976453956535, latitude: 32.05611529010134},
       { longitude: 118.78107509445545, latitude: 32.056272670607264},
       { longitude:118.78098680544997, latitude: 32.056858390811506 },
-    ]
+	],
+	showCompleteDialog: false,
+    completedRouteName: '',
+    completedRouteTime: ''
   },
   // 点击推荐路线按钮时调用
   // onShowDrawer() {
@@ -210,6 +213,8 @@ Page({
 
   // 页面加载时获取位置
   onLoad: function () {
+	const app = getApp();
+	console.log("OPENID: ", app.globalData.openid);
     var that = this;
     var myAmapFun = new amapFile.AMapWX({
       key: 'ace2794f81f01e47f26de3d9f88aa9cd'
@@ -447,6 +452,18 @@ Page({
       this.getTabBar().setData({
         value: '/' + page.route
       })
+	}
+	
+	const app = getApp();
+    if (app.globalData.exitPolyline) {
+      this.setData({
+        showCompleteDialog: true,
+        completedRouteName: app.globalData.completePolylineName,
+        completedRouteTime: app.globalData.completePolylineTime
+	  });
+	  console.log("show: ", this.data.showCompleteDialog, this.data.completedRouteName, this.data.completedRouteTime)
+      // Reset global flag
+      app.globalData.exitPolyline = false;
     }
   },
 
@@ -465,6 +482,12 @@ Page({
       showSpotDetail: false,
     })
   },
+  closeCompleteDialog() {
+	  this.setData({
+		  showCompleteDialog: false
+	  })
+  },
+
   onDrawerChange(e) {
     const {
       y

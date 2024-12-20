@@ -1,25 +1,37 @@
-// pages/start/start.js
+// pages/userCenter/userCenter.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+	avatarUrl: 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0',
+    nickname: '微信用户'
   },
 
-  // 按钮点击事件
-  startGuide: function () {
-    wx.switchTab({
-      url: '/pages/index/index',  // 目标页面路径
-    })
+  onChooseAvatar(e) {
+    this.setData({
+      avatarUrl: e.detail.avatarUrl
+    });
   },
+
+  navigateToPictureWall() {
+    wx.navigateTo({
+      url: '/pages/pictureWall/pictureWall'
+    });
+  },
+
+  navigateToFootprints() {
+    wx.navigateTo({
+      url: '/pages/footprint/footprint'
+    });
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-	const app = getApp();
-	console.log("OPENID: ", app.globalData.openid);
+
   },
 
   /**
@@ -33,7 +45,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+	if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+		const page = getCurrentPages().pop();
+		this.getTabBar().setData({
+		  value: '/' + page.route
+		})
+	  }
   },
 
   /**

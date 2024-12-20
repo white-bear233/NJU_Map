@@ -1,4 +1,4 @@
-// pages/start/start.js
+// pages/RouteDetail/RouteDetail.js
 Page({
 
   /**
@@ -8,18 +8,11 @@ Page({
 
   },
 
-  // 按钮点击事件
-  startGuide: function () {
-    wx.switchTab({
-      url: '/pages/index/index',  // 目标页面路径
-    })
-  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-	const app = getApp();
-	console.log("OPENID: ", app.globalData.openid);
+
   },
 
   /**

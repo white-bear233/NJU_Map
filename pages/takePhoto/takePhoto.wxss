@@ -1,0 +1,288 @@
+.camera-container {
+	width: 100vw;
+	height: 100vh;
+	background: #000;
+	position: relative;
+  }
+  
+  .camera {
+	width: 100%;
+	height: 100%;
+	position: relative;
+  }
+  
+  
+  /* 顶部控制栏 */
+  .top-controls {
+	position: fixed;
+	top: 6px;
+	left: 0;
+	right: 0;
+	padding: 0 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	z-index: 100;
+  }
+  
+  .flash-btn {
+	width: 80rpx;
+	height: 80rpx;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.3s ease;
+  }
+  
+  .icon-flash {
+	width: 60rpx;
+	height: 60rpx;
+	position: relative;
+	transition: all 0.3s ease;
+  }
+  
+  .flash-bolt {
+	position: absolute;
+	left: 55%;
+	top: 55%;
+	transform: translate(-50%, -50%);
+	width: 24rpx;
+	height: 32rpx;
+	background: #fff;
+	clip-path: polygon(50% 0, 0 50%, 50% 50%, 0 100%, 100% 50%, 50% 50%, 100% 0);
+	transition: background-color 0.3s ease;
+  }
+  
+  .flash-circle {
+	width: 100%;
+	height: 100%;
+	border: 3rpx solid #fff;
+	border-radius: 50%;
+	transition: border-color 0.3s ease;
+  }
+  
+  .icon-flash-on .flash-bolt {
+	background: #FFD700;
+  }
+  
+  .icon-flash-on .flash-circle {
+	border-color: #FFD700;
+  }
+  /* 网格线 */
+  .grid-lines {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	pointer-events: none;
+  }
+  
+  .horizontal-lines, .vertical-lines {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: flex;
+  }
+  
+  .horizontal-lines {
+	flex-direction: column;
+	justify-content: space-between;
+  }
+  
+  .vertical-lines {
+	flex-direction: row;
+	justify-content: space-between;
+  }
+  
+  /* 底部控制栏 */
+  .bottom-controls {
+	position: fixed;
+	bottom: 40px;
+	left: 0;
+	right: 10rpx;
+	padding: 0 20px;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row;
+	align-items: center;
+  }
+  
+  /* 拍照按钮区域 */
+  .shutter-area {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+  }
+  
+  .mode-text {
+	color: #fff;
+	font-size: 28rpx;
+	margin-bottom: 10rpx;
+  }
+  
+  .shutter-button {
+	width: 140rpx;
+	height: 140rpx;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.2);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+  }
+  
+  .shutter-inner {
+	width: 120rpx;
+	height: 120rpx;
+	border-radius: 50%;
+	background: #fff;
+	transition: all 0.2s ease;
+  }
+  
+  /* 相册预览 */
+  .gallery-preview {
+	width: 80rpx;
+	height: 80rpx;
+	border-radius: 8rpx;
+	overflow: hidden;
+  }
+  
+  /* 模式选择器 */
+  .mode-selector {
+	position: fixed;
+	bottom: 250rpx;
+	left: 0;
+	right: 0;
+  }
+  
+  .mode-scroll {
+	white-space: nowrap;
+	width: 100%;
+  }
+  
+  .mode-options {
+	display: inline-flex;
+	padding: 0 140rpx;
+  }
+  
+  .mode-item {
+	color: #fff;
+	font-size: 32rpx;
+	margin: 0 30rpx;
+	opacity: 0.7;
+	transition: all 0.3s;
+  }
+  
+  .mode-item.active {
+	opacity: 1;
+	font-weight: bold;
+	transform: scale(1.1);
+  }
+  
+  /* 动画效果 */
+  @keyframes shutterPress {
+	0% { transform: scale(1); }
+	50% { transform: scale(0.95); }
+	100% { transform: scale(1); }
+  }
+  
+  .shutter-button:active .shutter-inner {
+	animation: shutterPress 0.2s ease;
+  }
+
+  .shutter-button.recording .shutter-inner {
+	background: #ff3b30;
+	transform: scale(0.9);
+  }
+  
+  .shutter-button.recording .shutter-border {
+	border-color: #ff3b30;
+  }
+
+  .camera-switch {
+	width: 80rpx;
+	height: 80rpx;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.2);
+	backdrop-filter: blur(5px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+  }
+  
+  .icon-switch {
+	width: 48rpx;
+	height: 48rpx;
+	position: relative;
+  }
+  
+  .switch-arrows {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 32rpx;
+	height: 32rpx;
+	border: 3rpx solid #fff;
+	border-left: none;
+	border-bottom: none;
+	transform: translate(-50%, -50%) rotate(45deg);
+  }
+  
+  .switch-camera {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 24rpx;
+	height: 24rpx;
+	background: #fff;
+	border-radius: 50%;
+	transform: translate(-50%, -50%);
+  }
+  
+  .camera-switch:active {
+	background: rgba(255, 255, 255, 0.3);
+	transform: scale(0.95);
+  }
+  
+  .camera-switch:active .icon-switch {
+	transform: rotate(180deg);
+	transition: transform 0.3s ease;
+  }
+
+  .timer-settings {
+	position: absolute;
+	top: 20rpx;
+	right: 10rpx;
+	z-index: 100;
+  }
+  
+  .countdown-picker {
+	background: rgba(0, 0, 0, 0.5);
+	padding: 20rpx;
+	border-radius: 12rpx;
+	display: flex;
+	align-items: center;
+	gap: 10rpx;
+	color: #fff;
+  }
+
+  .flash-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: black;
+	opacity: 0;
+	z-index: 9999;
+	animation: flash 0.15s ease-out;
+  }
+  
+  @keyframes flash {
+	0% { opacity: 0; }
+	25% { opacity: 0.7; }
+	50% {opacity: 1;}
+	75% {opacity: 0.7;}
+	100% { opacity: 0; }
+  }
