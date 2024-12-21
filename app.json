@@ -1,5 +1,6 @@
 {
   "pages": [
+    
 	"pages/start/start",
 	"pages/footprint/footprint",
     "pages/index/index",
@@ -40,6 +41,11 @@
       {
         "pagePath": "pages/index/index",
         "text": "地图"
+      },
+
+      {
+        "pagePath": "pages/getInfo/getInfo",
+        "text": "详情"
       },
       {
         "pagePath": "pages/userCenter/userCenter",

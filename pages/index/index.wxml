@@ -103,7 +103,7 @@
 				<!-- 顶栏容器 -->
 				<view class="top-bar">
 					<!-- 标题居中 -->
-					<text class="title">路线详情</text>
+					<text class="title"></text>
 					<!-- 关闭按钮 -->
 					<view class="close-button" catch:tap="closeDialog">
 						<t-icon name="close-circle" size="25px" color="black" />

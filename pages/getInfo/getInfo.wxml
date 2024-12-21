@@ -1,2 +1,27 @@
-<!--pages/getInfo/getInfo.wxml-->
-<text>pages/getInfo/getInfo.wxml</text>
+<scroll-view scroll-y="true" style="height: 100vh;">
+    <swiper indicator-dots="{{true}}" autoplay="{{true}}">
+        <block wx:for="{{photoList}}" wx:key="index">
+            <swiper-item>
+                <view class="location">
+                    <view class="title">{{item.location}}</view>
+                    <swiper class="image-swiper" indicator-dots="{{true}}" autoplay="{{false}}">
+                <block wx:for="{{item.images}}" wx:key="index">
+                    <swiper-item>
+                        <view class="image-box">
+                            <image style="position: relative; left: 62rpx; top: 0rpx" src="{{item}}" mode="widthFix" class="image" />
+                        </view>
+                    </swiper-item>
+                </block>
+            </swiper>
+                    <!-- 新增景点详细介绍区域 -->
+                    <view class="description">
+                        <view class="description-title">景点介绍</view>
+                        <view class="description-text">
+                        <rich-text nodes="{{item.description}}"></rich-text>
+                        </view>
+                    </view>
+                </view>
+            </swiper-item>
+        </block>
+    </swiper>
+</scroll-view>
