@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-/* pages/userCenter/userCenter.wxss */
-=======
 .user-container {
 	min-height: 100vh;
 	background: #f6f6f6;
@@ -47,4 +44,3 @@
   .function-item {
 	padding: 30rpx 20rpx;
   }
->>>>>>> d65f101479c82d30a6873ff4c0bf04b32e05e808
