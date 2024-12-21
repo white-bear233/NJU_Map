@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #A294F9;
 }
 
 .location {
@@ -10,23 +10,24 @@
   margin-bottom: 20px;
   border: 1px solid #eaeaea;
   border-radius: 10px;
-  background-color: #ffffff;
+  background-color: #CDC1FF;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   padding: 15px;
   box-sizing: border-box;
   padding-bottom: 60rpx; /* 增加底部间距，避免时间和按钮被遮挡 */
+  height: 600rpx;
 }
 
 .number-box {
-  background-color: rgb(106, 0, 95);
+  background-color: #E5D9F2;
   padding: 5px 10px;
   border-radius: 0 10px 10px 0;
   display: inline-block;
 }
 
 .number-text {
-  color: #ffffff;
+  color: #54446d;
   font-weight: bold;
 }
 
@@ -36,7 +37,7 @@
 
 .title {
   font-size: 16px;
-  color: rgb(106, 0, 95);
+  color: #54446d;
   font-weight: bold;
 }
 
@@ -69,12 +70,13 @@
 
 .image-time {
   font-size: 14px;
-  color: white;
+  color: #54446d;
   height: 40rpx;
-  background-color: rgba(139, 64, 121, 0.6); /* 背景半透明 */
+  background-color: #E5D9F2; /* 背景半透明 */
   padding: 4rpx 8rpx;
   border-radius: 5rpx;
   display: flex;
+  font-weight: bold;
   align-items: center; /* 垂直居中 */
 }
 
@@ -82,8 +84,8 @@
   width: auto;  /* 宽度自动，根据文字长度自适应 */
   padding: 4rpx 10rpx; /* 内边距调整，以适应文字 */
   font-size: 14px; /* 字体大小 */
-  color: white;
-  background-color: #a677b9; /* 紫色按钮 */
+  color: 54446d;
+  background-color: #E5D9F2; /* 紫色按钮 */
   border: none;
   border-radius: 8rpx; /* 钝角正方形 */
   cursor: pointer;
@@ -94,11 +96,12 @@
   white-space: nowrap; /* 防止文字换行 */
   position: absolute; /* 绝对定位 */
   right: 10rpx; /* 靠右边框 */
-  bottom: 36rpx; /* 保证按钮在图片下方 */
+  bottom: 38rpx; /* 保证按钮在图片下方 */
+  font-weight: bold;
 }
 
 .save-button:hover {
-  background-color: #9b59b6; /* 改变按钮的背景颜色 */
+  background-color: #A294F9; /* 改变按钮的背景颜色 */
 }
 
 @media screen and (max-width: 640rpx) {
