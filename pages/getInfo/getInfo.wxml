@@ -1,13 +1,41 @@
 <!-- pages/getInfo/getInfo.wxml -->
 <view class="container">
   <!-- 输入框 -->
-  <input 
+  <textarea 
+    class="input"
     type="text" 
-    placeholder="请输入楼宇名称" 
-    bindinput="onInputChange" 
-    value="{{buildingName}}" 
+    placeholder="请输入detail" 
+    bindinput="onInputChange1" 
+    maxlength = "-1"
   />
-
+  <textarea 
+    class="input"
+    type="text" 
+    placeholder="请输入brief" 
+    bindinput="onInputChange2"
+    maxlength = "-1" 
+  />
+  <textarea 
+    class="input"
+    type="text" 
+    placeholder="请输入name" 
+    bindinput="onInputChange3" 
+    maxlength = "-1"
+  />
+  <textarea 
+    class="input"
+    type="text" 
+    placeholder="请输入lontitude" 
+    bindinput="onInputChange4" 
+    maxlength = "-1"
+  />
+  <textarea 
+    class="input"
+    type="text" 
+    placeholder="请输入latitude" 
+    bindinput="onInputChange5" 
+    maxlength = "-1"
+  />
   <!-- 查询按钮 -->
   <button bindtap="onQueryBuilding">查询楼宇</button>
 

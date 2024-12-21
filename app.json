@@ -3,7 +3,7 @@
     "pages/start/start",
     "pages/index/index",
     "pages/camera/camera",
-    "pages/getInfo/getInfo",
+    "pages/getInfo/getInfo", 
     "pages/pictureWall/pictureWall"
 
   ],

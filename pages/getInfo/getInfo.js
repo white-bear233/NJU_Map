@@ -7,38 +7,63 @@ Page({
     buildingName: '', // 存储用户输入的楼宇名称
     buildingInfo: null, // 存储查询到的楼宇信息
     errorMsg: '', // 错误信息，显示查询失败时的提示
+    detail:'',
+    brief:'',
+    lon:'',
+    lat:'',
   },
 
   /**
    * 用户输入文本框内容时触发的事件
    */
-  onInputChange(e) {
+  onInputChange1(e) {
     this.setData({
-      buildingName: e.detail.value, // 更新输入框的值
-      errorMsg: '', // 清空错误信息
+      detail: e.detail.value, // 更新输入框的值
     });
   },
-
+  onInputChange2(e) {
+    this.setData({
+      brief: e.detail.value, // 更新输入框的值
+    });
+  },
+  onInputChange3(e) {
+    this.setData({
+      buildingName: e.detail.value, // 更新输入框的值
+    });
+  },
+  onInputChange4(e) {
+    this.setData({
+      lon: e.detail.value, // 更新输入框的值
+    });
+  },
+  onInputChange5(e) {
+    this.setData({
+      lat: e.detail.value, // 更新输入框的值
+    });
+  },
   /**
    * 查询楼宇信息
    */
   onQueryBuilding() {
     const buildingName = this.data.buildingName; // 获取用户输入的楼宇名称
+    const detail = this.data.detail;
+    const brief = this.data.brief;
+    const lon = this.data.lon;
+    const lat = this.data.lat;
 
-    if (!buildingName) {
-      wx.showToast({
-        title: '请输入楼宇名称',
-        icon: 'none',
-      });
-      return;
-    }
+    
+    console.log(buildingName);
 
     // 发起网络请求，传递查询参数
     wx.request({
-      url: `http://localhost:8080/api/buildings/getBuilding`, // 后端接口地址
-      method: 'GET',
+      url: `http://172.29.4.191:8080/api/buildings/create`, // 后端接口地址
+      method: 'POST',
       data: {
         name: buildingName, // 将用户输入的楼宇名称作为查询参数传递
+        descriptionDetail:detail,
+        descriptionBrief:brief,
+        longitude:lon,
+        latitude:lat ,
       },
       success: (res) => {
         console.log(res); // 打印整个响应结果

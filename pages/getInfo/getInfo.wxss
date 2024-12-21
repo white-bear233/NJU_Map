@@ -1,1 +1,5 @@
-/* pages/getInfo/getInfo.wxss */
+.input{
+  /* 边框 */
+  border:1px solid red;
+  padding: 10rpx;
+}
