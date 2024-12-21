@@ -114,27 +114,17 @@ Page({
 
 
 
-	onQueryBuilding: function () {
-		const buildingName = this.data.buildingInfo.name;
-		console.log("Enter", buildingName);
-		if (!buildingName) {
-			wx.showToast({
-				title: '请输入楼宇名称',
-				icon: 'none',
-			});
-			return;
-		}
-		console.log("Enter1", buildingName);
-		var buildingInfoTmp;
+	 onQueryBuilding () {
+		// const buildingName = this.data.buildingInfo.name;
+		const buildingName = '北大楼';
 		// 发起网络请求，传递查询参数
 		wx.request({
-			url: `http://172.29.4.191:8080/api/buildings/getBuilding`, // 后端接口地址
+			url: `http://172.29.4.191:8080/api/buildings/getBuildingDetail`, // 后端接口地址
 			method: 'GET',
 			data: {
 				name: buildingName, // 将用户输入的楼宇名称作为查询参数传递
 			},
 			success: (res) => {
-				console.log("Enter3", buildingName);
 				console.log("RES", res); // 打印整个响应结果
 				if (res.statusCode === 200) {
 					if (res.data.code === "000") {
@@ -147,6 +137,7 @@ Page({
 							},
 							errorMsg: '', // 清空错误信息
 						});
+						console.log("buildingInfoIN: ", this.data.buildingInfo);
 					} else {
 						// 如果返回的 code 不是 "000"，说明查询失败
 						console.log("EEEEEE");
@@ -227,7 +218,7 @@ Page({
 		// 获得路线
 		// 获取 polyline 参数并进行解析
 		// this.getPhotosByOpenId("斗鸡闸");
-		console.log("PHOTO: ", this.data.photoList);
+		// console.log("PHOTO: ", this.data.photoList);
 		const eventChannel = this.getOpenerEventChannel();
 		eventChannel.once('polylineEvent', (sendPolyline) => {
 			// console.log('接收到的 polylineData:', sendPolyline.data);
@@ -266,7 +257,7 @@ Page({
 			this.setData({
 				locationData: locationDataTmp
 			});
-			console.log("locationData: ", locationDataTmp);
+			// console.log("locationData: ", locationDataTmp);
 		}
 		// 获取用户当前位置
 		wx.getLocation({
@@ -349,12 +340,12 @@ Page({
 		const that = this;
 		this.setData({
 			buildingInfo: {
-				name: "中山楼"
+				name: "北大楼"
 			}
 		})
-		this.onQueryBuilding(""); // 用于测试
-
+		this.onQueryBuilding(); // 用于测试
 		// 检查权限
+		console.log("BBBBBBBBBB: ", this.data.buildingInfo);
 		wx.authorize({
 			scope: 'scope.userLocation',
 			success() {
@@ -374,8 +365,8 @@ Page({
 									startLongitude: res.longitude,
 									startLatitude: res.latitude
 								});
-								console.log("moveDistance: ", moveDistance);
-								console.log("distance: ", that.data.navigation.distance);
+								// console.log("moveDistance: ", moveDistance);
+								// console.log("distance: ", that.data.navigation.distance);
 							} else {
 								that.setData({
 									firstCalculate: true
@@ -404,11 +395,11 @@ Page({
 							var nearbyBuilding = false;
 							var nearestBuildingIndex = -1;
 							var nearestBuildingDistance = 10000;
-							console.log("markers: ", that.data.markers);
+							// console.log("markers: ", that.data.markers);
 							that.setData({
 								locationNum: that.data.markers.length
 							});
-							console.log("markersLen: ", that.data.locationNum);
+							// console.log("markersLen: ", that.data.locationNum);
 							for (let index = 0; index < that.data.locationNum; index++) {
 								that.checkProximityAndDirection(index); // 更新距离和方向
 								if (that.data.locationData[index].isNearBy && that.data.locationData[index].isFacing) {
@@ -420,8 +411,12 @@ Page({
 											indexOfShowingBuilding: index,
 											buildingInfo: {
 												name: that.data.locationData[index].name,
+												description: "",
+												image: ""
 											}
 										})
+										var app = getApp();
+										app.globalData.takePhotoPosition = that.data.buildingInfo.name;
 										that.onQueryBuilding();
 									}
 								}
@@ -687,7 +682,7 @@ Page({
 		// console.log("name: ", name, " distance: ", locationDataTmp[targetIndex]);
 
 		// 2. 判断是否在附近（距离小于 25 米）
-		const isNearby = distance <= 1000;
+		const isNearby = distance <= 30;
 		locationDataTmp[targetIndex].isNearBy = isNearby;
 		const dLat = (targetLatitude - latitude) * Math.PI / 180;
 		const dLon = (targetLongitude - longitude) * Math.PI / 180;
@@ -807,5 +802,15 @@ Page({
 		this.stopCompass();
 		this.stopMonitoring();
 		this.stopNavigation();
+		var app = getApp();
+
+	// 	completePolylineName: '游览路线',
+	// completePolylineTime: '',
+	// completePolyline: false,
+	// exitPolyline: false
+		app.globalData.exitPolyline = true;
+		app.globalData.completePolylineName = "寻根之旅";
+		app.globalData.completePolylineTime = this.data.navigation.formattedTime;
+		console.log("NAMS: ", app.globalData.completePolylineName)
 	}
 });

@@ -77,10 +77,10 @@
 		<map class="map" id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="18" show-location="true" polyline="{{polyline[showPolylineMode]}}" markers="{{markers}}" bindmarkertap="markertap">
 			<!-- :center= "center"> -->
 
-			<t-button class="wrapper" theme="primary" size="large" variant="outline" data-key="showWarnConfirm" bind:tap="showDialog">
+			<t-button class="wrapper" theme="primary" size="large" variant="outline" data-key="showWarnConfirm" bind:tap="showDialog" shape="round" >
 				退出游览
 			</t-button>
-			<t-dialog visible="{{showWarnConfirm}}" content="请确认退出路线游览" confirm-btn="{{ { content: '确认退出', variant: 'base', theme: 'primary' } }}" cancel-btn="取消" bind:confirm="exitRouteTravel" bind:cancel="closeDialog" />
+			<t-dialog visible="{{showWarnConfirm}}" content="请确认退出路线游览" confirm-btn="{{ { content: '确认退出', variant: 'base', theme: 'primary',shape: 'round' } }}" cancel-btn="{{ { content: '取消',shape: 'round' } }}" bind:confirm="exitRouteTravel" bind:cancel="closeDialog" />
 		</map>
 
 

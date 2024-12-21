@@ -1,2 +1,38 @@
+<<<<<<< HEAD
 <!--pages/userCenter/userCenter.wxml-->
 <text>pages/userCenter/userCenter.wxml</text>
+=======
+<view class="user-container">
+	<t-navbar t-class-placeholder="t-navbar-placeholder" t-class-content="t-navbar-content" class="custom-navbar" title="校园导览" />
+  <!-- 用户信息区 -->
+  <view class="user-info">
+    <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+      <image class="avatar" src="{{avatarUrl}}" mode="aspectFill"></image>
+    </button>
+    <input type="nickname" class="nickname" placeholder="请输入昵称"/>
+  </view>
+
+  <!-- 功能区 -->
+  <view class="function-list">
+    <t-cell-group>
+      <!-- 照片墙 -->
+      <t-cell 
+        title="我的照片墙" 
+        leftIcon="image" 
+        hover 
+        arrow 
+        bindtap="navigateToPictureWall" 
+        class="function-item" />
+      
+      <!-- 足迹 -->
+      <t-cell 
+        title="我的足迹" 
+        leftIcon="location" 
+        hover 
+        arrow 
+        bindtap="navigateToFootprints" 
+        class="function-item" />
+    </t-cell-group>
+  </view>
+</view>
+>>>>>>> d65f101479c82d30a6873ff4c0bf04b32e05e808
