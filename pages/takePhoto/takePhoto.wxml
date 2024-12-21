@@ -1,0 +1,102 @@
+<view class="camera-container">
+	<t-navbar t-class-placeholder="t-navbar-placeholder" t-class-content="t-navbar-content" class="custom-navbar" left-arrow title="校园导览" />
+
+  <camera device-position="{{position}}" flash="{{flash}}" class="camera" bindinitdone="onCameraReady"
+  binderror="onCameraError">
+  <view class="flash-overlay" wx:if="{{isFlashing}}"></view>
+    <!-- 顶部控制栏 -->
+    <view class="top-controls">
+      <view class="flash-btn" bindtap="switchFlash">
+        <view class="icon-flash {{flash === 'on' ? 'icon-flash-on' : ''}}">
+          <view class="flash-bolt"></view>
+          <view class="flash-circle"></view>
+        </view>
+      </view>
+      
+      
+      <view class="night-mode">
+        <view class="icon-night">
+          <view class="moon"></view>
+          <view class="stars"></view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 中间网格线 -->
+    <view class="grid-lines">
+      <view class="horizontal-lines"></view>
+      <view class="vertical-lines"></view>
+    </view>
+
+    <!-- 底部控制栏 -->
+    <view class="bottom-controls">
+      <view class="gallery-preview" bindtap="openGallery">
+        <t-button theme="primary" icon="image-search"  shape="circle" bindtap="getPicture"></t-button>
+      </view>
+
+      <!-- 拍照按钮 -->
+      <!-- <view class="shutter-area">
+        <view class="shutter-button" bindtap="takePhoto">
+          <view class="shutter-inner"></view>
+          <view class="shutter-border"></view>
+        </view>
+      </view> -->
+	  <!-- 修改拍摄按钮 -->
+	<view class="shutter-area">
+	<view class="shutter-button" 
+			bindtouchstart="{{currentMode === 'wait' ? 'startTimeLapse' : 'takePhoto'}}"
+			class="{{isRecordingGif ? 'recording' : ''}}">
+		<view class="shutter-inner"></view>
+		<view class="shutter-border"></view>
+	</view>
+	</view>
+
+      <!-- 相机切换按钮 -->
+      <view class="camera-switch" bindtap="switchCamera">
+    	<t-icon name="refresh" size="48rpx" color="#fff" />
+      </view>
+    </view>
+
+    <!-- 模式选择器 -->
+    <!-- <view class="mode-selector">
+      <scroll-view scroll-x="true" class="mode-scroll">
+        <view class="mode-options">
+          <text class="mode-item">全景</text>
+          <text class="mode-item">照片</text>
+          <text class="mode-item active">人像</text>
+          <text class="mode-item">视频</text>
+          <text class="mode-item">慢动作</text>
+        </view>
+      </scroll-view>
+    </view> -->
+	<!-- 模式选择器 -->
+    <view class="mode-selector">
+      <scroll-view scroll-x="true" class="mode-scroll">
+        <view class="mode-options">
+          <text class="mode-item {{currentMode === 'photo' ? 'active' : ''}}" 
+                bindtap="switchMode" 
+                data-mode="photo">照片</text>
+          <text class="mode-item {{currentMode === 'portrait' ? 'active' : ''}}" 
+                bindtap="switchMode" 
+                data-mode="portrait">人像</text>
+          <text class="mode-item {{currentMode === 'night' ? 'active' : ''}}" 
+                bindtap="switchMode" 
+                data-mode="night">夜间</text>
+			<text class="mode-item {{currentMode === 'wait' ? 'active' : ''}}" 
+            bindtap="switchMode" 
+            data-mode="wait">延时摄影</text>
+        </view>
+      </scroll-view>
+    </view>
+	<view class="timer-settings" wx:if="{{currentMode === 'wait'}}">
+	<picker range="{{countdownOptions}}" value="{{countdownIndex}}" bindchange="onCountdownChange">
+		<view class="countdown-picker">
+		<text>倒计时: {{timerMode.countdown}}秒</text>
+		<t-icon name="chevron-down" size="32rpx" color="#fff" />
+		</view>
+	</picker>
+	</view>
+
+  </camera>
+
+</view>

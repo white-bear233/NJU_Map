@@ -1,4 +1,5 @@
 <view class="map_container" style="height: {{map_height}}vh;">
+	<t-navbar t-class-placeholder="t-navbar-placeholder" t-class-content="t-navbar-content" class="custom-navbar" title="校园导览" />
   <map class="map" id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="18" show-location="true" markers="{{markers}}" polyline="{{polyline}}" bindtap ="mapTap" bindmarkertap="markertap">
     <movable-area class="movable-area">
       <movable-view class="movable-view" direction="vertical" y="{{drawerY}}" out-of-bounds="true" bindchange="onDrawerChange" bindtouchend="onDrawerTouchEnd" disabled="{{isMovableViewDisabled}}">
@@ -23,9 +24,11 @@
           </view>
         </button>
 
-        <view class="drawer">
-          <!-- 顶栏容器 -->
-          <!-- <view class="top-bar">
+
+
+				<view class="drawer">
+					<!-- 顶栏容器 -->
+					<!-- <view class="top-bar">
             <text class="title" style="height: 30px; font-size: 20px; color: rgb(155, 42, 144);">推荐路线</text>
           </view> -->
           <t-tabs animation="{{ { duration: 0.6 } }}" defaultValue="{{0}}" bind:change="onTabsChange" t-class="custom-tabs" t-class-content="custom-panel" >
@@ -98,7 +101,9 @@
             <t-icon name="close-circle" size="25px" color="black" />
           </view>
         </view>
-        <RouteDetail></RouteDetail>
+        <RouteDetail
+        routeDetail = "{{routeDetails}}"
+        ></RouteDetail>
       </view>
     </view>
     <view class="overlay" wx:if="{{showSpotDetail}}">

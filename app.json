@@ -1,11 +1,14 @@
 {
   "pages": [
-    "pages/start/start",
+	"pages/start/start",
+	"pages/footprint/footprint",
     "pages/index/index",
+    "pages/userCenter/userCenter",
     "pages/camera/camera",
-    "pages/getInfo/getInfo", 
+    "pages/takePhoto/takePhoto",
+    "pages/getInfo/getInfo",
+    "pages/RouteDetail/RouteDetail",
     "pages/pictureWall/pictureWall"
-
   ],
   "window": {
     "navigationBarTitleText": "校园导览"
@@ -28,8 +31,8 @@
     "t-link": "tdesign-miniprogram/link/link",
     "t-badge": "tdesign-miniprogram/badge/badge",
     "t-swiper": "tdesign-miniprogram/swiper/swiper",
-  	"t-swiper-nav": "tdesign-miniprogram/swiper-nav/swiper-nav"
-
+    "t-swiper-nav": "tdesign-miniprogram/swiper-nav/swiper-nav",
+    "t-navbar": "tdesign-miniprogram/navbar/navbar"
   },
   "tabBar": {
     "custom": true,
@@ -39,8 +42,8 @@
         "text": "地图"
       },
       {
-        "pagePath": "pages/pictureWall/pictureWall",
-        "text": "照片墙"
+        "pagePath": "pages/userCenter/userCenter",
+        "text": "主页"
       }
     ]
   }

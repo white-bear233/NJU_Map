@@ -26,6 +26,7 @@ Page({
     SpotDescription: '测试',
     SpotName:'测试',
     isButtonActive: false, // 用于控制按钮的点击状态
+    routeDetails:[],
     routeOneStations: [{name: '汉口路校门',latitude: 32.05370585683426,longitude: 118.7805903995204},
       {name: '图书馆',latitude: 32.054494939563895,longitude: 118.78064529920516},
       {name: '二源碑',latitude: 32.054875573149495,longitude: 118.7811862728513},
@@ -164,6 +165,7 @@ Page({
       this.setData({
         polyline: this.getRoutePolyline(tab_value),
       });
+      this.getRouteDetaillist(tab_value);
       this.addMarkersToRoute(tab_value);
     } else {
       this.setData({
@@ -181,7 +183,7 @@ Page({
   //点击打开照片墙
   getPicture() {
     console.log("1111");
-    wx.switchTab({
+    wx.navigateTo({
       url: "/pages/pictureWall/pictureWall",
       success() {
         console.log("页面跳转成功");
@@ -229,6 +231,8 @@ Page({
 
   // 页面加载时获取位置
   onLoad: function () {
+	const app = getApp();
+	console.log("OPENID: ", app.globalData.openid);
     var that = this;
     var myAmapFun = new amapFile.AMapWX({
       key: 'ace2794f81f01e47f26de3d9f88aa9cd'
@@ -345,9 +349,9 @@ addMarkersToRoute(routeName) {
     currentTab = parseInt(currentTab, 10);  // 将字符串转换为整数
     this.setData({
       tab_value:currentTab,
-      
     });
     console.log(currentTab)
+    this.getRouteDetaillist(currentTab)
     this.addMarkersToRoute(currentTab);
     this.setData({
       polyline: this.getRoutePolyline(currentTab), // 获取对应路线的坐标
@@ -401,6 +405,18 @@ addMarkersToRoute(routeName) {
       this.getTabBar().setData({
         value: '/' + page.route
       })
+	}
+	
+	const app = getApp();
+    if (app.globalData.exitPolyline) {
+      this.setData({
+        showCompleteDialog: true,
+        completedRouteName: app.globalData.completePolylineName,
+        completedRouteTime: app.globalData.completePolylineTime
+	  });
+	  console.log("show: ", this.data.showCompleteDialog, this.data.completedRouteName, this.data.completedRouteTime)
+      // Reset global flag
+      app.globalData.exitPolyline = false;
     }
   },
 
@@ -412,6 +428,7 @@ addMarkersToRoute(routeName) {
     this.setData({
       showOverlay: true
     })
+
   },
   closeDialog() {
     this.setData({
@@ -419,6 +436,12 @@ addMarkersToRoute(routeName) {
       showSpotDetail: false,
     })
   },
+  closeCompleteDialog() {
+	  this.setData({
+		  showCompleteDialog: false
+	  })
+  },
+
   onDrawerChange(e) {
     const {
       y
@@ -511,5 +534,60 @@ addMarkersToRoute(routeName) {
         showSpotDetail: true // 控制景点详情的显示
       });
     }
+  },
+  getRouteDetaillist(tab_value){
+    let routeName;
+    if(tab_value == 0){
+        routeName = '寻根之旅'
+    }else if(tab_value == 1){
+        routeName = '体验生活'
+    }else{
+        routeName = '一路向南'
+    }
+    wx.request({
+      url: `http://172.29.4.191:8080/api/routes/getBuildingByRouteName`, // 后端接口地址
+      method: 'GET',
+      data: {
+        name: routeName, // 将用户输入的楼宇名称作为查询参数传递
+      },
+      success: (res) => {
+        
+        if (res.statusCode === 200) {
+          if (res.data.code === "000") {
+            // 请求成功，更新页面的数据
+            
+            this.setData({
+              routeDetails:res.data.result,
+            })
+            console.log(this.data.routeDetails); // 打印整个响应结果
+          } else {
+            // 如果返回的 code 不是 "000"，说明查询失败
+            this.setData({
+              buildingInfo: null, // 清空建筑信息
+              errorMsg: res.data.msg || '查询失败，请重试', // 设置错误信息
+            });
+            wx.showToast({
+              title: res.data.msg || '查询失败',
+              icon: 'none',
+            });
+          }
+        } else {
+          console.error('请求失败:', res.data.msg);
+          wx.showToast({
+            title: '查询失败',
+            icon: 'none',
+          });
+        }
+      },
+      fail: (error) => {
+        console.error('请求失败:', error);
+        wx.showToast({
+          title: '请求失败',
+          icon: 'none',
+        });
+      },
+    });
   }
 });
+
+

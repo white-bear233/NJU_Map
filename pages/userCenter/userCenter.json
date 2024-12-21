@@ -1,5 +1,4 @@
 {
-  "navigationBarTitleText": "校园导览",
   "usingComponents": {
 	"navigation-bar": "/components/navigation-bar/navigation-bar",
     "mp-tabs": "@miniprogram-component-plus/tabs",
@@ -9,9 +8,8 @@
     "t-tabs": "tdesign-miniprogram/tabs/tabs",
     "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel",
 	"SpotDetail":"/components/SpotDetail/SpotDetail",
-	"t-dialog": "tdesign-miniprogram/dialog/dialog",
-	"t-navbar": "tdesign-miniprogram/navbar/navbar"
+	"t-cell": "tdesign-miniprogram/cell/cell",
+    "t-cell-group": "tdesign-miniprogram/cell-group/cell-group"
   },
   "navigationStyle": "custom"
-  
 }
