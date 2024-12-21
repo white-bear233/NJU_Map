@@ -818,7 +818,7 @@ Page({
 
 
 
-	  uploadPolylineToServer(openid, dateStr, timeStr, completePercentage) {
+	  uploadPolylineToServer(routeName, openid, dateStr, timeStr, completePercentage) {
 		wx.request({
 			url: 'http://172.29.4.191:8080/api/polyline/upload', // 替换为你的后端接口地址
 			method: 'POST',
@@ -826,7 +826,8 @@ Page({
 				openId: openid, // 传递 openId 参数
 				date: dateStr,
 				time: timeStr,
-				percentage: completePercentage
+				percentage: completePercentage,
+				name: routeName
 			},
 			success: (res) => {
 				if (res.data.code === '000') {
@@ -862,7 +863,7 @@ Page({
 		var data = new Date();
 		const dataStr = data.toLocaleDateString();
 		console.log("polylineData: ", dataStr, this.data.navigation.formattedTime,percentage);
-		this.uploadPolylineToServer(app.globalData.openid, dataStr, this.data.navigation.formattedTime, percentage); // 上传路线
+		this.uploadPolylineToServer("寻根之旅", app.globalData.openid, dataStr, this.data.navigation.formattedTime, percentage); // 上传路线
 
 	// 	completePolylineName: '游览路线',
 	// completePolylineTime: '',
