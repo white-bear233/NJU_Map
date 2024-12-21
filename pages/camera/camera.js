@@ -819,42 +819,36 @@ Page({
 
 
 	  uploadPolylineToServer(openid, dateStr, timeStr, completePercentage) {
-		wx.uploadFile({
-			url: 'http://172.29.4.191:8080/api/polyline/upload', // 替换成你的服务器接口地址
-			// filePath: imagePath, // 拍照后得到的图片路径
-			// name: 'file', // 后端接收文件的字段名
-			formData: {
-				openId: openid, // 传递 openId 给后端
-				data: dateStr,
+		wx.request({
+			url: 'http://172.29.4.191:8080/api/polyline/upload', // 替换为你的后端接口地址
+			method: 'POST',
+			data: {
+				openId: openid, // 传递 openId 参数
+				date: dateStr,
 				time: timeStr,
 				percentage: completePercentage
 			},
 			success: (res) => {
-				console.log('上传成功', res);
-				const data = JSON.parse(res.data); // 假设后端返回的是 JSON 格式
-				if (data.code === '000') {
+				if (res.data.code === '000') {
 					wx.showToast({
-						title: '上传成功',
-						icon: 'success',
-						duration: 2000
+						title: '上传路线成功',
+						icon: 'none'
 					});
 				} else {
 					wx.showToast({
-						title: '上传失败',
-						icon: 'none',
-						duration: 2000
+						title: '上传路线失败',
+						icon: 'none'
 					});
 				}
 			},
-			fail: (err) => {
-				console.log('上传失败', err);
+			fail: (error) => {
+				console.error('请求失败:', error);
 				wx.showToast({
-					title: '上传失败',
-					icon: 'none',
-					duration: 2000
+					title: '网络请求失败',
+					icon: 'none'
 				});
 			}
-		});
+		})
 	},
 
 	onUnload() {
@@ -868,7 +862,7 @@ Page({
 		var data = new Date();
 		const dataStr = data.toLocaleDateString();
 		console.log("polylineData: ", dataStr, this.data.navigation.formattedTime,percentage);
-		// this.uploadPolylineToServer(app.globalData.openid, dataStr, this.data.navigation.formattedTime, percentage); // 上传路线
+		this.uploadPolylineToServer(app.globalData.openid, dataStr, this.data.navigation.formattedTime, percentage); // 上传路线
 
 	// 	completePolylineName: '游览路线',
 	// completePolylineTime: '',
