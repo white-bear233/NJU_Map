@@ -1,4 +1,5 @@
 <view class="container">
+	<t-navbar t-class-placeholder="t-navbar-placeholder" t-class-content="t-navbar-content" class="custom-navbar" left-arrow title="校园导览" />
   <view class="location">
     <view class="number-box">
       <view class="number">
