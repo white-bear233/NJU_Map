@@ -56,6 +56,7 @@ Page({
 		dialogKey: '',
 		showWithInput: false,
 		showTextAndTitleWithInput: false,
+		passedPoint: []
 	},
 
 	Rad: function (d) { //根据经纬度判断距离
@@ -418,7 +419,24 @@ Page({
 										var app = getApp();
 										app.globalData.takePhotoPosition = that.data.buildingInfo.name;
 										that.onQueryBuilding();
+
+
+
+										var passed = that.data.passedPoint;
+										passedBool = false;
+										for (let index1 = 0; index1 < passed.length; index1++) {
+											if (passed[index1] == index) {
+												passedBool = true;
+											}
+										}
+										if (passedBool == false) {
+											passed.push(index);
+										}
+										that.setData({
+											passedPoint: passed
+										})
 									}
+									console.log("PassedPoint: ", that.data.passedPoint);
 								}
 								if (that.data.locationData[index].distance < nearestBuildingDistance) {
 									nearestBuildingDistance = that.data.locationData[index].distance;
@@ -682,7 +700,7 @@ Page({
 		// console.log("name: ", name, " distance: ", locationDataTmp[targetIndex]);
 
 		// 2. 判断是否在附近（距离小于 25 米）
-		const isNearby = distance <= 30;
+		const isNearby = distance <= 25;
 		locationDataTmp[targetIndex].isNearBy = isNearby;
 		const dLat = (targetLatitude - latitude) * Math.PI / 180;
 		const dLon = (targetLongitude - longitude) * Math.PI / 180;
@@ -798,16 +816,65 @@ Page({
 		})
 	  },
 
+
+
+	  uploadPolylineToServer(openid, dateStr, timeStr, completePercentage) {
+		wx.uploadFile({
+			url: 'http://172.29.4.191:8080/api/polyline/upload', // 替换成你的服务器接口地址
+			// filePath: imagePath, // 拍照后得到的图片路径
+			// name: 'file', // 后端接收文件的字段名
+			formData: {
+				openId: openid, // 传递 openId 给后端
+				data: dateStr,
+				time: timeStr,
+				percentage: completePercentage
+			},
+			success: (res) => {
+				console.log('上传成功', res);
+				const data = JSON.parse(res.data); // 假设后端返回的是 JSON 格式
+				if (data.code === '000') {
+					wx.showToast({
+						title: '上传成功',
+						icon: 'success',
+						duration: 2000
+					});
+				} else {
+					wx.showToast({
+						title: '上传失败',
+						icon: 'none',
+						duration: 2000
+					});
+				}
+			},
+			fail: (err) => {
+				console.log('上传失败', err);
+				wx.showToast({
+					title: '上传失败',
+					icon: 'none',
+					duration: 2000
+				});
+			}
+		});
+	},
+
 	onUnload() {
 		this.stopCompass();
 		this.stopMonitoring();
 		this.stopNavigation();
 		var app = getApp();
 
+		let persentageTmp = this.data.passedPoint.length / this.data.locationNum;
+		let percentage = persentageTmp.toPrecision(3);
+		var data = new Date();
+		const dataStr = data.toLocaleDateString();
+		console.log("polylineData: ", dataStr, this.data.navigation.formattedTime,percentage);
+		// this.uploadPolylineToServer(app.globalData.openid, dataStr, this.data.navigation.formattedTime, percentage); // 上传路线
+
 	// 	completePolylineName: '游览路线',
 	// completePolylineTime: '',
 	// completePolyline: false,
 	// exitPolyline: false
+	
 		app.globalData.exitPolyline = true;
 		app.globalData.completePolylineName = "寻根之旅";
 		app.globalData.completePolylineTime = this.data.navigation.formattedTime;
