@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+<!--pages/takePhoto/takePhoto.wxml-->
+<text>pages/takePhoto/takePhoto.wxml</text>
+=======
 <view class="camera-container">
 	<t-navbar t-class-placeholder="t-navbar-placeholder" t-class-content="t-navbar-content" class="custom-navbar" left-arrow title="校园导览" />
 
@@ -100,3 +104,4 @@
   </camera>
 
 </view>
+>>>>>>> d65f101479c82d30a6873ff4c0bf04b32e05e808

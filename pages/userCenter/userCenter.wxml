@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+<!--pages/userCenter/userCenter.wxml-->
+<text>pages/userCenter/userCenter.wxml</text>
+=======
 <view class="user-container">
 	<t-navbar t-class-placeholder="t-navbar-placeholder" t-class-content="t-navbar-content" class="custom-navbar" title="校园导览" />
   <!-- 用户信息区 -->
@@ -31,3 +35,4 @@
     </t-cell-group>
   </view>
 </view>
+>>>>>>> d65f101479c82d30a6873ff4c0bf04b32e05e808
