@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <scroll-view scroll-y="true" style="height: 100vh;">
     <swiper indicator-dots="{{true}}" autoplay="{{true}}">
         <block wx:for="{{photoList}}" wx:key="index">
@@ -25,3 +26,54 @@
         </block>
     </swiper>
 </scroll-view>
+=======
+<!-- pages/getInfo/getInfo.wxml -->
+<view class="container">
+  <!-- 输入框 -->
+  <textarea 
+    class="input"
+    type="text" 
+    placeholder="请输入detail" 
+    bindinput="onInputChange1" 
+    maxlength = "-1"
+  />
+  <textarea 
+    class="input"
+    type="text" 
+    placeholder="请输入brief" 
+    bindinput="onInputChange2"
+    maxlength = "-1" 
+  />
+  <textarea 
+    class="input"
+    type="text" 
+    placeholder="请输入name" 
+    bindinput="onInputChange3" 
+    maxlength = "-1"
+  />
+  <textarea 
+    class="input"
+    type="text" 
+    placeholder="请输入lontitude" 
+    bindinput="onInputChange4" 
+    maxlength = "-1"
+  />
+  <textarea 
+    class="input"
+    type="text" 
+    placeholder="请输入latitude" 
+    bindinput="onInputChange5" 
+    maxlength = "-1"
+  />
+  <!-- 查询按钮 -->
+  <button bindtap="onQueryBuilding">查询楼宇</button>
+
+  <!-- 显示查询结果 -->
+  <view class="building-info" wx:if="{{buildingInfo}}">
+    <text>建筑名称: {{buildingInfo.name}}</text>
+    <view></view>
+    <text>建筑描述: {{buildingInfo.description}}</text>
+    <image src="{{buildingInfo.image}}" alt="Building Image" />
+  </view>
+</view>
+>>>>>>> 8ca9fdbc9eaa5445519a5be3f7dbf02f89153a4e

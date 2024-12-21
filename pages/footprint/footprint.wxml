@@ -35,7 +35,7 @@
 						<text class="block-content">{{item.description}}</text>
 					</view>
 
-					<view class="photo-wall">
+					<!-- <view class="photo-wall">
 						<text class="block-title">照片回顾</text>
 						<view class="photo-grid">
 							<block wx:for="{{item.photos}}" wx:for-item="photo" wx:key="index">
@@ -44,7 +44,7 @@
 								</view>
 							</block>
 						</view>
-					</view>
+					</view> -->
 				</view>
 			</view>
 		</block>

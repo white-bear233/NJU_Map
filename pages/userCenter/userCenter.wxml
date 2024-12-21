@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+<!--pages/userCenter/userCenter.wxml-->
+>>>>>>> 8ca9fdbc9eaa5445519a5be3f7dbf02f89153a4e
 <view class="user-container">
 	<t-navbar t-class-placeholder="t-navbar-placeholder" t-class-content="t-navbar-content" class="custom-navbar" title="校园导览" />
   <!-- 用户信息区 -->

@@ -1,66 +1,84 @@
 // pages/RouteDetail/RouteDetail.js
-Page({
-
+Component({
   /**
-   * 页面的初始数据
+   * 组件的属性列表
    */
-  data: {
-
+  properties: {
+    routeDetail: {
+      type: Array,
+      value: [] // 默认值为空数组
+    }
   },
 
   /**
-   * 生命周期函数--监听页面加载
+   * 组件的初始数据
    */
-  onLoad(options) {
-
-  },
+  data: {},
 
   /**
-   * 生命周期函数--监听页面初次渲染完成
+   * 组件的方法列表
    */
-  onReady() {
+  methods: {
+    /**
+     * 生命周期 - 组件加载时
+     */
+    // 调试：查看属性
+    logRouteDetail() {
+      console.log('Route Detail:', this.properties.routeDetail);
+    },
 
-  },
+    // 生命周期：组件加载时
+    onLoad() {
+      this.logRouteDetail();
+    },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
+    /**
+     * 生命周期 - 组件渲染完成时
+     */
+    onReady() {
+      console.log('onReady', this.properties.routeDetail);
+    },
 
-  },
+    /**
+     * 生命周期函数 - 组件显示时
+     */
+    onShow() {
+      console.log('onShow', this.properties.routeDetail);
+    },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
+    /**
+     * 生命周期函数 - 组件隐藏时
+     */
+    onHide() {
+      console.log('onHide', this.properties.routeDetail);
+    },
 
-  },
+    /**
+     * 生命周期函数 - 组件卸载时
+     */
+    onUnload() {
+      console.log('onUnload', this.properties.routeDetail);
+    },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
+    /**
+     * 页面相关事件处理函数--监听用户下拉动作
+     */
+    onPullDownRefresh() {
+      console.log('onPullDownRefresh', this.properties.routeDetail);
+    },
 
-  },
+    /**
+     * 页面上拉触底事件的处理函数
+     */
+    onReachBottom() {
+      console.log('onReachBottom', this.properties.routeDetail);
+    },
 
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
+    /**
+     * 用户点击右上角分享
+     */
+    onShareAppMessage() {
+      console.log('onShareAppMessage', this.properties.routeDetail);
+    }
   }
-})
+});

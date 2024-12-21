@@ -133,3 +133,47 @@
   //     latitude: latitude,
   //   });
   // },
+
+    // 点击推荐路线按钮时调用
+  // onShowDrawer() {
+  //   // const animation = wx.createAnimation({
+  //   //   duration: 300, // 动画持续时间
+  //   //   timingFunction: 'ease', // 动画过渡效果
+  //   // });
+
+  //   const newHeight = this.data.map_height === 100 ? 50 : 100;
+  //   if(this.data.isButtonActive){
+  //     this.setData({
+  //       isButtonActive : false
+  //     })
+  //   }
+  //   else{
+  //     this.setData({
+  //       isButtonActive : true
+  //     })
+  //   }
+  //   console.log(this.data.isButtonActive)
+  //   //设置动画效果
+  //   //animation.height(newHeight).step();
+  //   const {tab_value} = this.data;
+  //     // 否则选择新的路线
+  //   if(this.data.drawerY == 0){
+  //     this.setData({
+  //       polyline: this.getRoutePolyline(tab_value), // 获取对应路线的坐标
+  //       isButtonActive: !this.data.isButtonActive, // 切换按钮的活跃状态
+  //     });
+  //     this.addMarkersToRoute();
+  //   }else{
+  //     this.setData({
+  //       polyline: [], // 获取对应路线的坐标
+  //       markers:[]
+  //     });
+  //   }
+
+  //   this.setData({
+  //     //animationData: animation.export(), // 更新动画数据
+  //     drawerY: (this.data.drawerY >= -200) ? -0.5 * this.data.screenHeight : 0,
+  //     // map_height: newHeight, // 更新地图高度
+  //   });
+    
+  // },
