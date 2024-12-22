@@ -13,7 +13,7 @@ swiper {
   margin-bottom: 20px;
   border: 1px solid #dcdcdc;
   border-radius: 10px;
-  background-color: #CDC1FF;
+  background-color :rgba(227, 224, 230, 0.95);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   padding: 20px;

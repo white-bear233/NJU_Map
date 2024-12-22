@@ -1,122 +1,47 @@
 .container {
   display: flex;
   flex-direction: column;
-  padding: 20px;
-  background-color: #A294F9;
+  align-items: center;
+  padding: 20rpx;
 }
 
-.location {
+.photo-wall {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   width: 100%;
-  margin-bottom: 20px;
-  border: 1px solid #eaeaea;
-  border-radius: 10px;
-  background-color: #CDC1FF;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.photo-item {
+  width: 48%;
+  margin-bottom: 20rpx;
+  border-radius: 10rpx;
   overflow: hidden;
-  padding: 15px;
-  box-sizing: border-box;
-  padding-bottom: 60rpx; /* 增加底部间距，避免时间和按钮被遮挡 */
-  height: 600rpx;
-}
-
-.number-box {
-  background-color: #E5D9F2;
-  padding: 5px 10px;
-  border-radius: 0 10px 10px 0;
-  display: inline-block;
-}
-
-.number-text {
-  color: #54446d;
-  font-weight: bold;
-}
-
-.text-box {
-  padding: 10px 0;
-}
-
-.title {
-  font-size: 16px;
-  color: #54446d;
-  font-weight: bold;
-}
-
-.image-swiper {
-  margin-top: 10px;
-  height: 390rpx;
-}
-
-.image-container {
-  width: 100%;
-  height: 300rpx; /* 图片高度设为300rpx */
-  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .image {
   width: 100%;
-  height: 100%;
-  object-fit: cover; /* 确保图片按比例裁剪 */
-  border-radius: 10px;
+  height: 200rpx;
 }
 
-/* 修改 info-container，使时间和按钮在同一行 */
 .info-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 40rpx;  /* 设置相同的高度 */
+  padding: 10rpx;
+  background-color: #fff;
 }
 
-.image-time {
-  font-size: 14px;
-  color: #54446d;
-  height: 40rpx;
-  background-color: #E5D9F2; /* 背景半透明 */
-  padding: 4rpx 8rpx;
-  border-radius: 5rpx;
-  display: flex;
-  font-weight: bold;
-  align-items: center; /* 垂直居中 */
+.image-time, .image-position {
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 5rpx;
 }
 
 .save-button {
-  width: auto;  /* 宽度自动，根据文字长度自适应 */
-  padding: 4rpx 10rpx; /* 内边距调整，以适应文字 */
-  font-size: 14px; /* 字体大小 */
-  color: 54446d;
-  background-color: #E5D9F2; /* 紫色按钮 */
+  width: 100%;
+  background-color: #c299c2;
+  color: #fff;
   border: none;
-  border-radius: 8rpx; /* 钝角正方形 */
-  cursor: pointer;
-  display: flex;
-  height: 50rpx;
-  justify-content: center;
-  align-items: center;
-  white-space: nowrap; /* 防止文字换行 */
-  position: absolute; /* 绝对定位 */
-  right: 10rpx; /* 靠右边框 */
-  bottom: 38rpx; /* 保证按钮在图片下方 */
-  font-weight: bold;
-}
-
-.save-button:hover {
-  background-color: #A294F9; /* 改变按钮的背景颜色 */
-}
-
-@media screen and (max-width: 640rpx) {
-  .image {
-    height: 250rpx; /* 小屏幕调整图片高度 */
-  }
-
-  .image-time {
-    font-size: 12px;
-  }
-
-  .save-button {
-    width: auto;
-    height: 36rpx;
-    font-size: 12px;
-    padding: 4rpx 8rpx;
-  }
+  border-radius: 5rpx;
+  padding: 10rpx;
+  font-size: 24rpx;
 }
