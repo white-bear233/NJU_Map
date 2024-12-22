@@ -712,8 +712,8 @@ Page({
 		locationDataTmp[targetIndex].distance = distance;
 		// console.log("name: ", name, " distance: ", locationDataTmp[targetIndex]);
 
-		// 2. 判断是否在附近（距离小于 25 米）
-		const isNearby = distance <= 25;
+		// 2. 判断是否在附近（距离小于 30 米）
+		const isNearby = distance <= 30;
 		locationDataTmp[targetIndex].isNearBy = isNearby;
 		const dLat = (targetLatitude - latitude) * Math.PI / 180;
 		const dLon = (targetLongitude - longitude) * Math.PI / 180;
