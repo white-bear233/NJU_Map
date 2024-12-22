@@ -1,3 +1,4 @@
 {
-  "usingComponents": {"t-textarea": "tdesign-miniprogram/textarea/textarea"}
+  "usingComponents": {"t-textarea": "tdesign-miniprogram/textarea/textarea"},
+  "navigationStyle": "custom"
 }

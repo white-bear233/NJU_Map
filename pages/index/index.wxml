@@ -56,13 +56,13 @@
                   <view class="route-wrapper " bindtap="onLinkClick">
                     <view class="top-section" style="  background-image: url('https://box.nju.edu.cn/f/6723063903d64c1da04c/?dl=1') ;">
                       <view class="picture-description">
-                        <text style="position: relative; left: 35%;">图 | 仙林（秋）</text>
+                        <text style="position: relative; left: 35%;">图 | 秋日校园</text>
                       </view>
                     </view>
                     <view class="bottom-section" style="  background: linear-gradient(45deg, rgba(238, 216, 14, 0.479), rgba(255, 255, 255, 0)); /* 渐变色块，透明到黑色 */">
                       <text class="route-title" style="color: rgb(201, 84, 37);">体验生活之旅</text>
                       <text class="route-description" style="color: rgb(201, 84, 37);">从南园到北园，\n第一视角体验南大学生的生活</text>
-                      <button class="ellipse-button">去探索</button>
+                      <button class="ellipse-button" catch:tap="startNavigate">去探索</button>
                     </view>
                   </view>
                 </scroll-view>
@@ -74,13 +74,13 @@
                   <view class="route-wrapper " bindtap="onLinkClick">
                     <view class="top-section" style="  background-image: url('https://box.nju.edu.cn/f/d5ef8aefc8d644eab7b0/?dl=1') ;">
                       <view class="picture-description">
-                        <text style="position: relative; left: 35%;">图 | 仙林（秋）</text>
+                        <text style="position: relative; left: 35%;">图 | 春色满园</text>
                       </view>
                     </view>
                     <view class="bottom-section" style="  background: linear-gradient(45deg, rgb(151, 204, 107), rgba(255, 255, 255, 0)); /* 渐变色块，透明到黑色 */">
-                      <text class="route-title" style="color: rgb(201, 84, 37);" >向南之旅</text>
+                      <text class="route-title" style="color: rgb(201, 84, 37);" >一路向南之旅</text>
                       <text class="route-description" style="color: rgb(201, 84, 37);">从西北门出发，一路向南，30分钟游遍北园美景</text>
-                      <button class="ellipse-button">去探索</button>
+                      <button class="ellipse-button" catch:tap="startNavigate">去探索</button>
                     </view>
                   </view>
                 </scroll-view>

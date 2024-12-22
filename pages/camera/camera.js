@@ -56,7 +56,8 @@ Page({
 		dialogKey: '',
 		showWithInput: false,
 		showTextAndTitleWithInput: false,
-		passedPoint: []
+		passedPoint: [],
+		polyline_name: ""
 	},
 
 	Rad: function (d) { //根据经纬度判断距离
@@ -225,10 +226,22 @@ Page({
 			// console.log('接收到的 polylineData:', sendPolyline.data);
 			let polylineArray = JSON.parse(sendPolyline.data);
 			let markersArray = JSON.parse(sendPolyline.mark);
-			// console.log(polylineArray);
+			let tabValue = JSON.parse(sendPolyline.polylineValue);
+			var polylineName = "";
+			if (tabValue == 0) {
+				polylineName = "历史寻根之旅"
+			}
+			else if (tabValue == 1) {
+				polylineName = "体验生活之旅"
+			}
+			else if (tabValue == 2) {
+				polylineName = "一路向南之旅"
+			}
+			console.log(polylineName);
 			this.setData({
 				'polyline[0]': polylineArray, // 更新 polyline 数据
-				'markers': markersArray
+				'markers': markersArray,
+				'polyline_name': polylineName
 			});
 			if (this.data.polyline != []) {
 				this.setData({
@@ -776,13 +789,75 @@ Page({
 		});
 	},
 
-	markertap: function (e) {
-		console.log(e)
-		this.setData({
-			showSpotDetail: true
-		})
-	},
-	closeDialog() {
+	// markertap: function (e) {
+	// 	console.log(e)
+	// 	this.setData({
+	// 		showSpotDetail: true
+	// 	})
+	// },
+
+	markertap:function(e){
+		const markerId = e.markerId; // 获取点击的标记点的 ID
+		const markers = this.data.markers; // 获取当前页面的所有标记点
+		const clickedMarker = markers.find(marker => marker.id === markerId); // 查找对应的标记点
+		
+		if (clickedMarker) {
+		  const name = clickedMarker.callout.content; // 获取标记点的名称
+		  console.log('点击的标记点名称是:', name); // 打印景点名称
+		  wx.request({
+			url: `http://172.29.4.191:8080/api/buildings/getBuildingBrief`, // 后端接口地址
+			method: 'GET',
+			data: {
+			  name: name, // 将用户输入的楼宇名称作为查询参数传递
+			},
+			success: (res) => {
+			  
+			  if (res.statusCode === 200) {
+				if (res.data.code === "000") {
+				  // 请求成功，更新页面的数据
+				  console.log(res); // 打印整个响应结果
+				  this.setData({
+					SpotDescription: res.data.result.description, // 将返回的结果存储到 buildingInfo 中
+					SpotImages: res.data.result.image, // 清空错误信息
+					SpotName:name,
+				  });
+				  console.log(this.data.SpotDescription);
+				  console.log(this.data.SpotImages);
+				} else {
+				  // 如果返回的 code 不是 "000"，说明查询失败
+				  this.setData({
+					buildingInfo: null, // 清空建筑信息
+					errorMsg: res.data.msg || '查询失败，请重试', // 设置错误信息
+				  });
+				  wx.showToast({
+					title: res.data.msg || '查询失败',
+					icon: 'none',
+				  });
+				}
+			  } else {
+				console.error('请求失败:', res.data.msg);
+				wx.showToast({
+				  title: '查询失败',
+				  icon: 'none',
+				});
+			  }
+			},
+			fail: (error) => {
+			  console.error('请求失败:', error);
+			  wx.showToast({
+				title: '请求失败',
+				icon: 'none',
+			  });
+			},
+		  });
+		  this.setData({
+			showSpotDetail: true // 控制景点详情的显示
+		  });
+		}
+	  },
+
+	closeDialog1() {
+		console.log("CL");
 		this.setData({
 			showOverlay: false,
 			showSpotDetail: false,
@@ -863,7 +938,7 @@ Page({
 		var data = new Date();
 		const dataStr = data.toLocaleDateString();
 		console.log("polylineData: ", dataStr, this.data.navigation.formattedTime,percentage);
-		this.uploadPolylineToServer("寻根之旅", app.globalData.openid, dataStr, this.data.navigation.formattedTime, percentage); // 上传路线
+		this.uploadPolylineToServer (this.data.polyline_name, app.globalData.openid, dataStr, this.data.navigation.formattedTime, percentage); // 上传路线
 
 	// 	completePolylineName: '游览路线',
 	// completePolylineTime: '',
