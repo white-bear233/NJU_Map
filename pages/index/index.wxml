@@ -1,5 +1,5 @@
 <view class="map_container" style="height: {{map_height}}vh;">
-	<t-navbar t-class-placeholder="t-navbar-placeholder" t-class-content="t-navbar-content" class="custom-navbar" title="校园导览" />
+	<t-navbar t-class-placeholder="t-navbar-placeholder" t-class-content="t-navbar-content" class="custom-navbar" title="南雍寻迹" />
   <map class="map" id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="18" show-location="true" markers="{{markers}}" polyline="{{polyline}}" bindtap ="mapTap" bindmarkertap="markertap">
     <movable-area class="movable-area">
       <movable-view class="movable-view" direction="vertical" y="{{drawerY}}" out-of-bounds="true" bindchange="onDrawerChange" bindtouchend="onDrawerTouchEnd" disabled="{{isMovableViewDisabled}}">

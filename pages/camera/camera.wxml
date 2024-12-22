@@ -6,7 +6,7 @@
 </view>
 <!--测试获取图片接口-->
 <view class="container">
-	<t-navbar t-class-placeholder="t-navbar-placeholder" t-class-content="t-navbar-content" class="custom-navbar" title="校园导览" />
+	<t-navbar t-class-placeholder="t-navbar-placeholder" t-class-content="t-navbar-content" class="custom-navbar" title="南雍寻迹" />
 	<view class="showBuildingData">
 		<view class="demo-wrapper">
 			<t-badge count="{{newBuilding ? 'NEW' : '0'}}" offset="{{ [-5, 3] }}" ariaRole="button" size="medium">

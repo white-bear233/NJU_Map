@@ -1,5 +1,5 @@
 <view class="user-container">
-	<t-navbar t-class-placeholder="t-navbar-placeholder" t-class-content="t-navbar-content" class="custom-navbar" title="校园导览" />
+	<t-navbar t-class-placeholder="t-navbar-placeholder" t-class-content="t-navbar-content" class="custom-navbar" title="南雍寻迹" />
   <!-- 用户信息区 -->
   <view class="user-info">
     <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
@@ -13,7 +13,7 @@
     <t-cell-group>
       <!-- 照片墙 -->
       <t-cell 
-        title="我的照片墙" 
+        title="南雍忆影" 
         leftIcon="image" 
         hover 
         arrow 
@@ -22,7 +22,7 @@
       
       <!-- 足迹 -->
       <t-cell 
-        title="我的足迹" 
+        title="履痕南雍" 
         leftIcon="location" 
         hover 
         arrow 

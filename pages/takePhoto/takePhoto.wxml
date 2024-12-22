@@ -1,5 +1,5 @@
 <view class="camera-container">
-	<t-navbar t-class-placeholder="t-navbar-placeholder" t-class-content="t-navbar-content" class="custom-navbar" left-arrow title="校园导览" />
+	<t-navbar t-class-placeholder="t-navbar-placeholder" t-class-content="t-navbar-content" class="custom-navbar" left-arrow title="南雍寻迹" />
 
   <camera device-position="{{position}}" flash="{{flash}}" class="camera" bindinitdone="onCameraReady"
   binderror="onCameraError">

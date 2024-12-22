@@ -1,11 +1,11 @@
 <view class="container">
   <!-- 背景图片 -->
-  <t-navbar t-class-placeholder="t-navbar-placeholder" t-class-content="t-navbar-content" class="custom-navbar" title="校园导览" />
-  <image class="background-image"  mode="aspectFill"></image>
+  <t-navbar t-class-placeholder="t-navbar-placeholder" t-class-content="t-navbar-content" class="custom-navbar" title="南雍寻迹" />
+  <image class="background-image"  mode="aspectFill" src="https://box.nju.edu.cn/f/229e33a7efec4f7f8b41/?dl=1"></image>
   <!-- src="/images/nju-campus.jpg" -->
   <!-- 欢迎文字 -->
   <view class="welcome-text">
-    <text>欢迎来到南京大学导览</text>
+    <text>欢迎使用南雍寻迹</text>
   </view>
 
   <!-- 开始导览按钮 -->

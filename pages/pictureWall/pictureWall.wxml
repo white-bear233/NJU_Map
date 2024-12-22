@@ -1,5 +1,5 @@
 <view class="container">
-  <t-navbar t-class-placeholder="t-navbar-placeholder" t-class-content="t-navbar-content" class="custom-navbar" left-arrow title="校园导览" />
+  <t-navbar t-class-placeholder="t-navbar-placeholder" t-class-content="t-navbar-content" class="custom-navbar" left-arrow title="南雍忆影" />
   <view class="photo-wall">
     <view wx:for="{{photoList}}" wx:key="image" class="photo-item">
       <!-- 使用catchtap事件捕获点击图片的操作 -->

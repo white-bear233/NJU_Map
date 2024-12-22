@@ -1,4 +1,4 @@
-<t-navbar t-class-placeholder="t-navbar-placeholder" class="custom-navbar" left-arrow title="我的足迹" />
+<t-navbar t-class-placeholder="t-navbar-placeholder" class="custom-navbar" left-arrow title="履痕南雍" />
 
 <view class="container">
 	<view class="route-list">
