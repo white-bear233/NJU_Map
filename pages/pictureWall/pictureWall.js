@@ -90,7 +90,8 @@ Page({
 		})
 	},
   saveImage: function (e) {
-    var imageUrl = e.target.dataset.url;
+	var imageUrl = e.target.dataset.url;
+	console.log("IMAGE: ", imageUrl)
     wx.downloadFile({
       url: imageUrl,
       success: function (res) {

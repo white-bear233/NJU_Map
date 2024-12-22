@@ -76,9 +76,6 @@
           <text class="mode-item {{currentMode === 'photo' ? 'active' : ''}}" 
                 bindtap="switchMode" 
                 data-mode="photo">照片</text>
-          <text class="mode-item {{currentMode === 'portrait' ? 'active' : ''}}" 
-                bindtap="switchMode" 
-                data-mode="portrait">人像</text>
           <text class="mode-item {{currentMode === 'night' ? 'active' : ''}}" 
                 bindtap="switchMode" 
                 data-mode="night">夜间</text>
