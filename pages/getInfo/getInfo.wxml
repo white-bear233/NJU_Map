@@ -1,27 +1,34 @@
-<scroll-view scroll-y="true" style="height: 100vh;">
-    <swiper indicator-dots="{{true}}" autoplay="{{true}}">
-        <block wx:for="{{photoList}}" wx:key="index">
-            <swiper-item>
-                <view class="location">
-                    <view class="title">{{item.location}}</view>
-                    <swiper class="image-swiper" indicator-dots="{{true}}" autoplay="{{false}}">
-                <block wx:for="{{item.images}}" wx:key="index">
-                    <swiper-item>
-                        <view class="image-box">
-                            <image style="position: relative; left: 62rpx; top: 0rpx" src="{{item}}" mode="widthFix" class="image" />
-                        </view>
-                    </swiper-item>
-                </block>
-            </swiper>
-                    <!-- 新增景点详细介绍区域 -->
-                    <view class="description">
-                        <view class="description-title">景点介绍</view>
-                        <view class="description-text">
-                        <rich-text nodes="{{item.description}}"></rich-text>
-                        </view>
-                    </view>
-                </view>
-            </swiper-item>
-        </block>
-    </swiper>
-</scroll-view>
+
+
+<t-tabs animation="{{ { duration: 0.6 } }}" defaultValue="{{0}}" bind:change="onTabsChange" bind:click="onTabsClick" t-class="custom-tabs" t-class-content="custom-panel" class="tabs">
+  <block wx:for="{{photoList}}" wx:key="index">
+    <t-tab-panel label="{{item.location}}" value="{{index}}" class="tab-panel" >
+      <view class="location">
+          <t-swiper
+            class="scale-card-theme"
+            current="{{current}}"
+            autoplay="{{autoplay}}"
+            duration="{{duration}}"
+            interval="{{interval}}"
+            bindchange="onChange"
+            navigation="{{ { type: 'dots' } }}"
+            list="{{item.images}}"
+            image-props="{{ { shape: 'round' } }}"
+            previousMargin="34px"
+            nextMargin="34px"
+            t-class-nav="card-theme-nav"
+            t-class-prev-image="scale-candidate"
+            t-class-next-image="scale-candidate"
+          />
+          <view class="box" style="height: 42px" />
+          <!-- 新增景点详细介绍区域 -->
+          <view class="description">
+            <view class="description-title">景点介绍</view>
+            <view class="description-text">
+              <rich-text nodes="{{item.description}}"></rich-text>
+            </view>
+          </view>
+        </view>
+    </t-tab-panel>
+  </block>
+</t-tabs>

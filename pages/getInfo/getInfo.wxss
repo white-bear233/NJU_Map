@@ -41,24 +41,33 @@ swiper {
 }
 
 .image-swiper {
-  width: 100%;  /* 设置轮播的宽度为80% */
+  width: 100%;  /* 设置轮播的宽度为100% */
   max-width: 600px;  /* 最大宽度限制 */
-  height: 60vh;  /* 设置高度以控制显示区域 */
-  align-items: center;
+  height: 30vh;  /* 设置高度为30vh，调整显示区域 */
 }
 
 .image-box {
-  width: 80%;  /* 设置图片容器宽度为80% */
+  width: 100%;  /* 确保容器宽度是100% */
   max-width: 600px;  /* 最大宽度限制 */
+  height: 100%;  /* 容器高度占满父容器 */
   margin-bottom: 10px;
-  display: flex;  /* 使用flex使其居中 */
+  display: flex;  /* 使用flex布局 */
   justify-content: center;  /* 水平居中 */
+  align-items: center;  /* 垂直居中 */
+  background-color: #f0f0f0;  /* 灰色背景 */
+  border-radius: 8px;  /* 可选的圆角效果 */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);  /* 添加灰色阴影 */
+  padding: 10px;  /* 增加一些内边距以防止图片紧贴边缘 */
 }
 
 .image {
   width: 100%;  /* 确保图片自适应容器宽度 */
-  border-radius: 5px;
+  height: 100%;  /* 确保图片填充容器高度 */
+  object-fit: cover;  /* 图片填充整个容器，保持比例 */
+  border-radius: 5px;  /* 圆角效果 */
 }
+
+
 
 .description {
   width: 80%;
@@ -107,4 +116,109 @@ swiper {
 
 .save-button:hover {
   background-color: #A294F9;
+}
+
+
+.card-theme {
+  --td-swiper-radius: 0;
+  --td-swiper-item-padding: 0 12rpx;
+  --td-swiper-nav-dot-color: var(--td-bg-color-component, #e7e7e7);
+  --td-swiper-nav-dot-active-color: var(--td-brand-color, #0052d9);
+
+  padding-bottom: 18px;
+}
+
+.card-theme .card-theme-nav {
+  bottom: -18px;
+}
+
+.scale-candidate {
+  height: 126px !important;
+}
+
+
+/* pages/RouteDetail/RouteDetail.wxss */
+.container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 20px;
+}
+
+.number-box {
+  margin-top: 10px;
+  display: inline-block;
+  align-self: center;
+  background-color: rgb(106, 0, 95);
+  padding: 1px 8px;
+  border-radius: 14px 0 14px 14px;
+  overflow: hidden;
+}
+
+.number {
+  text-align: center;
+}
+
+.number-text {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.text-box {
+  display: inline-block;
+  align-self: center;
+  padding-left: 8px;
+}
+
+.text {
+  text-align: left;
+}
+
+.title {
+  color: rgb(106, 0, 95);
+  font-weight: bold;
+}
+
+.subtitle {
+  color: rgb(106, 0, 95);
+  font-size: 14px;
+}
+
+
+
+.section {
+  font-size: 12px;
+  margin: 10px;
+}
+
+.paragraph {
+  background-color: #fcfcdc; /* 米色背景 */
+  border-radius: 10px;  /* 圆角 */
+  padding: 15px;  /* 内部的填充，避免文字贴边 */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);  /* 可以加阴影效果 */
+}
+
+.highlight {
+  color: rgb(106, 0, 95);
+  font-weight: bold;
+}
+
+/* 父容器 */
+.tab-panel {
+  overflow-y: auto; /* 启用垂直滚动 */
+  flex-direction: column; /* 垂直布局 */
+  justify-content: center; /* 垂直方向上的居中 */
+  align-items: center;    /* 水平方向上的居中 */
+}
+
+.image {
+  margin-top: 15px;
+  border-radius: 10px; /* 设置圆角 */
+  border: 3px solid rgb(106, 0, 95); /* 紫色边框 */
+  width: 95%;
+  
+}
+
+.tabs{
+  overflow-y: auto; /* 启用垂直滚动 */
 }

@@ -163,7 +163,14 @@ Page({
             });
         }
     },
-
+    onShow() {
+      if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+        const page = getCurrentPages().pop();
+        this.getTabBar().setData({
+          value: '/' + page.route
+        })
+        }
+      },
     saveImageToAlbum: function (imageUrl) {
         wx.downloadFile({
             url: imageUrl,
