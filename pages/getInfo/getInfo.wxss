@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 swiper {
   height: 100vh;  /* 确保swiper占据整个视口高度 */
   width: 100vw;
@@ -14,7 +13,7 @@ swiper {
   margin-bottom: 20px;
   border: 1px solid #dcdcdc;
   border-radius: 10px;
-  background-color: #CDC1FF;
+  background-color :rgba(227, 224, 230, 0.95);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   padding: 20px;
@@ -108,10 +107,4 @@ swiper {
 
 .save-button:hover {
   background-color: #A294F9;
-=======
-.input{
-  /* 边框 */
-  border:1px solid red;
-  padding: 10rpx;
->>>>>>> 8ca9fdbc9eaa5445519a5be3f7dbf02f89153a4e
 }
