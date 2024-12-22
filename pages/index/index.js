@@ -462,14 +462,16 @@ addMarkersToRoute(routeName) {
   },
   startNavigate: function () {
     const polylineData = JSON.stringify(this.data.polyline); // 将 polyline 转换为 JSON 字符串
-    const markData = JSON.stringify(this.data.markers);
+	const markData = JSON.stringify(this.data.markers);
+	const tabValue = JSON.stringify(this.data.tab_value);
     // 使用 wx.navigateTo 跳转页面并传递 polyline 数据
     wx.navigateTo({
       url: '/pages/camera/camera',
       success: function (res) {
         const sendPolyline = {
           data: polylineData,
-          mark: markData
+		  mark: markData,
+		  polylineValue:  tabValue
         };
         res.eventChannel.emit('polylineEvent', sendPolyline);
       }

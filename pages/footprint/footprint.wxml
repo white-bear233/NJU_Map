@@ -10,7 +10,7 @@
 						<text class="route-name">{{item.name}}</text>
 						<view class="route-info">
 							<t-icon name="time" size="32rpx" />
-							<text class="info-text">{{item.duration}}</text>
+							<text class="info-text">{{item.time}}</text>
 							<t-icon name="calendar" size="32rpx" />
 							<text class="info-text">{{item.date}}</text>
 						</view>

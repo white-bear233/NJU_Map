@@ -209,5 +209,13 @@ Page({
                 });
             }
         });
-    }
+	},
+	onShow() {
+		if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+			const page = getCurrentPages().pop();
+			this.getTabBar().setData({
+			  value: '/' + page.route
+			})
+		  }
+	}
 });
