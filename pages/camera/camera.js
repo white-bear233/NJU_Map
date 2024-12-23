@@ -946,7 +946,7 @@ Page({
 	// exitPolyline: false
 	
 		app.globalData.exitPolyline = true;
-		app.globalData.completePolylineName = "寻根之旅";
+		app.globalData.completePolylineName = this.data.polyline_name;
 		app.globalData.completePolylineTime = this.data.navigation.formattedTime;
 		console.log("NAMS: ", app.globalData.completePolylineName)
 	}

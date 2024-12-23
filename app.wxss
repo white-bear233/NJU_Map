@@ -11,5 +11,5 @@
 
 .custom-navbar {
 	--td-navbar-color: #fff;
-	--td-navbar-bg-color: rgba(206, 147, 216, 0.95)
+	--td-navbar-bg-color: purple
 }

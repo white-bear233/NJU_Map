@@ -31,7 +31,7 @@
 /* 开始导览按钮样式 */
 .start-button {
   position: absolute;
-  bottom: 15%;
+  bottom: 13%;
   background-color: #8a00ac; /* 南大紫色 */
   color: #fff;
   font-size: 36rpx;

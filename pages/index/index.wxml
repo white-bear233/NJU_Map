@@ -1,3 +1,20 @@
+<view class="overlay" wx:if="{{showCompleteDialog}}">
+			<view class="completion-card">
+				<view class="card-header">
+					<text class="card-title">路线完成</text>
+					<t-icon name="close" size="60rpx" bind:tap="closeCompleteDialog" />
+				</view>
+				<view class="card-content">
+					<t-icon name="check-circle-filled" size="50rpx" color="#00a870"/>
+					<text class="congrats-text">恭喜您完成了</text>
+					<text class="route-name">{{completedRouteName}}</text>
+					<view class="time-info">
+						<text class="time-text">用时: {{completedRouteTime}}</text>
+					</view>
+				</view>
+			</view>
+		</view>
+
 <view class="map_container" style="height: {{map_height}}vh;">
 	<t-navbar t-class-placeholder="t-navbar-placeholder" t-class-content="t-navbar-content" class="custom-navbar" title="南雍寻迹" />
   <map class="map" id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="18" show-location="true" markers="{{markers}}" polyline="{{polyline}}" bindtap ="mapTap" bindmarkertap="markertap">
@@ -44,7 +61,7 @@
                     <view class="bottom-section">
                       <text class="route-title" style="color: rgb(201, 84, 37);">历史寻根之旅</text>
                       <text class="route-description" style="color: rgb(201, 84, 37);">寻访鼓楼校区历史建筑，品味建筑之美</text>
-                      <button class="ellipse-button" catch:tap="startNavigate">去探索</button>
+                      <button class="ellipse-button" catch:tap="startNavigate">探索</button>
                     </view>
                   </view>
                 </scroll-view>
@@ -88,6 +105,7 @@
             </t-tab-panel>
           </t-tabs>
         </view>
+        
       </movable-view>
     </movable-area>
     <view class="overlay" wx:if="{{showOverlay}}">

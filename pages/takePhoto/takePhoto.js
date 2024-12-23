@@ -242,10 +242,10 @@ Page({
 		wx.saveImageToPhotosAlbum({
 			filePath: tempFilePath,
 			success: () => {
-				wx.showToast({
-					title: '已保存到相册',
-					icon: 'success'
-				});
+				// wx.showToast({
+				// 	title: '已保存到相册',
+				// 	icon: 'success'
+				// });
 			},
 			fail: (error) => {
 				console.error('保存失败:', error);

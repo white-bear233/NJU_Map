@@ -39,7 +39,7 @@
   justify-content: center;
 }
 .icon-text {
-  font-size: 9px; /* 设置文字大小 */
+  font-size: 8px; /* 设置文字大小 */
   color: white; /* 文字颜色 */
   text-align: center; /* 文字居中 */
     

@@ -146,7 +146,10 @@ Page({
       {name: '二源壁', coords: {latitude: 32.054875573149495, longitude: 118.7811862728513}},
       {name: '图书馆', coords: {latitude: 32.054494939563895, longitude: 118.78064529920516}},
       {name: '汉口路校门', coords: {latitude: 32.05370585683426, longitude: 118.7805903995204}}
-    ]
+    ],
+    showCompleteDialog: false,
+    completedRouteName: '',
+    completedRouteTime: ''
     
 
   },

@@ -24,7 +24,7 @@
 				<view class="progress-section">
 					<text class="progress-label">路线完成进度：</text>
 					<view class="progress-wrapper">
-						<t-progress theme="plump" color="{{ { from: '#7B1FA2', to: '#1976D2' } }}"  percentage="{{item.percentage}}" status="active" />
+						<t-progress theme="plump" color="{{ { from: '#7B1FA2', to: '#1976D2' } }}"  percentage="{{item.percentage * 100}}" status="active" />
 					</view>
 				</view>
 
