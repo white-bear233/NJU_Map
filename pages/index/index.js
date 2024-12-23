@@ -4,6 +4,7 @@ import amapFile from '../../libs/amap-wx.130';
 // var markersData = [];
 Page({
   data: {
+    
     showOverlay: false,
     showSpotDetail:false,
     markers: [],

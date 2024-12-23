@@ -1,8 +1,7 @@
 {
   "pages": [
-    
-	"pages/start/start",
-	"pages/footprint/footprint",
+    "pages/start/start",
+    "pages/footprint/footprint",
     "pages/index/index",
     "pages/userCenter/userCenter",
     "pages/camera/camera",
@@ -42,7 +41,6 @@
         "pagePath": "pages/index/index",
         "text": "地图"
       },
-
       {
         "pagePath": "pages/getInfo/getInfo",
         "text": "详情"
